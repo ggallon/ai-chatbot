@@ -29,13 +29,13 @@ export async function generateMetadata({
       title,
       images: [
         {
-          url: `share/${chat.id}/og-image-${chat.id}.png`,
+          url: `/share/${chat.id}/og-image-${chat.id}.png`,
           width: size.width,
-          height: size.height,
+          height: size.height
         }
       ],
-      type: 'website',
-    },
+      type: 'website'
+    }
   }
 }
 
