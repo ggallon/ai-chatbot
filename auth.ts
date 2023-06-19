@@ -8,6 +8,7 @@ export const {
   // @ts-ignore
 } = NextAuth({
   // @ts-ignore
+  debug: true,
   providers: [GitHub],
   callbacks: {
     // @ts-ignore
