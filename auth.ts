@@ -21,13 +21,15 @@ export const {
     updateAge: 24 * 60 * 60, // 24 hours
   },
   callbacks: {
-    jwt(jwtdata) {
-      const { token, profile, trigger } = jwtdata;
+    jwt({ token, profile, trigger }) {
       if (trigger === "signIn" && profile?.id) {
         token.id = profile.id
         token.image = profile.avatar_url
       }
       return token
+    },
+    session({ session, token }) {
+      return { ...session, user: { ...session.user, id: token.sub, image: token.image } };
     },
     authorized({ request, auth }) {
       const session = auth.user;
@@ -38,6 +40,8 @@ export const {
       } else if (session && path === "/sign-in") {
         return NextResponse.redirect(new URL("/", req.url));
       }
+
+      return true
     }
   },
   pages: {
