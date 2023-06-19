@@ -1,4 +1,5 @@
-import { NextResponse } from "next/server";
+import type { NextAuthRequest } from "@auth/nextjs/lib";
+import { NextResponse, type NextFetchEvent } from "next/server";
 import { auth } from './auth'
 
 export const config = {
@@ -16,15 +17,7 @@ export const config = {
   ],
 };
 
-export default auth(async function middleware(
-  req: NextAuthRequest,
-  ev: NextFetchEvent
-) {
-  console.log("#### middleware");
-  const domain = req.headers.get("host");
-  const path = req.nextUrl.pathname;
-  console.log("domain", domain);
-  console.log("path", path);
-  console.log("auth", req.auth);
+export default auth((req: NextAuthRequest, ev: NextFetchEvent) => {
+  console.log("middleware ==> auth", req.auth)
   return NextResponse.next()
-});
+})

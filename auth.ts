@@ -1,16 +1,17 @@
-import { NextResponse } from "next/server";
-import NextAuth from 'next-auth'
-import GitHub from 'next-auth/providers/github'
+import NextAuth, { type NextAuthConfig } from "@auth/nextjs";
+import GitHub from "@auth/nextjs/providers/github"
+import { NextResponse } from "next/server"
 
 export const {
   handlers: { GET, POST },
   auth,
   CSRF_experimental
-  // @ts-ignore
 } = NextAuth({
-  // @ts-ignore
   debug: true,
-  providers: [GitHub],
+  providers: [
+    // @ts-expect-error
+    GitHub,
+  ],
   session: {
     strategy: "jwt",
     // Seconds - How long until an idle session expires and is no longer valid.
@@ -35,17 +36,18 @@ export const {
       console.log("#### authorized");
       const session = auth.user;
       const path = request.nextUrl.pathname;
-      console.log("session", session);
-      console.log("auth.user", auth.user);
-      console.log("path", path);
 
       if (!session && path !== "/sign-in") {
+        console.log("NO session && path !== /sign-in");
         return NextResponse.redirect(new URL("/sign-in", request.url));
       } else if (session && path === "/sign-in") {
+        console.log("HAS session && path === /sign-in");
         return NextResponse.redirect(new URL("/", request.url));
       } else if (session) {
+        console.log("HAS session");
         return true
       } else {
+        console.log("NO session");
         return false
       }
     }
@@ -53,4 +55,4 @@ export const {
   pages: {
     signIn: '/sign-in'
   }
-})
+});
