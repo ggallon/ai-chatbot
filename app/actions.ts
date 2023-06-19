@@ -2,9 +2,9 @@
 
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
-import { kv } from '@vercel/kv'
 
 import { auth } from '@/auth'
+import { kv } from '@/lib/upstash/redis'
 import { type Chat } from '@/lib/types'
 
 export async function getChats(userId?: string | null) {
