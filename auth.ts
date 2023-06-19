@@ -11,18 +11,31 @@ export const {
   debug: true,
   providers: [GitHub],
   callbacks: {
+    signIn(signIndata) {
+      console.log("callbacks::signIn", signIndata);
+      return true;
+    },
     // @ts-ignore
-    jwt: async ({ token, profile }) => {
+    jwt: async (jwtdata) => {
+      console.log("callbacks::jwt", jwtdata);
+      const { token, profile } = jwtdata;
       if (profile?.id) {
         token.id = profile.id
         token.image = profile.picture
       }
       return token
+    },
+    session(sessionData) {
+      console.log("callbacks::session", sessionData);
+      return sessionData.session;
+    },
+    authorized({ request, auth }) {
+      console.log("callbacks::authorized", auth);
+      const domain = request.headers.get("host");
+      console.log("domain", domain);
+
+      return !!auth.user
     }
-    // @TODO
-    // authorized({ request, auth }) {
-    //   return !!auth?.user
-    // }
   },
   pages: {
     signIn: '/sign-in'
