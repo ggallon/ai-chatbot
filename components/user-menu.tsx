@@ -2,7 +2,7 @@
 
 import Image from 'next/image'
 import type { Session } from '@auth/nextjs/types'
-import { signOut } from "@auth/nextjs/client";
+import { signOut } from '@auth/nextjs/client'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -23,7 +23,7 @@ function getUserInitials(name: string) {
   return lastName ? `${firstName[0]}${lastName[0]}` : firstName.slice(0, 2)
 }
 
-const githubImageLoader = ({ src, width }: { src: string, width: number}) => {
+const githubImageLoader = ({ src, width }: { src: string; width: number }) => {
   return `${src}?w=${width}`
 }
 

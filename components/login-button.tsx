@@ -1,7 +1,7 @@
 'use client'
 
 import * as React from 'react'
-import { signIn } from "@auth/nextjs/client";
+import { signIn } from '@auth/nextjs/client'
 
 import { cn } from '@/lib/utils'
 import { Button, type ButtonProps } from '@/components/ui/button'
