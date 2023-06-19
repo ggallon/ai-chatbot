@@ -23,7 +23,7 @@ function getUserInitials(name: string) {
   return lastName ? `${firstName[0]}${lastName[0]}` : firstName.slice(0, 2)
 }
 
-const githubImageLoader = ({ src, width }) => {
+const githubImageLoader = ({ src, width }: { src: string, width: number}) => {
   return `${src}?w=${width}`
 }
 

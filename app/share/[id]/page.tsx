@@ -2,6 +2,7 @@ import { type Metadata } from 'next'
 import { notFound } from 'next/navigation'
 
 import { formatDate } from '@/lib/utils'
+import { type Chat } from '@/lib/types'
 import { getSharedChat } from '@/app/actions'
 import { ChatList } from '@/components/chat-list'
 import { FooterText } from '@/components/footer'
@@ -20,7 +21,7 @@ interface SharePageProps {
 export async function generateMetadata({
   params
 }: SharePageProps): Promise<Metadata> {
-  const chat = await getSharedChat(params.id)
+  const chat: Chat | null = await getSharedChat(params.id)
   const title = chat?.title.slice(0, 50) ?? 'Chat'
 
   return {
@@ -29,7 +30,7 @@ export async function generateMetadata({
       title,
       images: [
         {
-          url: `/share/${chat.id}/og-image-${chat.id}.png`,
+          url: `/share/${chat?.id}/og-image-${chat?.id}.png`,
           width: size.width,
           height: size.height
         }

@@ -1,9 +1,11 @@
+import { type Chat } from '@/lib/types'
+
 export const size = {
   width: 1200,
   height: 630
 }
 
-export const template = chat => {
+export const template = (chat: Chat) => {
   const textAlign = chat?.title?.length > 40 ? 'items-start' : 'items-center'
   return (
     <div tw="flex w-full items-start h-full flex-col bg-[#09090b] text-white p-[80px]">
