@@ -42,10 +42,12 @@ export const {
       if (!session && path !== "/sign-in") {
         return NextResponse.redirect(new URL("/sign-in", request.url));
       } else if (session && path === "/sign-in") {
-        return NextResponse.redirect(new URL("/", req.url));
+        return NextResponse.redirect(new URL("/", request.url));
+      } else if (session) {
+        return true
+      } else {
+        return false
       }
-
-      return true
     }
   },
   pages: {

@@ -25,5 +25,5 @@ export default auth(async function middleware(
   console.log("domain", domain);
   console.log("path", path);
   console.log("auth", req.auth);
-
+  return NextResponse.next()
 });
