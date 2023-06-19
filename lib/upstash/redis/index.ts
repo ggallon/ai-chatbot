@@ -1,7 +1,7 @@
-import { Redis } from "@upstash/redis"
+import { Redis } from '@upstash/redis'
 
 // Initiate Redis instance by connecting to REST URL
 export const kv = new Redis({
   url: process.env.UPSTASH_REDIS_REST_URL || '',
-  token: process.env.UPSTASH_REDIS_REST_TOKEN || '',
+  token: process.env.UPSTASH_REDIS_REST_TOKEN || ''
 })
