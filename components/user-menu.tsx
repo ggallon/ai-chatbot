@@ -23,6 +23,10 @@ function getUserInitials(name: string) {
   return lastName ? `${firstName[0]}${lastName[0]}` : firstName.slice(0, 2)
 }
 
+const githubImageLoader = ({ src, width }) => {
+  return `${src}?w=${width}`
+}
+
 export function UserMenu({ user }: UserMenuProps) {
   return (
     <div className="flex items-center justify-between">
@@ -32,8 +36,11 @@ export function UserMenu({ user }: UserMenuProps) {
             {user?.image ? (
               <Image
                 className="w-6 h-6 transition-opacity duration-300 rounded-full select-none ring-1 ring-zinc-100/10 hover:opacity-80"
-                src={user?.image ? `${user.image}&s=60` : ''}
+                loader={githubImageLoader}
+                src={user?.image ?? ''}
                 alt={user.name ?? 'Avatar'}
+                width={24}
+                height={24}
               />
             ) : (
               <div className="flex items-center justify-center text-xs font-medium uppercase rounded-full select-none h-7 w-7 shrink-0 bg-muted/50 text-muted-foreground">
