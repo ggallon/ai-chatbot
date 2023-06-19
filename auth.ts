@@ -32,8 +32,12 @@ export const {
       return { ...session, user: { ...session.user, id: token.sub } };
     },
     authorized({ request, auth }) {
+      console.log("#### authorized");
       const session = auth.user;
       const path = request.nextUrl.pathname;
+      console.log("session", session);
+      console.log("auth.user", auth.user);
+      console.log("path", path);
 
       if (!session && path !== "/sign-in") {
         return NextResponse.redirect(new URL("/sign-in", request.url));
