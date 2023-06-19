@@ -29,7 +29,7 @@ export const {
       return token
     },
     session({ session, token }) {
-      return { ...session, user: { ...session.user, id: token.sub, image: token.image } };
+      return { ...session, user: { ...session.user, id: token.sub } };
     },
     authorized({ request, auth }) {
       const session = auth.user;
