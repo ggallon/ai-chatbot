@@ -1,6 +1,6 @@
+import { Ratelimit } from '@upstash/ratelimit'
 import { OpenAIStream, StreamingTextResponse } from 'ai'
 import { Configuration, OpenAIApi } from 'openai-edge'
-import { Ratelimit } from '@upstash/ratelimit'
 
 import { auth } from '@/auth'
 import { ratelimit } from '@/lib/upstash/ratelimit'
@@ -8,6 +8,12 @@ import { kv } from '@/lib/upstash/redis'
 import { nanoid } from '@/lib/utils'
 
 export const runtime = 'edge'
+
+const configuration = new Configuration({
+  apiKey: process.env.OPENAI_API_KEY
+})
+
+const openai = new OpenAIApi(configuration)
 
 export async function POST(req: Request) {
   const json = await req.json()
@@ -19,25 +25,22 @@ export async function POST(req: Request) {
     return new Response('Unauthorized', { status: 401 })
   }
 
-  const { success, limit, remaining, reset } =
-    await ratelimit(true, Ratelimit.slidingWindow(50, "1 d")).custum.limit(user.id)
+  const { success, limit, remaining, reset } = await ratelimit(
+    true,
+    Ratelimit.slidingWindow(50, '1 d')
+  ).custum.limit(user.id)
 
   if (!success) {
-      return new Response("You have reached your request limit for the day.", {
-        status: 429,
-        headers: {
-          "X-RateLimit-Limit": limit.toString(),
-          "X-RateLimit-Remaining": remaining.toString(),
-          "X-RateLimit-Reset": reset.toString(),
-        },
-      });
-    }
+    return new Response('You have reached your request limit for the day.', {
+      status: 429,
+      headers: {
+        'X-RateLimit-Limit': limit.toString(),
+        'X-RateLimit-Remaining': remaining.toString(),
+        'X-RateLimit-Reset': reset.toString()
+      }
+    })
+  }
 
-  const configuration = new Configuration({
-    apiKey: previewToken || process.env.OPENAI_API_KEY
-  })
-
-  const openai = new OpenAIApi(configuration)
 
   const res = await openai.createChatCompletion({
     model: 'gpt-3.5-turbo',
@@ -77,5 +80,11 @@ export async function POST(req: Request) {
     }
   })
 
-  return new StreamingTextResponse(stream)
+  return new StreamingTextResponse(stream, {
+    headers: {
+      'X-RateLimit-Limit': limit.toString(),
+      'X-RateLimit-Remaining': remaining.toString(),
+      'X-RateLimit-Reset': reset.toString()
+    }
+  })
 }
