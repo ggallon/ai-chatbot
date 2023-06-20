@@ -1,9 +1,10 @@
 'use client'
 
 import * as SheetPrimitive from '@radix-ui/react-dialog'
+import { cva, type VariantProps } from 'class-variance-authority'
+import { X } from 'lucide-react'
 import * as React from 'react'
 
-import { IconClose } from '@/components/ui/icons'
 import { cn } from '@/lib/utils'
 
 const Sheet = SheetPrimitive.Root
@@ -12,15 +13,29 @@ const SheetTrigger = SheetPrimitive.Trigger
 
 const SheetClose = SheetPrimitive.Close
 
+const portalVariants = cva('fixed inset-0 z-50 flex', {
+  variants: {
+    position: {
+      top: 'items-start',
+      bottom: 'items-end',
+      left: 'justify-start',
+      right: 'justify-end'
+    }
+  },
+  defaultVariants: { position: 'right' }
+})
+
+interface SheetPortalProps
+  extends SheetPrimitive.DialogPortalProps,
+    VariantProps<typeof portalVariants> {}
+
 const SheetPortal = ({
+  position,
   className,
   children,
   ...props
-}: SheetPrimitive.DialogPortalProps) => (
-  <SheetPrimitive.Portal
-    className={cn('fixed inset-0 z-50 flex', className)}
-    {...props}
-  >
+}: SheetPortalProps) => (
+  <SheetPrimitive.Portal className={cn(className)} {...props}>
     {children}
   </SheetPrimitive.Portal>
 )
@@ -32,7 +47,7 @@ const SheetOverlay = React.forwardRef<
 >(({ className, children, ...props }, ref) => (
   <SheetPrimitive.Overlay
     className={cn(
-      'fixed inset-0 z-50 transition-all duration-100 data-[state=closed]:animate-out data-[state=closed]:fade-out data-[state=open]:fade-in',
+      'fixed inset-0 z-50 bg-background/80 backdrop-blur-sm transition-all duration-100 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out data-[state=open]:fade-in',
       className
     )}
     {...props}
@@ -41,22 +56,114 @@ const SheetOverlay = React.forwardRef<
 ))
 SheetOverlay.displayName = SheetPrimitive.Overlay.displayName
 
+const sheetVariants = cva(
+  'fixed z-50 scale-100 gap-4 overflow-y-auto border bg-background p-6 opacity-100 shadow-lg data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:duration-300 data-[state=open]:duration-300',
+  {
+    variants: {
+      position: {
+        top: 'left-0 top-0 w-full data-[state=closed]:slide-out-to-top data-[state=open]:slide-in-from-top',
+        bottom:
+          'bottom-0 left-0 w-full data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom',
+        left: 'left-0 top-0 h-full data-[state=closed]:slide-out-to-left data-[state=open]:slide-in-from-left',
+        right:
+          'right-0 top-0 h-full data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right'
+      },
+      size: {
+        content: '',
+        default: '',
+        sm: '',
+        lg: '',
+        xl: '',
+        full: ''
+      }
+    },
+    compoundVariants: [
+      {
+        position: ['top', 'bottom'],
+        size: 'content',
+        class: 'max-h-screen'
+      },
+      {
+        position: ['top', 'bottom'],
+        size: 'default',
+        class: 'h-1/3'
+      },
+      {
+        position: ['top', 'bottom'],
+        size: 'sm',
+        class: 'h-1/4'
+      },
+      {
+        position: ['top', 'bottom'],
+        size: 'lg',
+        class: 'h-1/2'
+      },
+      {
+        position: ['top', 'bottom'],
+        size: 'xl',
+        class: 'h-5/6'
+      },
+      {
+        position: ['top', 'bottom'],
+        size: 'full',
+        class: 'h-screen'
+      },
+      {
+        position: ['right', 'left'],
+        size: 'content',
+        class: 'max-w-screen'
+      },
+      {
+        position: ['right', 'left'],
+        size: 'default',
+        class: 'w-1/3'
+      },
+      {
+        position: ['right', 'left'],
+        size: 'sm',
+        class: 'w-1/4'
+      },
+      {
+        position: ['right', 'left'],
+        size: 'lg',
+        class: 'w-1/2'
+      },
+      {
+        position: ['right', 'left'],
+        size: 'xl',
+        class: 'w-5/6'
+      },
+      {
+        position: ['right', 'left'],
+        size: 'full',
+        class: 'w-screen'
+      }
+    ],
+    defaultVariants: {
+      position: 'right',
+      size: 'default'
+    }
+  }
+)
+
+export interface DialogContentProps
+  extends React.ComponentPropsWithoutRef<typeof SheetPrimitive.Content>,
+    VariantProps<typeof sheetVariants> {}
+
 const SheetContent = React.forwardRef<
   React.ElementRef<typeof SheetPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof SheetPrimitive.Content>
->(({ className, children, ...props }, ref) => (
-  <SheetPortal>
+  DialogContentProps
+>(({ position, size, className, children, ...props }, ref) => (
+  <SheetPortal position={position}>
+    <SheetOverlay />
     <SheetPrimitive.Content
       ref={ref}
-      className={cn(
-        'fixed z-50 h-full border-r bg-background p-6 opacity-100 shadow-lg data-[state=closed]:animate-slide-to-left data-[state=open]:animate-slide-from-left',
-        className
-      )}
+      className={cn(sheetVariants({ position, size }), className)}
       {...props}
     >
       {children}
       <SheetPrimitive.Close className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-secondary">
-        <IconClose />
+        <X className="h-4 w-4" />
         <span className="sr-only">Close</span>
       </SheetPrimitive.Close>
     </SheetPrimitive.Content>
@@ -68,7 +175,13 @@ const SheetHeader = ({
   className,
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) => (
-  <div className={cn('flex flex-col space-y-2', className)} {...props} />
+  <div
+    className={cn(
+      'flex flex-col space-y-2 text-center sm:text-left',
+      className
+    )}
+    {...props}
+  />
 )
 SheetHeader.displayName = 'SheetHeader'
 
