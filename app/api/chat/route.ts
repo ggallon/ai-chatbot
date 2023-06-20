@@ -12,10 +12,9 @@ export async function POST(req: Request) {
   const { messages, previewToken } = json
   const session = await auth()
 
-  if (process.env.VERCEL_ENV !== 'preview') {
-    if (session == null) {
-      return new Response('Unauthorized', { status: 401 })
-    }
+  console.log('POST', session)
+  if (process.env.VERCEL_ENV !== 'preview' && session.user === null) {
+    return new Response('Unauthorized', { status: 401 })
   }
 
   const configuration = new Configuration({
