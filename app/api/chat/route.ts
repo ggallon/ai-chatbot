@@ -1,13 +1,26 @@
 import { Ratelimit } from '@upstash/ratelimit'
 import { OpenAIStream, StreamingTextResponse } from 'ai'
 import { Configuration, OpenAIApi } from 'openai-edge'
+import { z } from 'zod'
 
 import { auth } from '@/auth'
 import { ratelimit } from '@/lib/upstash/ratelimit'
 import { kv } from '@/lib/upstash/redis'
 import { nanoid } from '@/lib/utils'
+import { zValidateReq } from '@/lib/validate'
 
 export const runtime = 'edge'
+
+const schema = z.object({
+  id: z.string().optional(),
+  messages: z.array(
+    z.object({
+      content: z.string(),
+      role: z.enum(['user', 'assistant', 'system']),
+      name: z.string().optional()
+    })
+  )
+})
 
 const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY
@@ -16,12 +29,10 @@ const configuration = new Configuration({
 const openai = new OpenAIApi(configuration)
 
 export async function POST(req: Request) {
-  const json = await req.json()
-  const { messages, previewToken } = json
   const session = await auth()
   const user = session.user
 
-  if (user === null) {
+  if (user == null) {
     return new Response('Unauthorized', { status: 401 })
   }
 
@@ -41,6 +52,7 @@ export async function POST(req: Request) {
     })
   }
 
+  const { id: chatId, messages } = await zValidateReq(schema, req)
 
   const res = await openai.createChatCompletion({
     model: 'gpt-3.5-turbo',
@@ -51,10 +63,10 @@ export async function POST(req: Request) {
 
   const stream = OpenAIStream(res, {
     async onCompletion(completion) {
-      const title = json.messages[0].content.substring(0, 100)
+      const title = messages[0].content.substring(0, 100)
       const userId = user.id
       if (userId) {
-        const id = json.id ?? nanoid()
+        const id = chatId ?? nanoid()
         const createdAt = Date.now()
         const path = `/chat/${id}`
         const payload = {

@@ -98,6 +98,9 @@ dependencies:
   remark-math:
     specifier: 5.1.1
     version: 5.1.1
+  zod:
+    specifier: 3.21.4
+    version: 3.21.4
 
 devDependencies:
   '@ianvs/prettier-plugin-sort-imports':
