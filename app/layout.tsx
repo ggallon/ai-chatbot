@@ -7,7 +7,6 @@ import { Header } from '@/components/header'
 import { Providers } from '@/components/providers'
 import { TailwindIndicator } from '@/components/tailwind-indicator'
 import { fontMono, fontSans } from '@/lib/fonts'
-import { cn } from '@/lib/utils'
 import { findOriginURL } from '@/lib/utils/find-origin-url'
 
 export const metadata: Metadata = {
@@ -37,11 +36,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
     <html lang="en" suppressHydrationWarning>
       <head />
       <body
-        className={cn(
-          'font-sans antialiased',
-          fontSans.variable,
-          fontMono.variable
-        )}
+        className={`font-sans antialiased ${fontSans.variable} ${fontMono.variable}`}
       >
         <Toaster />
         <Providers attribute="class" defaultTheme="system" enableSystem>
