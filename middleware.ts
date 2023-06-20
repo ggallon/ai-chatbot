@@ -18,6 +18,7 @@ export const config = {
 };
 
 export default auth((req: NextAuthRequest, ev: NextFetchEvent) => {
-  console.log("middleware ==> auth", req.auth)
+  const session = req.auth.user
+  console.log("middleware (session, path): ", session, req.nextUrl.pathname)
   return NextResponse.next()
 })
