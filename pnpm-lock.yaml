@@ -62,6 +62,9 @@ dependencies:
   focus-trap-react:
     specifier: 10.1.4
     version: 10.1.4(prop-types@15.8.1)(react-dom@18.2.0)(react@18.2.0)
+  lucide-react:
+    specifier: 0.246.0
+    version: 0.246.0(react@18.2.0)
   nanoid:
     specifier: 4.0.2
     version: 4.0.2
@@ -3431,6 +3434,14 @@ packages:
     dependencies:
       yallist: 4.0.0
     dev: true
+
+  /lucide-react@0.246.0(react@18.2.0):
+    resolution: {integrity: sha512-0OkIG28coMDnQfy9+vYr/+8BY42KpBO05WkslfIEJuDxi/qwcJfUXsG+nhONGMAUs/ADR5fE8upHBw76O/yMPg==}
+    peerDependencies:
+      react: ^16.5.1 || ^17.0.0 || ^18.0.0
+    dependencies:
+      react: 18.2.0
+    dev: false
 
   /magic-string@0.30.0:
     resolution: {integrity: sha512-LA+31JYDJLs82r2ScLrlz1GjSgu66ZV518eyWT+S8VhyQn/JL0u9MeBOvQMGYiPk1DBiSN9DDMOcXvigJZaViQ==}
