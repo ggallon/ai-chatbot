@@ -4,10 +4,13 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+overrides:
+  '@auth/core': 0.8.2
+
 dependencies:
   '@auth/nextjs':
-    specifier: 0.0.0-manual.de744368
-    version: 0.0.0-manual.de744368(next@13.4.7-canary.1)(react@18.2.0)
+    specifier: 0.0.0-manual.b53ca00b
+    version: 0.0.0-manual.b53ca00b(next@13.4.7-canary.1)(react@18.2.0)
   '@radix-ui/react-alert-dialog':
     specifier: 1.0.4
     version: 1.0.4(@types/react-dom@18.2.6)(@types/react@18.2.13)(react-dom@18.2.0)(react@18.2.0)
@@ -197,8 +200,8 @@ packages:
       preact-render-to-string: 5.2.3(preact@10.11.3)
     dev: false
 
-  /@auth/nextjs@0.0.0-manual.de744368(next@13.4.7-canary.1)(react@18.2.0):
-    resolution: {integrity: sha512-jLjKasLTKH5YLiK2i0NQWbsQS1pMveidyFT/ibwZ6c5UAcqDsC6ZGvvVxOaiAmiA6iFA1WMqNBVEcy+NhGgXVQ==}
+  /@auth/nextjs@0.0.0-manual.b53ca00b(next@13.4.7-canary.1)(react@18.2.0):
+    resolution: {integrity: sha512-g0XvlP+3MSXPX512K6Hu0mGOkb1QPCkXkaA0Zr9i+bmTEDU9TtYTTNmX2EyvLeTfmrEEU/CMS92aWTmiki1KVA==}
     peerDependencies:
       next: ^13.4.6
       react: ^18.2.0

@@ -23,7 +23,7 @@ export const {
   },
   callbacks: {
     jwt({ token, profile, trigger }) {
-      if (trigger === "signIn" && profile?.id) {
+      if (trigger === "signIn" && profile) {
         token.id = profile.id
         token.image = profile.avatar_url
       }
