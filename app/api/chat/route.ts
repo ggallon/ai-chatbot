@@ -53,10 +53,8 @@ export async function POST(req: Request) {
     })
   }
 
-  const json = await req.json()
-  console.log('json', json)
   const { id: chatId, messages } = await zValidateReq(schema, req)
-  console.log('chatId', chatId)
+  console.log('zValidateReq', chatId, messages)
   const res = await openai.createChatCompletion({
     model: 'gpt-3.5-turbo',
     messages,
