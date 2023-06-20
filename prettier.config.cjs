@@ -1,4 +1,4 @@
-/** @type {import('prettier').Config} */
+/** @type {import("@ianvs/prettier-plugin-sort-imports").PrettierConfig} */
 module.exports = {
   endOfLine: 'lf',
   semi: false,
@@ -8,27 +8,23 @@ module.exports = {
   tabWidth: 2,
   trailingComma: 'none',
   importOrder: [
-    '^(react/(.*)$)|^(react$)',
-    '^(next/(.*)$)|^(next$)',
     '<THIRD_PARTY_MODULES>',
     '',
-    '^types$',
-    '^@/types/(.*)$',
-    '^@/config/(.*)$',
-    '^@/lib/(.*)$',
-    '^@/hooks/(.*)$',
     '^@/components/ui/(.*)$',
     '^@/components/(.*)$',
-    '^@/registry/(.*)$',
-    '^@/styles/(.*)$',
     '^@/app/(.*)$',
-    '',
+    '^(@/auth/(.*)$)|^(@/auth$)',
+    '^@/lib/(.*)$',
+    '^@/config/(.*)$',
+    '^@/styles/(.*)$',
     '^[./]'
   ],
-  importOrderSeparation: false,
-  importOrderSortSpecifiers: true,
-  importOrderBuiltinModulesToTop: true,
   importOrderParserPlugins: ['typescript', 'jsx', 'decorators-legacy'],
-  importOrderMergeDuplicateImports: true,
-  importOrderCombineTypeAndValueImports: true
+  importOrderTypeScriptVersion: '5.0.0',
+  tailwindFunctions: ['cn', 'cva'],
+  plugins: [
+    '@ianvs/prettier-plugin-sort-imports',
+    'prettier-plugin-tailwindcss'
+  ],
+  pluginSearchDirs: false
 }

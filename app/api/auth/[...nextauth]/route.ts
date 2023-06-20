@@ -1,4 +1,5 @@
 import type { NextRequest } from 'next/server'
+
 import { GET as AuthGET } from '@/auth'
 
 export { POST } from '@/auth'

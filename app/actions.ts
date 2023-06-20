@@ -4,8 +4,8 @@ import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 
 import { auth } from '@/auth'
-import { kv } from '@/lib/upstash/redis'
 import { type Chat } from '@/lib/types'
+import { kv } from '@/lib/upstash/redis'
 
 export async function getChats(userId?: string | null) {
   if (!userId) {

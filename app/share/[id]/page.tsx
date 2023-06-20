@@ -1,12 +1,11 @@
 import { type Metadata } from 'next'
 import { notFound } from 'next/navigation'
 
-import { formatDate } from '@/lib/utils'
-import { type Chat } from '@/lib/types'
-import { getSharedChat } from '@/app/actions'
 import { ChatList } from '@/components/chat-list'
 import { FooterText } from '@/components/footer'
-
+import { getSharedChat } from '@/app/actions'
+import { type Chat } from '@/lib/types'
+import { formatDate } from '@/lib/utils'
 import { size } from './[slug]/_template'
 
 export const runtime = 'edge'

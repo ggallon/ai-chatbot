@@ -1,17 +1,17 @@
-import * as React from 'react'
-import Link from 'next/link'
-import Textarea from 'react-textarea-autosize'
 import { UseChatHelpers } from 'ai/react'
+import Link from 'next/link'
+import * as React from 'react'
+import Textarea from 'react-textarea-autosize'
 
-import { useEnterSubmit } from '@/lib/hooks/use-enter-submit'
-import { cn } from '@/lib/utils'
 import { Button, buttonVariants } from '@/components/ui/button'
+import { IconArrowElbow, IconPlus } from '@/components/ui/icons'
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger
 } from '@/components/ui/tooltip'
-import { IconArrowElbow, IconPlus } from '@/components/ui/icons'
+import { useEnterSubmit } from '@/lib/hooks/use-enter-submit'
+import { cn } from '@/lib/utils'
 
 export interface PromptProps
   extends Pick<UseChatHelpers, 'input' | 'setInput'> {

@@ -1,4 +1,5 @@
 import { Suspense } from 'react'
+
 import { LoginButton } from '@/components/login-button'
 
 export default function SignInPage() {
