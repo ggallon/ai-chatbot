@@ -31,7 +31,8 @@ const openai = new OpenAIApi(configuration)
 export async function POST(req: Request) {
   const session = await auth()
   const user = session.user
-
+  console.log('POST', session)
+  console.log('user', user)
   if (user == null) {
     return new Response('Unauthorized', { status: 401 })
   }
@@ -40,7 +41,7 @@ export async function POST(req: Request) {
     true,
     Ratelimit.slidingWindow(50, '1 d')
   ).custum.limit(user.id)
-
+  console.log('ratelimit', success)
   if (!success) {
     return new Response('You have reached your request limit for the day.', {
       status: 429,
@@ -52,15 +53,17 @@ export async function POST(req: Request) {
     })
   }
 
+  const json = await req.json()
+  console.log('json', json)
   const { id: chatId, messages } = await zValidateReq(schema, req)
-
+  console.log('chatId', chatId)
   const res = await openai.createChatCompletion({
     model: 'gpt-3.5-turbo',
     messages,
     temperature: 0.7,
     stream: true
   })
-
+  console.log('title', messages[0].content.substring(0, 100))
   const stream = OpenAIStream(res, {
     async onCompletion(completion) {
       const title = messages[0].content.substring(0, 100)
