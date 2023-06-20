@@ -20,7 +20,7 @@ const dummyRatelimit = {
  * Create new Ratelimit
  */
 const baseRatelimit = (algorithm: RatelimitConfig.limiter, run: boolean) => {
-  return run && process.env.NODE_ENV !== "development"
+  return run && process.env.NODE_ENV !== 'development'
     ? new Ratelimit({
         redis: kv,
         limiter: algorithm,

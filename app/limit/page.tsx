@@ -1,22 +1,20 @@
-import { headers } from 'next/headers'
 import { Ratelimit } from '@upstash/ratelimit'
+import { headers } from 'next/headers'
 
 import { ratelimit } from '@/lib/upstash/ratelimit'
 
 export default async function Home() {
   const ip = headers().get('x-forwarded-for')
-  const { success, limit, remaining, reset } =
-    await ratelimit(true, Ratelimit.fixedWindow(10, "60s")).custum.limit(
-      `test_${ip ?? '0.0.0.0'}`
-    )
+  const { success, limit, remaining, reset } = await ratelimit(
+    true,
+    Ratelimit.fixedWindow(10, '60s')
+  ).custum.limit(`test_${ip ?? '0.0.0.0'}`)
 
   return (
     <main className="flex min-h-full flex-col items-center justify-between p-24">
       <div className="relative flex text-center text-4xl font-semibold lg:text-7xl">
         {success ? (
-          <>
-            Ratelimit checker
-          </>
+          <>Ratelimit checker</>
         ) : (
           <>
             You have reached the limit,
