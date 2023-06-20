@@ -19,7 +19,7 @@ const dummyRatelimit = {
 /**
  * Create new Ratelimit
  */
-const baseRatelimit = (algorithm: RatelimitConfig["limiter"], run: boolean) => {
+const baseRatelimit = (algorithm: RatelimitConfig['limiter'], run: boolean) => {
   return run && process.env.NODE_ENV !== 'development'
     ? new Ratelimit({
         redis: kv,
@@ -40,7 +40,7 @@ const baseRatelimit = (algorithm: RatelimitConfig["limiter"], run: boolean) => {
  */
 export const ratelimit = (
   run: boolean = true,
-  custumLimiter?: RatelimitConfig["limiter"]
+  custumLimiter?: RatelimitConfig['limiter']
 ) => ({
   // Sliding Window, that allows 10 requests per 10 seconds
   swTenBytenSds: baseRatelimit(Ratelimit.slidingWindow(10, '10s'), run),
