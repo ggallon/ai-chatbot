@@ -21,7 +21,7 @@ export async function generateMetadata({
   params
 }: SharePageProps): Promise<Metadata> {
   const chat: Chat | null = await getSharedChat(params.id)
-  const title = chat?.title.slice(0, 50) ?? 'Chat'
+  const title = chat?.title.toString().slice(0, 50) ?? 'Chat'
 
   return {
     title,

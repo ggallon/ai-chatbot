@@ -6,7 +6,8 @@ export const size = {
 }
 
 export const template = (chat: Chat) => {
-  const textAlign = chat?.title?.length > 40 ? 'items-start' : 'items-center'
+  const title = chat.title.toString()
+  const textAlign = title.length > 40 ? 'items-start' : 'items-center'
   return (
     <div tw="flex w-full items-start h-full flex-col bg-[#09090b] text-white p-[80px]">
       <div tw="flex flex-col w-full pt-[40px]">
@@ -23,9 +24,7 @@ export const template = (chat: Chat) => {
             </svg>
           </div>
           <div tw="flex text-white font-bold text-4xl leading-normal ml-10">
-            {chat.title.length > 120
-              ? `${chat.title.slice(0, 120)}...`
-              : chat.title}
+            {title.length > 120 ? `${title.slice(0, 120)}...` : chat.title}
           </div>
         </div>
         <div tw="flex w-full mt-14 items-start">
