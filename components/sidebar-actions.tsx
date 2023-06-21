@@ -93,7 +93,9 @@ export function SidebarActions({
               <span className="sr-only">Share</span>
             </Button>
           </TooltipTrigger>
-          <TooltipContent>Share chat</TooltipContent>
+          <TooltipContent align="end" className="z-60">
+            Share chat
+          </TooltipContent>
         </Tooltip>
         <Tooltip>
           <TooltipTrigger asChild>
@@ -107,7 +109,9 @@ export function SidebarActions({
               <span className="sr-only">Delete</span>
             </Button>
           </TooltipTrigger>
-          <TooltipContent>Delete chat</TooltipContent>
+          <TooltipContent align="end" className="z-60">
+            Delete chat
+          </TooltipContent>
         </Tooltip>
       </div>
       <Dialog open={shareDialogOpen} onOpenChange={setShareDialogOpen}>
