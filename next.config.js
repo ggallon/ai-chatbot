@@ -8,6 +8,11 @@ module.exports = withBundleAnalyzer({
   experimental: {
     serverActions: true,
   },
+  modularizeImports: {
+    'lucide-react': {
+      transform: 'lucide-react/dist/esm/icons/{{ kebabCase member }}',
+    },
+  },
   images: {
     remotePatterns: [
       {
