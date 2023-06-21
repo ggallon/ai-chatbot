@@ -7,7 +7,10 @@ export function SidebarFooter({
 }: React.ComponentProps<'div'>) {
   return (
     <div
-      className={cn('flex items-center justify-between p-4', className)}
+      className={cn(
+        'flex flex-shrink-0 items-center justify-between p-4',
+        className
+      )}
       {...props}
     >
       {children}
