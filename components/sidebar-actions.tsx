@@ -93,7 +93,7 @@ export function SidebarActions({
               <span className="sr-only">Share</span>
             </Button>
           </TooltipTrigger>
-          <TooltipContent align="end" className="z-60">
+          <TooltipContent className="z-60">
             Share chat
           </TooltipContent>
         </Tooltip>
