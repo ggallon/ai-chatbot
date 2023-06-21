@@ -16,7 +16,7 @@ export interface SlideOversProps {
   children?: React.ReactNode
 }
 
-export default function Example({ children }: SlideOversProps) {
+export default function Slideover({ children }: SlideOversProps) {
   const [open, setOpen] = useState(false)
 
   return (
