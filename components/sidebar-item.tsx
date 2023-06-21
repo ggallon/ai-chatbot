@@ -25,7 +25,7 @@ export function SidebarItem({ chat, children }: SidebarItemProps) {
   if (!chat?.id) return null
 
   return (
-    <li className="relative">
+    <div className="relative">
       <div className="absolute left-2 top-1 flex h-6 w-6 items-center justify-center">
         {chat.sharePath ? (
           <Tooltip delayDuration={1000}>
@@ -57,6 +57,6 @@ export function SidebarItem({ chat, children }: SidebarItemProps) {
         </div>
       </Link>
       {isActive && <div className="absolute right-2 top-1">{children}</div>}
-    </li>
+    </div>
   )
 }
