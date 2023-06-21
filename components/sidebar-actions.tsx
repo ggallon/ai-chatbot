@@ -93,9 +93,7 @@ export function SidebarActions({
               <span className="sr-only">Share</span>
             </Button>
           </TooltipTrigger>
-          <TooltipContent className="z-60">
-            Share chat
-          </TooltipContent>
+          <TooltipContent className="z-60">Share chat</TooltipContent>
         </Tooltip>
         <Tooltip>
           <TooltipTrigger asChild>
