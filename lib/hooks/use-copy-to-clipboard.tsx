@@ -14,7 +14,6 @@ export function useCopyToClipboard({
   const copyToClipboard = (value: string) => {
     if (
       typeof window === 'undefined' ||
-      !navigator.clipboard ||
       !navigator.clipboard.writeText
     ) {
       return
