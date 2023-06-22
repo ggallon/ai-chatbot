@@ -5,12 +5,12 @@ settings:
   excludeLinksFromLockfile: false
 
 overrides:
-  '@auth/core': 0.8.2
+  '@auth/core': 0.8.4
 
 dependencies:
   '@auth/nextjs':
-    specifier: 0.0.0-manual.b53ca00b
-    version: 0.0.0-manual.b53ca00b(next@13.4.7)(react@18.2.0)
+    specifier: 0.0.0-manual.179c08d4
+    version: 0.0.0-manual.179c08d4(next@13.4.7)(react@18.2.0)
   '@radix-ui/react-alert-dialog':
     specifier: 1.0.4
     version: 1.0.4(@types/react-dom@18.2.6)(@types/react@18.2.13)(react-dom@18.2.0)(react@18.2.0)
@@ -187,8 +187,8 @@ packages:
       '@jridgewell/gen-mapping': 0.3.3
       '@jridgewell/trace-mapping': 0.3.18
 
-  /@auth/core@0.8.2:
-    resolution: {integrity: sha512-swqJ7tKFlqiYIl1znFGrrawUv1F6rwL+/f3DoeWDaZLnr2phiHFaZsvNvLK7WBJhnJbel78Vd3GznuR31AnFUw==}
+  /@auth/core@0.8.4:
+    resolution: {integrity: sha512-08aDVHar85akYaU9vRZ8O5Ydup9T/PS+4ehrBS5AvRW6cU3/4XMHtkU4ePtOiOVn69VgbAHShetm9VcnWwtjxg==}
     peerDependencies:
       nodemailer: ^6.8.0
     peerDependenciesMeta:
@@ -203,13 +203,13 @@ packages:
       preact-render-to-string: 5.2.3(preact@10.11.3)
     dev: false
 
-  /@auth/nextjs@0.0.0-manual.b53ca00b(next@13.4.7)(react@18.2.0):
-    resolution: {integrity: sha512-g0XvlP+3MSXPX512K6Hu0mGOkb1QPCkXkaA0Zr9i+bmTEDU9TtYTTNmX2EyvLeTfmrEEU/CMS92aWTmiki1KVA==}
+  /@auth/nextjs@0.0.0-manual.179c08d4(next@13.4.7)(react@18.2.0):
+    resolution: {integrity: sha512-HVuDgb6xlYLV5mHTGc0Pycg8BlwtcvjvS+54QXEbOBpA5tulzKxAH8QlCoKj5R9XHW9hP9DiCnvXyVV9x2N+jA==}
     peerDependencies:
       next: ^13.4.6
       react: ^18.2.0
     dependencies:
-      '@auth/core': 0.8.2
+      '@auth/core': 0.8.4
       next: 13.4.7(@babel/core@7.22.5)(react-dom@18.2.0)(react@18.2.0)
       react: 18.2.0
     transitivePeerDependencies:
