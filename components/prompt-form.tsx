@@ -38,7 +38,7 @@ export function PromptForm({
     <form
       onSubmit={async e => {
         e.preventDefault()
-        if (input === '') {
+        if (!input?.trim()) {
           return
         }
         setInput('')
