@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import * as React from 'react'
 
-import { buttonVariants } from '@/components/ui/button'
+import { Button, buttonVariants } from '@/components/ui/button'
 import {
   IconGitHub,
   IconNextChat,
@@ -9,7 +9,6 @@ import {
   IconVercel
 } from '@/components/ui/icons'
 import { ClearHistory } from '@/components/clear-history'
-import { LoginButton } from '@/components/login-button'
 import { Sidebar } from '@/components/sidebar'
 import { SidebarFooter } from '@/components/sidebar-footer'
 import { SidebarList } from '@/components/sidebar-list'
@@ -45,12 +44,9 @@ export async function Header() {
           {session?.user ? (
             <UserMenu user={session.user} />
           ) : (
-            <LoginButton
-              variant="link"
-              showGithubIcon={false}
-              text="Login"
-              className="-ml-2"
-            />
+            <Button variant="link" asChild className="-ml-2">
+              <Link href="/sign-in?callbackUrl=/">Login</Link>
+            </Button>
           )}
         </div>
       </div>
