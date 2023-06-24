@@ -1,7 +1,12 @@
+import { type Metadata } from 'next'
 import { Ratelimit } from '@upstash/ratelimit'
 import { headers } from 'next/headers'
 
 import { ratelimit } from '@/lib/upstash/ratelimit'
+
+export const metadata: Metadata = {
+  title: "Ratelimit",
+}
 
 export default async function Home() {
   const ip = headers().get('x-forwarded-for')
