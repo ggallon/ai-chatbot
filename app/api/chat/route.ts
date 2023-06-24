@@ -29,11 +29,9 @@ const configuration = new Configuration({
 const openai = new OpenAIApi(configuration)
 
 export async function POST(req: Request) {
-  const session = await auth()
-  const user = session.user
-  console.log('POST', session)
-  console.log('user', user)
-  if (user == null) {
+  const userId = (await auth())?.user.id
+
+  if (!userId) {
     return new Response('Unauthorized', { status: 401 })
   }
 
@@ -41,7 +39,7 @@ export async function POST(req: Request) {
     true,
     Ratelimit.slidingWindow(50, '1 d')
   ).custum.limit(user.id)
-  console.log('ratelimit', success)
+
   if (!success) {
     return new Response('You have reached your request limit for the day.', {
       status: 429,
@@ -61,35 +59,32 @@ export async function POST(req: Request) {
     temperature: 0.7,
     stream: true
   })
-  console.log('title', messages[0].content.substring(0, 100))
+
   const stream = OpenAIStream(res, {
     async onCompletion(completion) {
       const title = messages[0].content.substring(0, 100)
-      const userId = user.id
-      if (userId) {
-        const id = chatId ?? nanoid()
-        const createdAt = Date.now()
-        const path = `/chat/${id}`
-        const payload = {
-          id,
-          title,
-          userId,
-          createdAt,
-          path,
-          messages: [
-            ...messages,
-            {
-              content: completion,
-              role: 'assistant'
-            }
-          ]
-        }
-        await kv.hmset(`chat:${id}`, payload)
-        await kv.zadd(`user:chat:${userId}`, {
-          score: createdAt,
-          member: `chat:${id}`
-        })
+      const id = chatId ?? nanoid()
+      const createdAt = Date.now()
+      const path = `/chat/${id}`
+      const payload = {
+        id,
+        title,
+        userId,
+        createdAt,
+        path,
+        messages: [
+          ...messages,
+          {
+            content: completion,
+            role: 'assistant'
+          }
+        ]
       }
+      await kv.hmset(`chat:${id}`, payload)
+      await kv.zadd(`user:chat:${userId}`, {
+        score: createdAt,
+        member: `chat:${id}`
+      })
     }
   })
 

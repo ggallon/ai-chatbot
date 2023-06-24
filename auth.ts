@@ -1,4 +1,4 @@
-import NextAuth, { type NextAuthConfig } from "@auth/nextjs";
+import NextAuth from "@auth/nextjs";
 import GitHub from "@auth/nextjs/providers/github"
 import { NextResponse } from "next/server"
 
@@ -8,10 +8,7 @@ export const {
   CSRF_experimental
 } = NextAuth({
   debug: process.env.NODE_ENV === "development",
-  providers: [
-    // @ts-expect-error
-    GitHub,
-  ],
+  providers: [GitHub],
   session: {
     strategy: "jwt",
     // Seconds - How long until an idle session expires and is no longer valid.
@@ -22,8 +19,8 @@ export const {
     updateAge: 24 * 60 * 60, // 24 hours
   },
   callbacks: {
-    jwt({ token, profile, trigger }) {
-      if (trigger === "signIn" && profile) {
+    jwt({ token, profile }) {
+       if (profile) {
         token.id = profile.id
         token.image = profile.avatar_url
       }
@@ -33,23 +30,10 @@ export const {
       return { ...session, user: { ...session.user, id: token.sub } };
     },
     authorized({ request, auth }) {
-      console.log("#### authorized");
-      const session = auth.user;
-      const path = request.nextUrl.pathname;
+      const { pathname } = request.nextUrl
 
-      if (!session && path !== "/sign-in") {
-        console.log("NO session && path !== /sign-in");
-        return NextResponse.redirect(new URL("/sign-in", request.url));
-      } else if (session && path === "/sign-in") {
-        console.log("HAS session && path === /sign-in");
-        return NextResponse.redirect(new URL("/", request.url));
-      } else if (session) {
-        console.log("HAS session");
-        return true
-      } else {
-        console.log("NO session");
-        return false
-      }
+      if (!auth.user) return false
+      if (pathname === '/sign-in') return NextResponse.redirect('/')
     }
   },
   pages: {

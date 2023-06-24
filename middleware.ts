@@ -19,7 +19,5 @@ export const config = {
 
 // @ts-expect-error
 export default auth((req: NextAuthRequest, ev: NextFetchEvent) => {
-  const session = req.auth.user
-  console.log("middleware (session, path): ", session, req.nextUrl.pathname)
   return NextResponse.next()
 })
