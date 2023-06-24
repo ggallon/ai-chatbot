@@ -1,4 +1,5 @@
 const { fontFamily } = require('tailwindcss/defaultTheme')
+const plugin = require("tailwindcss/plugin");
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -100,5 +101,16 @@ module.exports = {
       }
     }
   },
-  plugins: [require('tailwindcss-animate'), require('@tailwindcss/typography')]
+  plugins: [
+    plugin(function ({ addVariant }) {
+      // this class is applied to `html` by `app/theme-efect.ts`, similar
+      // to how `dark:` gets enabled
+      addVariant("theme-system", ".theme-system &");
+    }),
+    require('tailwindcss-animate'),
+    require('@tailwindcss/typography')
+  ],
+  future: {
+    hoverOnlyWhenSupported: true,
+  }
 }
