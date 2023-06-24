@@ -5,7 +5,7 @@ import { type Message } from 'ai'
 import { Button } from '@/components/ui/button'
 import { IconCheck, IconCopy } from '@/components/ui/icons'
 import { useCopyToClipboard } from '@/lib/hooks/use-copy-to-clipboard'
-import { cn } from '@/lib/utils'
+import { cn } from '@/lib/utils/ui'
 
 interface ChatMessageActionsProps extends React.ComponentProps<'div'> {
   message: Message

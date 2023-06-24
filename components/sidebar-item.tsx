@@ -11,7 +11,7 @@ import {
   TooltipTrigger
 } from '@/components/ui/tooltip'
 import { type Chat } from '@/lib/types'
-import { cn } from '@/lib/utils'
+import { cn } from '@/lib/utils/ui'
 
 interface SidebarItemProps {
   chat: Chat

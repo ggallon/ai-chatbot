@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { ExternalLink } from '@/components/external-link'
-import { cn } from '@/lib/utils'
+import { cn } from '@/lib/utils/ui'
 
 export function FooterText({ className, ...props }: React.ComponentProps<'p'>) {
   return (

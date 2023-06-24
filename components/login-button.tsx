@@ -5,7 +5,7 @@ import * as React from 'react'
 
 import { Button, type ButtonProps } from '@/components/ui/button'
 import { IconGitHub, IconSpinner } from '@/components/ui/icons'
-import { cn } from '@/lib/utils'
+import { cn } from '@/lib/utils/ui'
 
 interface LoginButtonProps extends ButtonProps {
   showGithubIcon?: boolean

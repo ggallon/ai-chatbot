@@ -16,7 +16,7 @@ import { ThemeToggle } from '@/components/theme-toggle'
 import { UserMenu } from '@/components/user-menu'
 import { clearChats } from '@/app/actions'
 import { auth } from '@/auth'
-import { cn } from '@/lib/utils'
+import { cn } from '@/lib/utils/ui'
 
 export async function Header() {
   const session = await auth()

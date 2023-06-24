@@ -37,7 +37,8 @@ import {
   TooltipTrigger
 } from '@/components/ui/tooltip'
 import { ServerActionResult, type Chat } from '@/lib/types'
-import { cn, formatDate } from '@/lib/utils'
+import { formatDate } from '@/lib/utils'
+import { cn } from '@/lib/utils/ui'
 
 interface SidebarActionsProps {
   chat: Chat

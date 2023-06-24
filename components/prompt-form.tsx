@@ -11,7 +11,7 @@ import {
   TooltipTrigger
 } from '@/components/ui/tooltip'
 import { useEnterSubmit } from '@/lib/hooks/use-enter-submit'
-import { cn } from '@/lib/utils'
+import { cn } from '@/lib/utils/ui'
 
 export interface PromptProps
   extends Pick<UseChatHelpers, 'input' | 'setInput'> {

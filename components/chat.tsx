@@ -7,7 +7,7 @@ import { ChatPanel } from '@/components/chat-panel'
 import { ChatScrollAnchor } from '@/components/chat-scroll-anchor'
 import { EmptyScreen } from '@/components/empty-screen'
 import { useLocalStorage } from '@/lib/hooks/use-local-storage'
-import { cn } from '@/lib/utils'
+import { cn } from '@/lib/utils/ui'
 
 export interface ChatProps extends React.ComponentProps<'div'> {
   initialMessages?: Message[]
