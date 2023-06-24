@@ -1,4 +1,4 @@
-import NextAuth, { DefaultSession } from '@auth/nextjs'
+import { DefaultSession } from '@auth/nextjs'
 
 declare module '@auth/nextjs/types' {
   interface Session {
