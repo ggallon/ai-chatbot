@@ -38,7 +38,7 @@ export async function POST(req: Request) {
   const { success, limit, remaining, reset } = await ratelimit(
     true,
     Ratelimit.slidingWindow(50, '1 d')
-  ).custum.limit(user.id)
+  ).custum.limit(userId)
 
   if (!success) {
     return new Response('You have reached your request limit for the day.', {
