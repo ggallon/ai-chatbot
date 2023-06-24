@@ -28,7 +28,7 @@ export async function Header() {
             <React.Suspense fallback={<div className="flex-1 overflow-auto" />}>
               <SidebarList userId={session?.user?.id} />
             </React.Suspense>
-            <SidebarFooter className='absolute inset-x-0 bottom-0'>
+            <SidebarFooter className="absolute inset-x-0 bottom-0">
               <ThemeToggle />
               <ClearHistory clearChats={clearChats} />
             </SidebarFooter>
