@@ -96,10 +96,10 @@ export function ThemeToggle() {
           setIsHoveringOverride(false)
         }}
       >
-        <span className="sun-icon w-4 h-4">
+        <span className="sun-icon h-4 w-4">
           <SunIcon />
         </span>
-        <span className="moon-icon w-4 h-4">
+        <span className="moon-icon h-4 w-4">
           <MoonIcon />
         </span>
       </button>
