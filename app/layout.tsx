@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   metadataBase: findOriginURL(),
   title: {
     template: `%s - Proactice`,
-    default: 'Proactice',
+    default: 'Proactice'
   },
   description: 'An AI-powered chatbot built with Next.js and Vercel.',
   themeColor: [
