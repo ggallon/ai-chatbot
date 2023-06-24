@@ -13,8 +13,8 @@ import { themeEffect } from '@/lib/utils/theme-effect'
 export const metadata: Metadata = {
   metadataBase: findOriginURL(),
   title: {
-    default: 'Proactice AI Chatbot',
-    template: `%s - Proactice AI Chatbot`
+    template: `%s - Proactice`,
+    default: 'Proactice',
   },
   description: 'An AI-powered chatbot built with Next.js and Vercel.',
   themeColor: [
