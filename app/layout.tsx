@@ -8,6 +8,7 @@ import { Providers } from '@/components/providers'
 import { TailwindIndicator } from '@/components/tailwind-indicator'
 import { fontMono, fontSans } from '@/lib/fonts'
 import { findOriginURL } from '@/lib/utils/find-origin-url'
+import { themeEffect } from '@/lib/utils/theme-effect'
 
 export const metadata: Metadata = {
   metadataBase: findOriginURL(),
@@ -33,13 +34,19 @@ interface RootLayoutProps {
 
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <head />
+    <html lang="en" suppressHydrationWarning={true}>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(${themeEffect.toString()})();`
+          }}
+        />
+      </head>
       <body
         className={`font-sans antialiased ${fontSans.variable} ${fontMono.variable}`}
       >
         <Toaster />
-        <Providers attribute="class" defaultTheme="system" enableSystem>
+        <Providers>
           <div className="flex min-h-screen flex-col">
             <Header />
             <main className="flex flex-1 flex-col bg-muted/50">{children}</main>
