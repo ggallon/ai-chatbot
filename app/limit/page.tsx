@@ -1,11 +1,11 @@
-import { type Metadata } from 'next'
 import { Ratelimit } from '@upstash/ratelimit'
+import { type Metadata } from 'next'
 import { headers } from 'next/headers'
 
 import { ratelimit } from '@/lib/upstash/ratelimit'
 
 export const metadata: Metadata = {
-  title: "Ratelimit",
+  title: 'Ratelimit'
 }
 
 export default async function Home() {
