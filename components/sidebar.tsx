@@ -25,7 +25,7 @@ export function Sidebar({ children }: SidebarProps) {
           <span className="sr-only">Toggle Sidebar</span>
         </Button>
       </SheetTrigger>
-      <SheetContent position="left" size="sm" className="p-2">
+      <SheetContent side="left" className="w-[300px] p-2">
         <SheetHeader className="p-4">
           <SheetTitle className="text-sm">Chat History</SheetTitle>
         </SheetHeader>
