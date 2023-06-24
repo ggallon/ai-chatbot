@@ -1,6 +1,11 @@
 import { Suspense } from 'react'
+import { type Metadata } from 'next'
 
 import { LoginButton } from '@/components/login-button'
+ 
+export const metadata: Metadata = {
+  title: "Login",
+}
 
 export default function SignInPage() {
   return (
