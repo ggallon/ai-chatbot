@@ -1,5 +1,5 @@
 const { fontFamily } = require('tailwindcss/defaultTheme')
-const plugin = require("tailwindcss/plugin");
+const plugin = require('tailwindcss/plugin')
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -92,12 +92,12 @@ module.exports = {
         'accordion-up': 'accordion-up 0.2s ease-out'
       },
       zIndex: {
-        '60': '60',
-        '70': '70',
-        '80': '80',
-        '90': '90',
-        '100': '100',
-        '999': '999',
+        60: '60',
+        70: '70',
+        80: '80',
+        90: '90',
+        100: '100',
+        999: '999'
       }
     }
   },
@@ -105,12 +105,12 @@ module.exports = {
     plugin(function ({ addVariant }) {
       // this class is applied to `html` by `app/theme-efect.ts`, similar
       // to how `dark:` gets enabled
-      addVariant("theme-system", ".theme-system &");
+      addVariant('theme-system', '.theme-system &')
     }),
     require('tailwindcss-animate'),
     require('@tailwindcss/typography')
   ],
   future: {
-    hoverOnlyWhenSupported: true,
+    hoverOnlyWhenSupported: true
   }
 }
