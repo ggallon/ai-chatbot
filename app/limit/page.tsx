@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   title: 'Ratelimit'
 }
 
-export default async function Home() {
+export default async function Limit() {
   const ip = headers().get('x-forwarded-for')
   const { success, limit, remaining, reset } = await ratelimit(
     true,
