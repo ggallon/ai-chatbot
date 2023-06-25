@@ -142,7 +142,7 @@ export function ColorPaletteGlobal({ colors }) {
               {color.name}
             </div>
             <div className="mt-3 grid grid-cols-1 gap-x-2 gap-y-3 sm:mt-2 sm:grid-cols-11 2xl:mt-0">
-               <ColorPaletteGlobale name={color.name} value={color.value} />
+              <ColorPaletteGlobale name={color.name} value={color.value} />
             </div>
           </div>
         )
@@ -152,25 +152,25 @@ export function ColorPaletteGlobal({ colors }) {
 }
 
 const globalLight = [
-  { name: "background", value: "0 0% 99%" },
-  { name: "foreground", value: "0 0% 11%" },
-  { name: "muted", value: "240 4.8% 95.9%" },
-  { name: "muted-foreground", value: "240 3.8% 46.1%" },
-  { name: "popover", value: "0 0% 99%" },
-  { name: "popover-foreground", value: "0 0% 11%" },
-  { name: "card", value: "0 0% 99%" },
-  { name: "card-foreground", value: "0 0% 11%" },
-  { name: "border", value: "240 5.9% 90%" },
-  { name: "input", value: "240 5.9% 90%" },
-  { name: "primary", value: "240 5.9% 10%" },
-  { name: "primary-foreground", value: "0 0% 99%" },
-  { name: "secondary", value: "240 4.8% 95.9%" },
-  { name: "secondary-foreground", value: "240 5.9% 10%" },
-  { name: "accent", value: "240 4.8% 95.9%" },
-  { name: "accent-foreground", value: "240 5.9% 10%" },
-  { name: "destructive", value: "0 84.2% 60.2%" },
-  { name: "destructive-foreground", value: "0 0% 99%" },
-  { name: "ring", value: "240 5% 64.9%" },
+  { name: 'background', value: '0 0% 99%' },
+  { name: 'foreground', value: '0 0% 11%' },
+  { name: 'muted', value: '240 4.8% 95.9%' },
+  { name: 'muted-foreground', value: '240 3.8% 46.1%' },
+  { name: 'popover', value: '0 0% 99%' },
+  { name: 'popover-foreground', value: '0 0% 11%' },
+  { name: 'card', value: '0 0% 99%' },
+  { name: 'card-foreground', value: '0 0% 11%' },
+  { name: 'border', value: '240 5.9% 90%' },
+  { name: 'input', value: '240 5.9% 90%' },
+  { name: 'primary', value: '240 5.9% 10%' },
+  { name: 'primary-foreground', value: '0 0% 99%' },
+  { name: 'secondary', value: '240 4.8% 95.9%' },
+  { name: 'secondary-foreground', value: '240 5.9% 10%' },
+  { name: 'accent', value: '240 4.8% 95.9%' },
+  { name: 'accent-foreground', value: '240 5.9% 10%' },
+  { name: 'destructive', value: '0 84.2% 60.2%' },
+  { name: 'destructive-foreground', value: '0 0% 99%' },
+  { name: 'ring', value: '240 5% 64.9%' }
 ]
 
 export default async function Color() {
