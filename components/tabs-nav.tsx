@@ -38,7 +38,7 @@ export function TabsNavItem({ children, isActive, href }) {
         <div className="absolute inset-0 bg-white shadow sm:rounded-md" />
       )}
       <Link
-        className="no-drag relative z-10 block px-2 py-1 sm:px-3 sm:py-1.5"
+        className="no-drag relative z-10 block px-3 py-1.5 sm:px-2 sm:py-1"
         href={href}
       >
         {children}

@@ -34,12 +34,12 @@ export function UserMenu({ user }: UserMenuProps) {
         <DropdownMenuTrigger asChild>
           {user?.image ? (
             <Image
-              className="h-6 w-6 select-none rounded-full ring-1 ring-zinc-100/10 transition-opacity duration-300 hover:opacity-80"
+              className="h-7 w-7 select-none rounded-full ring-1 ring-zinc-100/10 transition-opacity duration-300 hover:opacity-80"
               loader={githubImageLoader}
               src={user?.image ?? ''}
               alt={user.name ?? 'Avatar'}
-              width={24}
-              height={24}
+              width={28}
+              height={28}
             />
           ) : (
             <div className="flex h-7 w-7 shrink-0 select-none items-center justify-center rounded-full bg-muted/50 text-xs font-medium uppercase text-muted-foreground">
@@ -55,12 +55,12 @@ export function UserMenu({ user }: UserMenuProps) {
           <DropdownMenuSeparator />
           <DropdownMenuItem asChild>
             <a
-              href="https://vercel.com"
+              href="https://proactice.co"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex w-full items-center justify-between text-xs"
             >
-              Vercel Homepage
+              Proactice Homepage
               <IconExternalLink className="ml-auto h-3 w-3" />
             </a>
           </DropdownMenuItem>
