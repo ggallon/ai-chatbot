@@ -17,6 +17,15 @@ export const metadata: Metadata = {
     default: 'Proactice'
   },
   description: 'An AI-powered chatbot built with Next.js and Vercel.',
+  openGraph: {
+    title: 'Proactice',
+    description: 'An AI-powered chatbot built with Next.js and Vercel.',
+    url: findOriginURL(),
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+  },
   themeColor: [
     { media: '(prefers-color-scheme: light)', color: 'white' },
     { media: '(prefers-color-scheme: dark)', color: 'black' }
