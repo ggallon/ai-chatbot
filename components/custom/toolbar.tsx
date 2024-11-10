@@ -31,7 +31,7 @@ import { Button } from '../ui/button';
 type ToolProps = {
   type: 'final-polish' | 'request-suggestions' | 'adjust-reading-level';
   description: string;
-  icon: JSX.Element;
+  icon: React.JSX.Element;
   selectedTool: string | null;
   setSelectedTool: Dispatch<SetStateAction<string | null>>;
   isToolbarVisible?: boolean;
@@ -317,7 +317,7 @@ export const Tools = ({
   );
 };
 
-export const Toolbar = ({
+export function Toolbar({
   isToolbarVisible,
   setIsToolbarVisible,
   append,
@@ -334,13 +334,14 @@ export const Toolbar = ({
   ) => Promise<string | null | undefined>;
   stop: () => void;
   setMessages: Dispatch<SetStateAction<Message[]>>;
-}) => {
+}) {
   const toolbarRef = useRef<HTMLDivElement>(null);
-  const timeoutRef = useRef<NodeJS.Timeout>();
+  const timeoutRef = useRef<NodeJS.Timeout>(null);
 
   const [selectedTool, setSelectedTool] = useState<string | null>(null);
   const [isAnimating, setIsAnimating] = useState(false);
 
+  // @ts-expect-error: Should expect never null
   useOnClickOutside(toolbarRef, () => {
     setIsToolbarVisible(false);
     setSelectedTool(null);
@@ -457,4 +458,4 @@ export const Toolbar = ({
       </motion.div>
     </TooltipProvider>
   );
-};
+}
