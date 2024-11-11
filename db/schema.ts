@@ -60,7 +60,12 @@ export const vote = pgTable(
       .references(() => message.id),
     isUpvoted: boolean("isUpvoted").notNull(),
   },
-  (table) => [primaryKey({ columns: [table.chatId, table.messageId] })]
+  (table) => [
+    primaryKey({
+      name: "pkey_chatId_messageId",
+      columns: [table.chatId, table.messageId],
+    }),
+  ]
 );
 
 export type Vote = typeof vote.$inferSelect;
@@ -76,7 +81,12 @@ export const document = pgTable(
       .notNull()
       .references(() => user.id),
   },
-  (table) => [primaryKey({ columns: [table.id, table.createdAt] })]
+  (table) => [
+    primaryKey({
+      name: "pkey_id_createdAt",
+      columns: [table.id, table.createdAt],
+    }),
+  ]
 );
 
 export type Document = typeof document.$inferSelect;
@@ -100,6 +110,7 @@ export const suggestion = pgTable(
   },
   (table) => [
     foreignKey({
+      name: "fkey_documentId_documentCreatedAt",
       columns: [table.documentId, table.documentCreatedAt],
       foreignColumns: [document.id, document.createdAt],
     }),
