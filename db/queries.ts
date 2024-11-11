@@ -19,9 +19,11 @@ import {
   Chat,
 } from './schema';
 
-export async function getUser(email: string): Promise<Array<User>> {
+export async function getUser(email: string): Promise<User | undefined> {
   try {
-    return await db.select().from(user).where(eq(user.email, email));
+    return await db.query.user.findFirst({
+      where: eq(user.email, email),
+    });
   } catch (error) {
     console.error('Failed to get user from database');
     throw error;

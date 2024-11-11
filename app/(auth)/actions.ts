@@ -4,12 +4,8 @@ import { z } from "zod";
 
 import { createUser, getUser } from "@/db/queries";
 
-import { signIn } from "./auth";
-
-const authFormSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(6),
-});
+import { signIn } from './auth';
+import { authFormSchema } from './auth.schema';
 
 export interface LoginActionState {
   status: "idle" | "in_progress" | "success" | "failed" | "invalid_data";
@@ -61,8 +57,7 @@ export const register = async (
       password: formData.get("password"),
     });
 
-    let [user] = await getUser(validatedData.email);
-
+    const user = await getUser(validatedData.email);
     if (user) {
       return { status: "user_exists" } as RegisterActionState;
     } else {
