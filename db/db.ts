@@ -4,7 +4,7 @@ import { drizzle } from "drizzle-orm/vercel-postgres";
 import * as schema from "./schema";
 
 const customVercelPool = createPool({
-  connectionString: process.env.DATABASE_URL,
+  connectionString: process.env.POSTGRES_URL,
 });
 
 export const db = drizzle({
