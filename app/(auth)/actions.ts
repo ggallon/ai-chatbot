@@ -5,11 +5,7 @@ import { z } from "zod";
 import { createUser, getUser } from "@/db/queries";
 
 import { signIn } from "./auth";
-
-const authFormSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(6),
-});
+import { authFormSchema } from "./auth.schema";
 
 export interface LoginActionState {
   status: "idle" | "in_progress" | "success" | "failed" | "invalid_data";
@@ -17,7 +13,7 @@ export interface LoginActionState {
 
 export const login = async (
   _: LoginActionState,
-  formData: FormData,
+  formData: FormData
 ): Promise<LoginActionState> => {
   try {
     const validatedData = authFormSchema.parse({
@@ -53,7 +49,7 @@ export interface RegisterActionState {
 
 export const register = async (
   _: RegisterActionState,
-  formData: FormData,
+  formData: FormData
 ): Promise<RegisterActionState> => {
   try {
     const validatedData = authFormSchema.parse({
@@ -61,8 +57,7 @@ export const register = async (
       password: formData.get("password"),
     });
 
-    let [user] = await getUser(validatedData.email);
-
+    const user = await getUser(validatedData.email);
     if (user) {
       return { status: "user_exists" } as RegisterActionState;
     } else {

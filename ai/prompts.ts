@@ -9,6 +9,7 @@ export const blocksPrompt = `
   - When explicitly requested to create a document
 
   **When NOT to use \`createDocument\`:**
+  - For short content (<10 lines)
   - For informational/explanatory content
   - For conversational responses
   - When asked to keep it in chat
@@ -22,6 +23,4 @@ export const blocksPrompt = `
   `;
 
 export const regularPrompt =
-  'You are a friendly assistant! Keep your responses concise and helpful.';
-
-export const systemPrompt = `${regularPrompt}\n\n${blocksPrompt}`;
+  "You are a friendly assistant! Keep your responses concise and helpful.";

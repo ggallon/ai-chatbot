@@ -1,19 +1,19 @@
-'use client';
+"use client";
 
-import { Message } from 'ai';
-import cx from 'classnames';
-import { motion } from 'framer-motion';
-import { Dispatch, SetStateAction } from 'react';
+import { Message } from "ai";
+import cx from "classnames";
+import { motion } from "framer-motion";
+import { Dispatch, SetStateAction } from "react";
 
-import { Vote } from '@/db/schema';
+import { Vote } from "@/db/schema";
 
-import { UIBlock } from './block';
-import { DocumentToolCall, DocumentToolResult } from './document';
-import { SparklesIcon } from './icons';
-import { Markdown } from './markdown';
-import { MessageActions } from './message-actions';
-import { PreviewAttachment } from './preview-attachment';
-import { Weather } from './weather';
+import { UIBlock } from "./block";
+import { DocumentToolCall, DocumentToolResult } from "./document";
+import { SparklesIcon } from "./icons";
+import { Markdown } from "./markdown";
+import { MessageActions } from "./message-actions";
+import { PreviewAttachment } from "./preview-attachment";
+import { Weather } from "./weather";
 
 export const PreviewMessage = ({
   chatId,
@@ -32,23 +32,23 @@ export const PreviewMessage = ({
 }) => {
   return (
     <motion.div
-      className="w-full mx-auto max-w-3xl px-4 group/message"
+      className="group/message mx-auto w-full max-w-3xl px-4"
       initial={{ y: 5, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       data-role={message.role}
     >
       <div
         className={cx(
-          'group-data-[role=user]/message:bg-primary group-data-[role=user]/message:text-primary-foreground flex gap-4 group-data-[role=user]/message:px-3 w-full group-data-[role=user]/message:w-fit group-data-[role=user]/message:ml-auto group-data-[role=user]/message:max-w-2xl group-data-[role=user]/message:py-2 rounded-xl'
+          "flex w-full gap-4 rounded-xl group-data-[role=user]/message:ml-auto group-data-[role=user]/message:w-fit group-data-[role=user]/message:max-w-2xl group-data-[role=user]/message:bg-primary group-data-[role=user]/message:px-3 group-data-[role=user]/message:py-2 group-data-[role=user]/message:text-primary-foreground"
         )}
       >
-        {message.role === 'assistant' && (
-          <div className="size-8 flex items-center rounded-full justify-center ring-1 shrink-0 ring-border">
+        {message.role === "assistant" && (
+          <div className="flex size-8 shrink-0 items-center justify-center rounded-full ring-1 ring-border">
             <SparklesIcon size={14} />
           </div>
         )}
 
-        <div className="flex flex-col gap-2 w-full">
+        <div className="flex w-full flex-col gap-2">
           {message.content && (
             <div className="flex flex-col gap-4">
               <Markdown>{message.content as string}</Markdown>
@@ -60,28 +60,28 @@ export const PreviewMessage = ({
               {message.toolInvocations.map((toolInvocation) => {
                 const { toolName, toolCallId, state, args } = toolInvocation;
 
-                if (state === 'result') {
+                if (state === "result") {
                   const { result } = toolInvocation;
 
                   return (
                     <div key={toolCallId}>
-                      {toolName === 'getWeather' ? (
+                      {toolName === "getWeather" ? (
                         <Weather weatherAtLocation={result} />
-                      ) : toolName === 'createDocument' ? (
+                      ) : toolName === "createDocument" ? (
                         <DocumentToolResult
                           type="create"
                           result={result}
                           block={block}
                           setBlock={setBlock}
                         />
-                      ) : toolName === 'updateDocument' ? (
+                      ) : toolName === "updateDocument" ? (
                         <DocumentToolResult
                           type="update"
                           result={result}
                           block={block}
                           setBlock={setBlock}
                         />
-                      ) : toolName === 'requestSuggestions' ? (
+                      ) : toolName === "requestSuggestions" ? (
                         <DocumentToolResult
                           type="request-suggestions"
                           result={result}
@@ -98,16 +98,16 @@ export const PreviewMessage = ({
                     <div
                       key={toolCallId}
                       className={cx({
-                        skeleton: ['getWeather'].includes(toolName),
+                        skeleton: ["getWeather"].includes(toolName),
                       })}
                     >
-                      {toolName === 'getWeather' ? (
+                      {toolName === "getWeather" ? (
                         <Weather />
-                      ) : toolName === 'createDocument' ? (
+                      ) : toolName === "createDocument" ? (
                         <DocumentToolCall type="create" args={args} />
-                      ) : toolName === 'updateDocument' ? (
+                      ) : toolName === "updateDocument" ? (
                         <DocumentToolCall type="update" args={args} />
-                      ) : toolName === 'requestSuggestions' ? (
+                      ) : toolName === "requestSuggestions" ? (
                         <DocumentToolCall
                           type="request-suggestions"
                           args={args}
@@ -145,28 +145,28 @@ export const PreviewMessage = ({
 };
 
 export const ThinkingMessage = () => {
-  const role = 'assistant';
+  const role = "assistant";
 
   return (
     <motion.div
-      className="w-full mx-auto max-w-3xl px-4 group/message "
+      className="group/message mx-auto w-full max-w-3xl px-4"
       initial={{ y: 5, opacity: 0 }}
       animate={{ y: 0, opacity: 1, transition: { delay: 1 } }}
       data-role={role}
     >
       <div
         className={cx(
-          'flex gap-4 group-data-[role=user]/message:px-3 w-full group-data-[role=user]/message:w-fit group-data-[role=user]/message:ml-auto group-data-[role=user]/message:max-w-2xl group-data-[role=user]/message:py-2 rounded-xl',
+          "flex w-full gap-4 rounded-xl group-data-[role=user]/message:ml-auto group-data-[role=user]/message:w-fit group-data-[role=user]/message:max-w-2xl group-data-[role=user]/message:px-3 group-data-[role=user]/message:py-2",
           {
-            'group-data-[role=user]/message:bg-muted': true,
+            "group-data-[role=user]/message:bg-muted": true,
           }
         )}
       >
-        <div className="size-8 flex items-center rounded-full justify-center ring-1 shrink-0 ring-border">
+        <div className="flex size-8 shrink-0 items-center justify-center rounded-full ring-1 ring-border">
           <SparklesIcon size={14} />
         </div>
 
-        <div className="flex flex-col gap-2 w-full">
+        <div className="flex w-full flex-col gap-2">
           <div className="flex flex-col gap-4 text-muted-foreground">
             Thinking...
           </div>

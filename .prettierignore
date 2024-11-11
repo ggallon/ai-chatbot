@@ -1,0 +1,6 @@
+.next
+.turbo
+.vercel
+components/ui
+lib/drizzle
+pnpm-lock.yaml

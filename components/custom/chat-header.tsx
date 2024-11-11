@@ -1,16 +1,16 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { useWindowSize } from 'usehooks-ts';
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useWindowSize } from "usehooks-ts";
 
-import { ModelSelector } from '@/components/custom/model-selector';
-import { SidebarToggle } from '@/components/custom/sidebar-toggle';
-import { Button } from '@/components/ui/button';
-import { BetterTooltip } from '@/components/ui/tooltip';
+import { ModelSelector } from "@/components/custom/model-selector";
+import { SidebarToggle } from "@/components/custom/sidebar-toggle";
+import { Button } from "@/components/ui/button";
+import { BetterTooltip } from "@/components/ui/tooltip";
 
-import { PlusIcon, VercelIcon } from './icons';
-import { useSidebar } from '../ui/sidebar';
+import { PlusIcon, VercelIcon } from "./icons";
+import { useSidebar } from "../ui/sidebar";
 
 export function ChatHeader({ selectedModelId }: { selectedModelId: string }) {
   const router = useRouter();
@@ -19,15 +19,15 @@ export function ChatHeader({ selectedModelId }: { selectedModelId: string }) {
   const { width: windowWidth } = useWindowSize();
 
   return (
-    <header className="flex sticky top-0 bg-background py-1.5 items-center px-2 md:px-2 gap-2">
+    <header className="sticky top-0 flex items-center gap-2 bg-background px-2 py-1.5 md:px-2">
       <SidebarToggle />
       {(!open || windowWidth < 768) && (
         <BetterTooltip content="New Chat">
           <Button
             variant="outline"
-            className="order-2 md:order-1 md:px-2 px-2 md:h-fit ml-auto md:ml-0"
+            className="order-2 ml-auto px-2 md:order-1 md:ml-0 md:h-fit md:px-2"
             onClick={() => {
-              router.push('/');
+              router.push("/");
               router.refresh();
             }}
           >
@@ -41,7 +41,7 @@ export function ChatHeader({ selectedModelId }: { selectedModelId: string }) {
         className="order-1 md:order-2"
       />
       <Button
-        className="bg-zinc-900 dark:bg-zinc-100 hover:bg-zinc-800 dark:hover:bg-zinc-200 text-zinc-50 dark:text-zinc-900 hidden md:flex py-1.5 px-2 h-fit md:h-[34px] order-4 md:ml-auto"
+        className="order-4 hidden h-fit bg-zinc-900 px-2 py-1.5 text-zinc-50 hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200 md:ml-auto md:flex md:h-[34px]"
         asChild
       >
         <Link
