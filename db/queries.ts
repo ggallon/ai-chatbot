@@ -1,9 +1,9 @@
-'server-only';
+"server-only";
 
-import { genSaltSync, hashSync } from 'bcrypt-ts';
-import { and, asc, desc, eq, gt } from 'drizzle-orm';
+import { genSaltSync, hashSync } from "bcrypt-ts";
+import { and, asc, desc, eq, gt } from "drizzle-orm";
 
-import { db } from './db';
+import { db } from "./db";
 import {
   user,
   chat,
@@ -17,7 +17,7 @@ import {
   type User,
   type Vote,
   Chat,
-} from './schema';
+} from "./schema";
 
 export async function getUser(email: string): Promise<User | undefined> {
   try {
@@ -25,7 +25,7 @@ export async function getUser(email: string): Promise<User | undefined> {
       where: eq(user.email, email),
     });
   } catch (error) {
-    console.error('Failed to get user from database');
+    console.error("Failed to get user from database");
     throw error;
   }
 }
@@ -37,7 +37,7 @@ export async function createUser(email: string, password: string) {
   try {
     return await db.insert(user).values({ email, password: hash });
   } catch (error) {
-    console.error('Failed to create user in database');
+    console.error("Failed to create user in database");
     throw error;
   }
 }
@@ -59,7 +59,7 @@ export async function saveChat({
       title,
     });
   } catch (error) {
-    console.error('Failed to save chat in database');
+    console.error("Failed to save chat in database");
     throw error;
   }
 }
@@ -71,7 +71,7 @@ export async function deleteChatById({ id }: { id: string }) {
 
     return await db.delete(chat).where(eq(chat.id, id));
   } catch (error) {
-    console.error('Failed to delete chat by id from database');
+    console.error("Failed to delete chat by id from database");
     throw error;
   }
 }
@@ -88,7 +88,7 @@ export async function getChatsByUserId({
       .where(eq(chat.userId, id))
       .orderBy(desc(chat.createdAt));
   } catch (error) {
-    console.error('Failed to get chats by user from database');
+    console.error("Failed to get chats by user from database");
     throw error;
   }
 }
@@ -102,7 +102,7 @@ export async function getChatById({
     const [selectedChat] = await db.select().from(chat).where(eq(chat.id, id));
     return selectedChat;
   } catch (error) {
-    console.error('Failed to get chat by id from database');
+    console.error("Failed to get chat by id from database");
     throw error;
   }
 }
@@ -111,7 +111,7 @@ export async function saveMessages({ messages }: { messages: Array<Message> }) {
   try {
     return await db.insert(message).values(messages);
   } catch (error) {
-    console.error('Failed to save messages in database', error);
+    console.error("Failed to save messages in database", error);
     throw error;
   }
 }
@@ -128,7 +128,7 @@ export async function getMessagesByChatId({
       .where(eq(message.chatId, id))
       .orderBy(asc(message.createdAt));
   } catch (error) {
-    console.error('Failed to get messages by chat id from database', error);
+    console.error("Failed to get messages by chat id from database", error);
     throw error;
   }
 }
@@ -140,7 +140,7 @@ export async function voteMessage({
 }: {
   chatId: string;
   messageId: string;
-  type: 'up' | 'down';
+  type: "up" | "down";
 }) {
   try {
     const [existingVote] = await db
@@ -151,17 +151,17 @@ export async function voteMessage({
     if (existingVote) {
       return await db
         .update(vote)
-        .set({ isUpvoted: type === 'up' ? true : false })
+        .set({ isUpvoted: type === "up" ? true : false })
         .where(and(eq(vote.messageId, messageId), eq(vote.chatId, chatId)));
     } else {
       return await db.insert(vote).values({
         chatId,
         messageId,
-        isUpvoted: type === 'up' ? true : false,
+        isUpvoted: type === "up" ? true : false,
       });
     }
   } catch (error) {
-    console.error('Failed to upvote message in database', error);
+    console.error("Failed to upvote message in database", error);
     throw error;
   }
 }
@@ -174,7 +174,7 @@ export async function getVotesByChatId({
   try {
     return await db.select().from(vote).where(eq(vote.chatId, id));
   } catch (error) {
-    console.error('Failed to get votes by chat id from database', error);
+    console.error("Failed to get votes by chat id from database", error);
     throw error;
   }
 }
@@ -199,7 +199,7 @@ export async function saveDocument({
       createdAt: new Date(),
     });
   } catch (error) {
-    console.error('Failed to save document in database');
+    console.error("Failed to save document in database");
     throw error;
   }
 }
@@ -216,7 +216,7 @@ export async function getDocumentsById({
       .where(eq(document.id, id))
       .orderBy(asc(document.createdAt));
   } catch (error) {
-    console.error('Failed to get document by id from database');
+    console.error("Failed to get document by id from database");
     throw error;
   }
 }
@@ -235,7 +235,7 @@ export async function getDocumentById({
 
     return selectedDocument;
   } catch (error) {
-    console.error('Failed to get document by id from database');
+    console.error("Failed to get document by id from database");
     throw error;
   }
 }
@@ -262,7 +262,7 @@ export async function deleteDocumentsByIdAfterTimestamp({
       .where(and(eq(document.id, id), gt(document.createdAt, timestamp)));
   } catch (error) {
     console.error(
-      'Failed to delete documents by id after timestamp from database'
+      "Failed to delete documents by id after timestamp from database"
     );
     throw error;
   }
@@ -276,7 +276,7 @@ export async function saveSuggestions({
   try {
     return await db.insert(suggestion).values(suggestions);
   } catch (error) {
-    console.error('Failed to save suggestions in database');
+    console.error("Failed to save suggestions in database");
     throw error;
   }
 }
@@ -293,7 +293,7 @@ export async function getSuggestionsByDocumentId({
       .where(and(eq(suggestion.documentId, documentId)));
   } catch (error) {
     console.error(
-      'Failed to get suggestions by document version from database'
+      "Failed to get suggestions by document version from database"
     );
     throw error;
   }

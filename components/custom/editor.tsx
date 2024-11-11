@@ -1,32 +1,32 @@
-'use client';
+"use client";
 
-import { exampleSetup } from 'prosemirror-example-setup';
-import { inputRules } from 'prosemirror-inputrules';
-import { EditorState } from 'prosemirror-state';
-import { EditorView } from 'prosemirror-view';
-import React, { memo, useEffect, useRef } from 'react';
+import { exampleSetup } from "prosemirror-example-setup";
+import { inputRules } from "prosemirror-inputrules";
+import { EditorState } from "prosemirror-state";
+import { EditorView } from "prosemirror-view";
+import React, { memo, useEffect, useRef } from "react";
 
-import { Suggestion } from '@/db/schema';
+import { Suggestion } from "@/db/schema";
 import {
   documentSchema,
   handleTransaction,
   headingRule,
-} from '@/lib/editor/config';
+} from "@/lib/editor/config";
 import {
   buildContentFromDocument,
   buildDocumentFromContent,
   createDecorations,
-} from '@/lib/editor/functions';
+} from "@/lib/editor/functions";
 import {
   projectWithPositions,
   suggestionsPlugin,
   suggestionsPluginKey,
-} from '@/lib/editor/suggestions';
+} from "@/lib/editor/suggestions";
 
 type EditorProps = {
   content: string;
   saveContent: (updatedContent: string, debounce: boolean) => void;
-  status: 'streaming' | 'idle';
+  status: "streaming" | "idle";
   isCurrentVersion: boolean;
   currentVersionIndex: number;
   suggestions: Array<Suggestion>;
@@ -92,7 +92,7 @@ function PureEditor({
         editorRef.current.state.doc
       );
 
-      if (status === 'streaming') {
+      if (status === "streaming") {
         const newDocument = buildDocumentFromContent(content);
 
         const transaction = editorRef.current.state.tr.replaceWith(
@@ -101,7 +101,7 @@ function PureEditor({
           newDocument.content
         );
 
-        transaction.setMeta('no-save', true);
+        transaction.setMeta("no-save", true);
         editorRef.current.dispatch(transaction);
         return;
       }
@@ -115,7 +115,7 @@ function PureEditor({
           newDocument.content
         );
 
-        transaction.setMeta('no-save', true);
+        transaction.setMeta("no-save", true);
         editorRef.current.dispatch(transaction);
       }
     }
@@ -154,8 +154,8 @@ function areEqual(prevProps: EditorProps, nextProps: EditorProps) {
   } else if (prevProps.isCurrentVersion !== nextProps.isCurrentVersion) {
     return false;
   } else if (
-    prevProps.status === 'streaming' &&
-    nextProps.status === 'streaming'
+    prevProps.status === "streaming" &&
+    nextProps.status === "streaming"
   ) {
     return false;
   } else if (prevProps.content !== nextProps.content) {

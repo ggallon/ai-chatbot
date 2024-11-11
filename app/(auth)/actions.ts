@@ -4,8 +4,8 @@ import { z } from "zod";
 
 import { createUser, getUser } from "@/db/queries";
 
-import { signIn } from './auth';
-import { authFormSchema } from './auth.schema';
+import { signIn } from "./auth";
+import { authFormSchema } from "./auth.schema";
 
 export interface LoginActionState {
   status: "idle" | "in_progress" | "success" | "failed" | "invalid_data";
@@ -13,7 +13,7 @@ export interface LoginActionState {
 
 export const login = async (
   _: LoginActionState,
-  formData: FormData,
+  formData: FormData
 ): Promise<LoginActionState> => {
   try {
     const validatedData = authFormSchema.parse({
@@ -49,7 +49,7 @@ export interface RegisterActionState {
 
 export const register = async (
   _: RegisterActionState,
-  formData: FormData,
+  formData: FormData
 ): Promise<RegisterActionState> => {
   try {
     const validatedData = authFormSchema.parse({

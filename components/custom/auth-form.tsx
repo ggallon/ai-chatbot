@@ -1,12 +1,12 @@
-import Form from 'next/form';
+import Form from "next/form";
 
-import { Input } from '../ui/input';
-import { Label } from '../ui/label';
+import { Input } from "../ui/input";
+import { Label } from "../ui/label";
 
 export function AuthForm({
   action,
   children,
-  defaultEmail = '',
+  defaultEmail = "",
 }: {
   action: any;
   children: React.ReactNode;

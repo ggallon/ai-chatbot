@@ -1,16 +1,16 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { useWindowSize } from 'usehooks-ts';
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useWindowSize } from "usehooks-ts";
 
-import { ModelSelector } from '@/components/custom/model-selector';
-import { SidebarToggle } from '@/components/custom/sidebar-toggle';
-import { Button } from '@/components/ui/button';
-import { BetterTooltip } from '@/components/ui/tooltip';
+import { ModelSelector } from "@/components/custom/model-selector";
+import { SidebarToggle } from "@/components/custom/sidebar-toggle";
+import { Button } from "@/components/ui/button";
+import { BetterTooltip } from "@/components/ui/tooltip";
 
-import { PlusIcon, VercelIcon } from './icons';
-import { useSidebar } from '../ui/sidebar';
+import { PlusIcon, VercelIcon } from "./icons";
+import { useSidebar } from "../ui/sidebar";
 
 export function ChatHeader({ selectedModelId }: { selectedModelId: string }) {
   const router = useRouter();
@@ -27,7 +27,7 @@ export function ChatHeader({ selectedModelId }: { selectedModelId: string }) {
             variant="outline"
             className="order-2 md:order-1 md:px-2 px-2 md:h-fit ml-auto md:ml-0"
             onClick={() => {
-              router.push('/');
+              router.push("/");
               router.refresh();
             }}
           >

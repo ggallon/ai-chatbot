@@ -1,22 +1,22 @@
-'use client';
+"use client";
 
-import { Attachment, Message } from 'ai';
-import { useChat } from 'ai/react';
-import { AnimatePresence } from 'framer-motion';
-import { useState } from 'react';
-import useSWR, { useSWRConfig } from 'swr';
-import { useWindowSize } from 'usehooks-ts';
+import { Attachment, Message } from "ai";
+import { useChat } from "ai/react";
+import { AnimatePresence } from "framer-motion";
+import { useState } from "react";
+import useSWR, { useSWRConfig } from "swr";
+import { useWindowSize } from "usehooks-ts";
 
-import { ChatHeader } from '@/components/custom/chat-header';
-import { PreviewMessage, ThinkingMessage } from '@/components/custom/message';
-import { useScrollToBottom } from '@/components/custom/use-scroll-to-bottom';
-import { Vote } from '@/db/schema';
-import { fetcher } from '@/lib/utils';
+import { ChatHeader } from "@/components/custom/chat-header";
+import { PreviewMessage, ThinkingMessage } from "@/components/custom/message";
+import { useScrollToBottom } from "@/components/custom/use-scroll-to-bottom";
+import { Vote } from "@/db/schema";
+import { fetcher } from "@/lib/utils";
 
-import { Block, UIBlock } from './block';
-import { BlockStreamHandler } from './block-stream-handler';
-import { MultimodalInput } from './multimodal-input';
-import { Overview } from './overview';
+import { Block, UIBlock } from "./block";
+import { BlockStreamHandler } from "./block-stream-handler";
+import { MultimodalInput } from "./multimodal-input";
+import { Overview } from "./overview";
 
 export function Chat({
   id,
@@ -43,7 +43,7 @@ export function Chat({
     body: { id, modelId: selectedModelId },
     initialMessages,
     onFinish: () => {
-      mutate('/api/history');
+      mutate("/api/history");
     },
   });
 
@@ -51,10 +51,10 @@ export function Chat({
     useWindowSize();
 
   const [block, setBlock] = useState<UIBlock>({
-    documentId: 'init',
-    content: '',
-    title: '',
-    status: 'idle',
+    documentId: "init",
+    content: "",
+    title: "",
+    status: "idle",
     isVisible: false,
     boundingBox: {
       top: windowHeight / 4,
@@ -102,7 +102,7 @@ export function Chat({
 
           {isLoading &&
             messages.length > 0 &&
-            messages[messages.length - 1].role === 'user' && (
+            messages[messages.length - 1].role === "user" && (
               <ThinkingMessage />
             )}
 

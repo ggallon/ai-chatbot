@@ -1,19 +1,19 @@
-'use client';
+"use client";
 
-import { startTransition, useMemo, useOptimistic, useState } from 'react';
+import { startTransition, useMemo, useOptimistic, useState } from "react";
 
-import { models } from '@/ai/models';
-import { saveModelId } from '@/app/(chat)/actions';
-import { Button } from '@/components/ui/button';
+import { models } from "@/ai/models";
+import { saveModelId } from "@/app/(chat)/actions";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { cn } from '@/lib/utils';
+} from "@/components/ui/dropdown-menu";
+import { cn } from "@/lib/utils";
 
-import { CheckCirclFillIcon, ChevronDownIcon } from './icons';
+import { CheckCirclFillIcon, ChevronDownIcon } from "./icons";
 
 export function ModelSelector({
   selectedModelId,
@@ -35,7 +35,7 @@ export function ModelSelector({
       <DropdownMenuTrigger
         asChild
         className={cn(
-          'w-fit data-[state=open]:bg-accent data-[state=open]:text-accent-foreground',
+          "w-fit data-[state=open]:bg-accent data-[state=open]:text-accent-foreground",
           className
         )}
       >

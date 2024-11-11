@@ -1,13 +1,13 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { type User } from 'next-auth';
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { type User } from "next-auth";
 
-import { PlusIcon } from '@/components/custom/icons';
-import { SidebarHistory } from '@/components/custom/sidebar-history';
-import { SidebarUserNav } from '@/components/custom/sidebar-user-nav';
-import { Button } from '@/components/ui/button';
+import { PlusIcon } from "@/components/custom/icons";
+import { SidebarHistory } from "@/components/custom/sidebar-history";
+import { SidebarUserNav } from "@/components/custom/sidebar-user-nav";
+import { Button } from "@/components/ui/button";
 import {
   Sidebar,
   SidebarContent,
@@ -17,8 +17,8 @@ import {
   SidebarHeader,
   SidebarMenu,
   useSidebar,
-} from '@/components/ui/sidebar';
-import { BetterTooltip } from '@/components/ui/tooltip';
+} from "@/components/ui/sidebar";
+import { BetterTooltip } from "@/components/ui/tooltip";
 
 export function AppSidebar({ user }: { user: User | undefined }) {
   const router = useRouter();
@@ -32,7 +32,7 @@ export function AppSidebar({ user }: { user: User | undefined }) {
             <div
               onClick={() => {
                 setOpenMobile(false);
-                router.push('/');
+                router.push("/");
                 router.refresh();
               }}
               className="flex flex-row gap-3 items-center"
@@ -47,7 +47,7 @@ export function AppSidebar({ user }: { user: User | undefined }) {
                 className="p-2 h-fit"
                 onClick={() => {
                   setOpenMobile(false);
-                  router.push('/');
+                  router.push("/");
                   router.refresh();
                 }}
               >
