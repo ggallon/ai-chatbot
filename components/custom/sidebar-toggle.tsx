@@ -16,8 +16,8 @@ export function SidebarToggle({
     <BetterTooltip content="Toggle Sidebar" align="start">
       <Button
         onClick={toggleSidebar}
-        variant="outline"
-        className="md:h-fit md:px-2"
+        variant="ghost"
+        className={cn("md:h-fit md:px-2", className)}
       >
         <SidebarLeftIcon size={16} />
       </Button>
