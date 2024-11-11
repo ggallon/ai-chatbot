@@ -8,4 +8,7 @@ module.exports = {
   tabWidth: 2,
   trailingComma: "es5",
   bracketSpacing: true,
+  tailwindConfig: "./tailwind.config.ts",
+  tailwindFunctions: ["cn"],
+  plugins: ["prettier-plugin-tailwindcss"],
 };
