@@ -2,26 +2,22 @@
 
 import { genSaltSync, hashSync } from 'bcrypt-ts';
 import { and, asc, desc, eq, gt } from 'drizzle-orm';
-import { drizzle } from 'drizzle-orm/postgres-js';
-import postgres from 'postgres';
 
+import { db } from './db';
 import {
   user,
   chat,
-  User,
   document,
-  Suggestion,
   suggestion,
-  Message,
   message,
   vote,
+  type Document,
+  type Message,
+  type Suggestion,
+  type User,
+  type Vote,
+  Chat,
 } from './schema';
-
-// Optionally, if not using email/pass login, you can
-// use the Drizzle adapter for Auth.js / NextAuth
-// https://authjs.dev/reference/adapter/drizzle
-let client = postgres(`${process.env.POSTGRES_URL!}?sslmode=require`);
-let db = drizzle(client);
 
 export async function getUser(email: string): Promise<Array<User>> {
   try {
@@ -78,7 +74,11 @@ export async function deleteChatById({ id }: { id: string }) {
   }
 }
 
-export async function getChatsByUserId({ id }: { id: string }) {
+export async function getChatsByUserId({
+  id,
+}: {
+  id: string;
+}): Promise<Chat[] | null> {
   try {
     return await db
       .select()
@@ -91,7 +91,11 @@ export async function getChatsByUserId({ id }: { id: string }) {
   }
 }
 
-export async function getChatById({ id }: { id: string }) {
+export async function getChatById({
+  id,
+}: {
+  id: string;
+}): Promise<Chat | null> {
   try {
     const [selectedChat] = await db.select().from(chat).where(eq(chat.id, id));
     return selectedChat;
@@ -110,7 +114,11 @@ export async function saveMessages({ messages }: { messages: Array<Message> }) {
   }
 }
 
-export async function getMessagesByChatId({ id }: { id: string }) {
+export async function getMessagesByChatId({
+  id,
+}: {
+  id: string;
+}): Promise<Message[] | null> {
   try {
     return await db
       .select()
@@ -156,7 +164,11 @@ export async function voteMessage({
   }
 }
 
-export async function getVotesByChatId({ id }: { id: string }) {
+export async function getVotesByChatId({
+  id,
+}: {
+  id: string;
+}): Promise<Vote[] | null> {
   try {
     return await db.select().from(vote).where(eq(vote.chatId, id));
   } catch (error) {
@@ -190,22 +202,28 @@ export async function saveDocument({
   }
 }
 
-export async function getDocumentsById({ id }: { id: string }) {
+export async function getDocumentsById({
+  id,
+}: {
+  id: string;
+}): Promise<Document[] | []> {
   try {
-    const documents = await db
+    return await db
       .select()
       .from(document)
       .where(eq(document.id, id))
       .orderBy(asc(document.createdAt));
-
-    return documents;
   } catch (error) {
     console.error('Failed to get document by id from database');
     throw error;
   }
 }
 
-export async function getDocumentById({ id }: { id: string }) {
+export async function getDocumentById({
+  id,
+}: {
+  id: string;
+}): Promise<Document | null> {
   try {
     const [selectedDocument] = await db
       .select()

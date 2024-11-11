@@ -1,4 +1,3 @@
-import { InferSelectModel } from 'drizzle-orm';
 import {
   pgTable,
   varchar,
@@ -10,37 +9,44 @@ import {
   foreignKey,
   boolean,
 } from 'drizzle-orm/pg-core';
+import { v4 as uuidv4 } from 'uuid';
 
 export const user = pgTable('User', {
-  id: uuid('id').primaryKey().notNull().defaultRandom(),
+  id: uuid('id')
+    .primaryKey()
+    .$defaultFn(() => uuidv4()),
   email: varchar('email', { length: 64 }).notNull(),
   password: varchar('password', { length: 64 }),
 });
 
-export type User = InferSelectModel<typeof user>;
+export type User = typeof user.$inferSelect;
 
 export const chat = pgTable('Chat', {
-  id: uuid('id').primaryKey().notNull().defaultRandom(),
-  createdAt: timestamp('createdAt').notNull(),
-  title: text('title').notNull(),
+  id: uuid('id')
+    .primaryKey()
+    .$defaultFn(() => uuidv4()),
   userId: uuid('userId')
     .notNull()
     .references(() => user.id),
+  createdAt: timestamp('createdAt').notNull(),
+  title: text('title').notNull(),
 });
 
-export type Chat = InferSelectModel<typeof chat>;
+export type Chat = typeof chat.$inferSelect;
 
 export const message = pgTable('Message', {
-  id: uuid('id').primaryKey().notNull().defaultRandom(),
+  id: uuid('id')
+    .primaryKey()
+    .$defaultFn(() => uuidv4()),
   chatId: uuid('chatId')
     .notNull()
     .references(() => chat.id),
   role: varchar('role').notNull(),
-  content: json('content').notNull(),
   createdAt: timestamp('createdAt').notNull(),
+  content: json('content').notNull(),
 });
 
-export type Message = InferSelectModel<typeof message>;
+export type Message = typeof message.$inferSelect;
 
 export const vote = pgTable(
   'Vote',
@@ -53,19 +59,15 @@ export const vote = pgTable(
       .references(() => message.id),
     isUpvoted: boolean('isUpvoted').notNull(),
   },
-  (table) => {
-    return {
-      pk: primaryKey({ columns: [table.chatId, table.messageId] }),
-    };
-  }
+  (table) => [primaryKey({ columns: [table.chatId, table.messageId] })]
 );
 
-export type Vote = InferSelectModel<typeof vote>;
+export type Vote = typeof vote.$inferSelect;
 
 export const document = pgTable(
   'Document',
   {
-    id: uuid('id').notNull().defaultRandom(),
+    id: uuid('id').$defaultFn(() => uuidv4()),
     createdAt: timestamp('createdAt').notNull(),
     title: text('title').notNull(),
     content: text('content'),
@@ -73,19 +75,17 @@ export const document = pgTable(
       .notNull()
       .references(() => user.id),
   },
-  (table) => {
-    return {
-      pk: primaryKey({ columns: [table.id, table.createdAt] }),
-    };
-  }
+  (table) => [primaryKey({ columns: [table.id, table.createdAt] })]
 );
 
-export type Document = InferSelectModel<typeof document>;
+export type Document = typeof document.$inferSelect;
 
 export const suggestion = pgTable(
   'Suggestion',
   {
-    id: uuid('id').notNull().defaultRandom(),
+    id: uuid('id')
+      .primaryKey()
+      .$defaultFn(() => uuidv4()),
     documentId: uuid('documentId').notNull(),
     documentCreatedAt: timestamp('documentCreatedAt').notNull(),
     originalText: text('originalText').notNull(),
@@ -97,13 +97,12 @@ export const suggestion = pgTable(
       .references(() => user.id),
     createdAt: timestamp('createdAt').notNull(),
   },
-  (table) => ({
-    pk: primaryKey({ columns: [table.id] }),
-    documentRef: foreignKey({
+  (table) => [
+    foreignKey({
       columns: [table.documentId, table.documentCreatedAt],
       foreignColumns: [document.id, document.createdAt],
     }),
-  })
+  ]
 );
 
-export type Suggestion = InferSelectModel<typeof suggestion>;
+export type Suggestion = typeof suggestion.$inferSelect;
