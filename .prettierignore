@@ -1,6 +1,18 @@
+# next
 .next
+
+# turbo
 .turbo
+
+# vercel
 .vercel
+
+# shadcn/ui
 components/ui
+hooks/use-mobile.tsx
+
+# drizzle
 lib/drizzle
+
+# @pnpm
 pnpm-lock.yaml

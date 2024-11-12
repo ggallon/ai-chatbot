@@ -18,7 +18,7 @@ import {
   SidebarMenu,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { BetterTooltip } from "@/components/ui/tooltip";
+import { BetterTooltip } from "@/components/custom/better-tooltip";
 
 export function AppSidebar({ user }: { user: User | undefined }) {
   const router = useRouter();
