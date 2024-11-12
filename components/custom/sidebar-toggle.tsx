@@ -1,7 +1,7 @@
 import { ComponentProps } from "react";
 
-import { SidebarTrigger, useSidebar } from "@/components/ui/sidebar";
 import { BetterTooltip } from "@/components/custom/better-tooltip";
+import { SidebarTrigger, useSidebar } from "@/components/ui/sidebar";
 import { cn } from "@/lib/utils";
 
 import { SidebarLeftIcon } from "./icons";
