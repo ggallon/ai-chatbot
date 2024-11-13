@@ -1,9 +1,9 @@
 import {
   convertToCoreMessages,
-  Message,
   StreamData,
   streamObject,
   streamText,
+  type Message,
 } from "ai";
 import { z } from "zod";
 
@@ -20,7 +20,6 @@ import {
   saveMessages,
   saveSuggestions,
 } from "@/db/queries";
-import { Suggestion } from "@/db/schema";
 import {
   generateUUID,
   getMostRecentUserMessage,
@@ -28,6 +27,8 @@ import {
 } from "@/lib/utils";
 
 import { generateTitleFromUserMessage } from "../../actions";
+
+import type { Suggestion } from "@/db/schema";
 
 export const maxDuration = 60;
 
@@ -267,7 +268,7 @@ export async function POST(request: Request) {
             };
           }
 
-          let suggestions: Array<
+          const suggestions: Array<
             Omit<Suggestion, "userId" | "createdAt" | "documentCreatedAt">
           > = [];
 
@@ -352,7 +353,7 @@ export async function POST(request: Request) {
               }
             ),
           });
-        } catch (error) {
+        } catch () {
           console.error("Failed to save chat");
         }
       }
@@ -387,7 +388,7 @@ export async function DELETE(request: Request) {
   try {
     const chat = await getChatById({ id });
 
-    if (chat.userId !== session.user.id) {
+    if (chat?.userId !== session.user.id) {
       return new Response("Unauthorized", { status: 401 });
     }
 

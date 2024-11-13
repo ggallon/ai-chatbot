@@ -7,7 +7,13 @@ import { Chat as PreviewChat } from "@/components/custom/chat";
 import { getChatById, getMessagesByChatId } from "@/db/queries";
 import { convertToUIMessages } from "@/lib/utils";
 
-export default async function Page(props: { params: Promise<any> }) {
+interface PageProps {
+  params: Promise<{
+    id: string;
+  }>;
+}
+
+export default async function Page(props: PageProps) {
   const params = await props.params;
   const { id } = params;
   const chat = await getChatById({ id });
@@ -26,10 +32,7 @@ export default async function Page(props: { params: Promise<any> }) {
     return notFound();
   }
 
-  const messagesFromDb = await getMessagesByChatId({
-    id,
-  });
-
+  const messagesFromDb = await getMessagesByChatId({ id });
   const cookieStore = await cookies();
   const modelIdFromCookie = cookieStore.get("model-id")?.value;
   const selectedModelId =
@@ -39,7 +42,7 @@ export default async function Page(props: { params: Promise<any> }) {
   return (
     <PreviewChat
       id={chat.id}
-      initialMessages={convertToUIMessages(messagesFromDb)}
+      initialMessages={convertToUIMessages(messagesFromDb ?? [])}
       selectedModelId={selectedModelId}
     />
   );
