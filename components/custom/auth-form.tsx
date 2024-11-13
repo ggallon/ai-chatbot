@@ -1,7 +1,5 @@
 import Form from "next/form";
 
-import { LoginActionState } from "@/app/(auth)/actions";
-
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 
@@ -10,7 +8,7 @@ export function AuthForm({
   children,
   defaultEmail = "",
 }: {
-  action: (formData: FormData) => Promise<LoginActionState>;
+  action: (formData: FormData) => void;
   children: React.ReactNode;
   defaultEmail?: string;
 }) {
