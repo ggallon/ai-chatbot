@@ -16,8 +16,8 @@ import { BlockStreamHandler } from "./block-stream-handler";
 import { MultimodalInput } from "./multimodal-input";
 import { Overview } from "./overview";
 
-import type { Attachment, Message } from "ai";
 import type { Vote } from "@/db/schema";
+import type { Attachment, Message } from "ai";
 
 export function Chat({
   id,

@@ -7,6 +7,8 @@ import { getUser } from "@/db/queries";
 import { authConfig } from "./auth.config";
 import { authFormSchema } from "./auth.schema";
 
+import type { JWT } from "next-auth/jwt";
+
 interface ExtendedSession extends Session {
   user: User;
 }
@@ -28,8 +30,8 @@ export const {
         }
         const { email, password } = validatedFields.data;
         const user = await getUser(email);
-        if (!user) return null;
-        const passwordsMatch = await compare(password, user.password!);
+        if (!user?.password) return null;
+        const passwordsMatch = await compare(password, user.password);
         if (passwordsMatch) {
           return {
             id: user.id,
@@ -54,7 +56,7 @@ export const {
       token,
     }: {
       session: ExtendedSession;
-      token: any;
+      token: JWT;
     }) {
       if (session.user) {
         session.user.id = token.id as string;
