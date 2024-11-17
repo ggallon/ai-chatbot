@@ -86,7 +86,7 @@ export async function POST(request: Request) {
 
   const streamingData = new StreamData();
 
-  const result = await streamText({
+  const result = streamText({
     model: customModel(model.apiIdentifier),
     system: modelId === "gpt-4o-blocks" ? blocksPrompt : regularPrompt,
     messages: coreMessages,
@@ -105,14 +105,14 @@ export async function POST(request: Request) {
           streamingData.append({ type: "title", content: title });
           streamingData.append({ type: "clear", content: "" });
 
-          const { fullStream } = await streamText({
+          const { fullStream } = streamText({
             model: customModel(model.apiIdentifier),
             system:
               "Write about the given topic. Markdown is supported. Use headings wherever appropriate.",
             prompt: title,
           });
 
-          let draftText: string = "";
+          let draftText = "";
           for await (const delta of fullStream) {
             const { type } = delta;
 
@@ -141,7 +141,7 @@ export async function POST(request: Request) {
           return {
             id,
             title,
-            content: `A document was created and is now visible to the user.`,
+            content: "A document was created and is now visible to the user.",
           };
         },
       }),
@@ -165,7 +165,7 @@ export async function POST(request: Request) {
 
           streamingData.append({ type: "clear", content: document.title });
 
-          const { fullStream } = await streamText({
+          const { fullStream } = streamText({
             model: customModel(model.apiIdentifier),
             system:
               "You are a helpful writing assistant. Based on the description, please update the piece of writing.",
@@ -180,7 +180,7 @@ export async function POST(request: Request) {
             ],
           });
 
-          let draftText: string = "";
+          let draftText = "";
           for await (const delta of fullStream) {
             const { type } = delta;
             if (type === "text-delta") {
@@ -223,7 +223,7 @@ export async function POST(request: Request) {
             };
           }
 
-          const { elementStream } = await streamObject({
+          const { elementStream } = streamObject({
             model: customModel(model.apiIdentifier),
             system:
               "You are a help writing assistant. Given a piece of writing, please offer suggestions to improve the piece of writing and describe the change. It is very important for the edits to contain full sentences instead of just words. Max 5 suggestions.",

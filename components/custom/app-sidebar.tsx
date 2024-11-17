@@ -1,7 +1,6 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { type User } from "next-auth";
 
 import { BetterTooltip } from "@/components/custom/better-tooltip";
 import { PlusIcon } from "@/components/custom/icons";
@@ -19,6 +18,8 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 
+import type { User } from "next-auth";
+
 export function AppSidebar({ user }: { user: User | undefined }) {
   const router = useRouter();
   const { setOpenMobile } = useSidebar();
@@ -28,7 +29,8 @@ export function AppSidebar({ user }: { user: User | undefined }) {
       <SidebarHeader>
         <SidebarMenu>
           <div className="flex flex-row items-center justify-between">
-            <div
+            <button
+              type="button"
               onClick={() => {
                 setOpenMobile(false);
                 router.push("/");
@@ -39,7 +41,7 @@ export function AppSidebar({ user }: { user: User | undefined }) {
               <span className="cursor-pointer rounded-md px-2 text-lg font-semibold hover:bg-muted">
                 Chatbot
               </span>
-            </div>
+            </button>
             <BetterTooltip content="New Chat" align="start">
               <Button
                 variant="ghost"

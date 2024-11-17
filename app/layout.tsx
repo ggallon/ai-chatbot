@@ -1,9 +1,10 @@
-import { Metadata } from "next";
 import { Toaster } from "sonner";
 
 import { ThemeProvider } from "@/components/custom/theme-provider";
 
 import "./globals.css";
+
+import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://chat.vercel.ai"),
