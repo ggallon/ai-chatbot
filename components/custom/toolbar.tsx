@@ -1,6 +1,5 @@
 "use client";
 
-import { ChatRequestOptions, CreateMessage, Message } from "ai";
 import cx from "classnames";
 import {
   AnimatePresence,
@@ -8,7 +7,13 @@ import {
   useMotionValue,
   useTransform,
 } from "framer-motion";
-import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  type Dispatch,
+  type SetStateAction,
+} from "react";
 import { useOnClickOutside } from "usehooks-ts";
 
 import {
@@ -26,6 +31,8 @@ import {
   StopIcon,
   SummarizeIcon,
 } from "./icons";
+
+import type { ChatRequestOptions, CreateMessage, Message } from "ai";
 
 type ToolProps = {
   type: "final-polish" | "request-suggestions" | "adjust-reading-level";

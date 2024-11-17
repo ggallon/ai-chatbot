@@ -1,13 +1,12 @@
-import { Attachment, ChatRequestOptions, CreateMessage, Message } from "ai";
 import cx from "classnames";
 import { formatDistance } from "date-fns";
 import { AnimatePresence, motion } from "framer-motion";
 import {
-  Dispatch,
-  SetStateAction,
   useCallback,
   useEffect,
   useState,
+  type Dispatch,
+  type SetStateAction,
 } from "react";
 import { toast } from "sonner";
 import useSWR, { useSWRConfig } from "swr";
@@ -17,7 +16,6 @@ import {
   useWindowSize,
 } from "usehooks-ts";
 
-import { Document, Suggestion, Vote } from "@/db/schema";
 import { fetcher } from "@/lib/utils";
 
 import { DiffView } from "./diffview";
@@ -31,6 +29,15 @@ import { useScrollToBottom } from "./use-scroll-to-bottom";
 import { VersionFooter } from "./version-footer";
 import { Button } from "../ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
+
+import type { Document, Suggestion, Vote } from "@/db/schema";
+import type {
+  Attachment,
+  ChatRequestOptions,
+  CreateMessage,
+  Message,
+} from "ai";
+
 export interface UIBlock {
   title: string;
   documentId: string;

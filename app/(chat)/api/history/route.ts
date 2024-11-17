@@ -3,7 +3,6 @@ import { getChatsByUserId } from "@/db/queries";
 
 export async function GET() {
   const session = await auth();
-
   if (!session?.user?.id) {
     return Response.json("Unauthorized!", { status: 401 });
   }

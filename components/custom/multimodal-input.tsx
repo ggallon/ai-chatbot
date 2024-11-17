@@ -2,7 +2,7 @@
 
 import cx from "classnames";
 import { motion } from "framer-motion";
-import React, {
+import {
   useRef,
   useEffect,
   useState,

@@ -1,10 +1,9 @@
-import { JSONValue } from "ai";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useEffect, useState, type Dispatch, type SetStateAction } from "react";
 import { useSWRConfig } from "swr";
 
-import { Suggestion } from "@/db/schema";
-
-import { UIBlock } from "./block";
+import type { UIBlock } from "./block";
+import type { Suggestion } from "@/db/schema";
+import type { JSONValue } from "ai";
 
 type StreamingDelta = {
   type: "text-delta" | "title" | "id" | "suggestion" | "clear" | "finish";

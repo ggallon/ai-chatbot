@@ -1,7 +1,7 @@
-import { SetStateAction } from "react";
-
-import { UIBlock } from "./block";
 import { FileIcon, LoaderIcon, MessageIcon, PencilEditIcon } from "./icons";
+
+import type { UIBlock } from "./block";
+import type { SetStateAction } from "react";
 
 const getActionText = (type: "create" | "update" | "request-suggestions") => {
   switch (type) {

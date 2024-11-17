@@ -1,15 +1,15 @@
 import OrderedMap from "orderedmap";
 import {
   Schema,
-  Node as ProsemirrorNode,
-  MarkSpec,
   DOMParser,
+  type Node as ProsemirrorNode,
+  type MarkSpec,
 } from "prosemirror-model";
 import { schema } from "prosemirror-schema-basic";
 import { addListNodes } from "prosemirror-schema-list";
 import { EditorState } from "prosemirror-state";
 import { EditorView } from "prosemirror-view";
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { renderToString } from "react-dom/server";
 import ReactMarkdown from "react-markdown";
 

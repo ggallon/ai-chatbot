@@ -11,7 +11,7 @@ import { PreviewMessage, ThinkingMessage } from "@/components/custom/message";
 import { useScrollToBottom } from "@/components/custom/use-scroll-to-bottom";
 import { fetcher } from "@/lib/utils";
 
-import { Block, UIBlock } from "./block";
+import { Block, type UIBlock } from "./block";
 import { BlockStreamHandler } from "./block-stream-handler";
 import { MultimodalInput } from "./multimodal-input";
 import { Overview } from "./overview";

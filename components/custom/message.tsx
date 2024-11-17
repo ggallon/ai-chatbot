@@ -1,19 +1,20 @@
 "use client";
 
-import { Message } from "ai";
 import cx from "classnames";
 import { motion } from "framer-motion";
-import { Dispatch, SetStateAction } from "react";
 
 import { Vote } from "@/db/schema";
 
-import { UIBlock } from "./block";
 import { DocumentToolCall, DocumentToolResult } from "./document";
 import { SparklesIcon } from "./icons";
 import { Markdown } from "./markdown";
 import { MessageActions } from "./message-actions";
 import { PreviewAttachment } from "./preview-attachment";
 import { Weather } from "./weather";
+
+import type { UIBlock } from "./block";
+import type { Message } from "ai";
+import type { Dispatch, SetStateAction } from "react";
 
 export const PreviewMessage = ({
   chatId,

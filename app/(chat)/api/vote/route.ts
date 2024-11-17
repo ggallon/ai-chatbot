@@ -4,14 +4,12 @@ import { getVotesByChatId, voteMessage } from "@/db/queries";
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const chatId = searchParams.get("chatId");
-
   if (!chatId) {
     return new Response("chatId is required", { status: 400 });
   }
 
   const session = await auth();
-
-  if (!session || !session.user || !session.user.email) {
+  if (!session?.user?.email) {
     return new Response("Unauthorized", { status: 401 });
   }
 
@@ -33,16 +31,11 @@ export async function PATCH(request: Request) {
   }
 
   const session = await auth();
-
-  if (!session || !session.user || !session.user.email) {
+  if (!session?.user?.email) {
     return new Response("Unauthorized", { status: 401 });
   }
 
-  await voteMessage({
-    chatId,
-    messageId,
-    type: type,
-  });
+  await voteMessage({ chatId, messageId, type });
 
   return new Response("Message voted", { status: 200 });
 }

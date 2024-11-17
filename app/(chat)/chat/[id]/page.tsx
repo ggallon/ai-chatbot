@@ -15,25 +15,21 @@ interface PageProps {
 
 export default async function Page(props: PageProps) {
   const params = await props.params;
-  const { id } = params;
-  const chat = await getChatById({ id });
+  const [session, cookieStore] = await Promise.all([auth(), cookies()]);
+  if (!session?.user?.id) {
+    notFound();
+  }
 
+  const chat = await getChatById({ id: params.id });
   if (!chat) {
     notFound();
   }
 
-  const session = await auth();
-
-  if (!session || !session.user) {
-    return notFound();
-  }
-
   if (session.user.id !== chat.userId) {
-    return notFound();
+    notFound();
   }
 
-  const messagesFromDb = await getMessagesByChatId({ id });
-  const cookieStore = await cookies();
+  const messagesFromDb = await getMessagesByChatId({ id: params.id });
   const modelIdFromCookie = cookieStore.get("model-id")?.value;
   const selectedModelId =
     models.find((model) => model.id === modelIdFromCookie)?.id ||

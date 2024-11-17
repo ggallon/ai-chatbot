@@ -3,7 +3,6 @@
 import { isToday, isYesterday, subMonths, subWeeks } from "date-fns";
 import Link from "next/link";
 import { useParams, usePathname, useRouter } from "next/navigation";
-import { type User } from "next-auth";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import useSWR from "swr";
@@ -34,8 +33,10 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { Chat } from "@/db/schema";
 import { fetcher } from "@/lib/utils";
+
+import type { Chat } from "@/db/schema";
+import type { User } from "next-auth";
 
 type GroupedChats = {
   today: Chat[];

@@ -4,10 +4,10 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import { useWindowSize } from "usehooks-ts";
 
+import { Button } from "@/components/ui/button";
 import { UISuggestion } from "@/lib/editor/suggestions";
 
 import { CrossIcon, MessageIcon } from "./icons";
-import { Button } from "../ui/button";
 
 export const Suggestion = ({
   suggestion,

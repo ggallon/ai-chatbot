@@ -1,9 +1,7 @@
-import { Message } from "ai";
 import { toast } from "sonner";
 import { useSWRConfig } from "swr";
 import { useCopyToClipboard } from "usehooks-ts";
 
-import { Vote } from "@/db/schema";
 import { getMessageIdFromAnnotations } from "@/lib/utils";
 
 import { CopyIcon, ThumbDownIcon, ThumbUpIcon } from "./icons";
@@ -14,6 +12,9 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "../ui/tooltip";
+
+import type { Vote } from "@/db/schema";
+import type { Message } from "ai";
 
 export function MessageActions({
   chatId,
