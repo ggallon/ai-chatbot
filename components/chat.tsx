@@ -6,15 +6,15 @@ import { useState } from "react";
 import useSWR, { useSWRConfig } from "swr";
 import { useWindowSize } from "usehooks-ts";
 
-import { ChatHeader } from "@/components/custom/chat-header";
-import { PreviewMessage, ThinkingMessage } from "@/components/custom/message";
-import { useScrollToBottom } from "@/components/custom/use-scroll-to-bottom";
 import { fetcher } from "@/lib/utils";
 
 import { Block, type UIBlock } from "./block";
 import { BlockStreamHandler } from "./block-stream-handler";
+import { ChatHeader } from "./chat-header";
+import { PreviewMessage, ThinkingMessage } from "./message";
 import { MultimodalInput } from "./multimodal-input";
 import { Overview } from "./overview";
+import { useScrollToBottom } from "./use-scroll-to-bottom";
 
 import type { Vote } from "@/db/schema";
 import type { Attachment, Message } from "ai";

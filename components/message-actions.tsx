@@ -5,13 +5,13 @@ import { useCopyToClipboard } from "usehooks-ts";
 import { getMessageIdFromAnnotations } from "@/lib/utils";
 
 import { CopyIcon, ThumbDownIcon, ThumbUpIcon } from "./icons";
-import { Button } from "../ui/button";
+import { Button } from "./ui/button";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "../ui/tooltip";
+} from "./ui/tooltip";
 
 import type { Vote } from "@/db/schema";
 import type { Message } from "ai";

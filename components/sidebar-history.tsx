@@ -7,7 +7,9 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import useSWR from "swr";
 
-import { MoreHorizontalIcon, TrashIcon } from "@/components/custom/icons";
+import { fetcher } from "@/lib/utils";
+
+import { MoreHorizontalIcon, TrashIcon } from "./icons";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -17,13 +19,13 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
+} from "./ui/alert-dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from "./ui/dropdown-menu";
 import {
   SidebarGroup,
   SidebarGroupContent,
@@ -32,8 +34,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from "@/components/ui/sidebar";
-import { fetcher } from "@/lib/utils";
+} from "./ui/sidebar";
 
 import type { Chat } from "@/db/schema";
 import type { User } from "next-auth";

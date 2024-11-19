@@ -25,10 +25,10 @@ import { CopyIcon, CrossIcon, DeltaIcon, RedoIcon, UndoIcon } from "./icons";
 import { PreviewMessage } from "./message";
 import { MultimodalInput } from "./multimodal-input";
 import { Toolbar } from "./toolbar";
+import { Button } from "./ui/button";
+import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
 import { useScrollToBottom } from "./use-scroll-to-bottom";
 import { VersionFooter } from "./version-footer";
-import { Button } from "../ui/button";
-import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 
 import type { Document, Suggestion, Vote } from "@/db/schema";
 import type {

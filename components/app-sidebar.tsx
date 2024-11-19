@@ -2,11 +2,11 @@
 
 import { useRouter } from "next/navigation";
 
-import { BetterTooltip } from "@/components/custom/better-tooltip";
-import { PlusIcon } from "@/components/custom/icons";
-import { SidebarHistory } from "@/components/custom/sidebar-history";
-import { SidebarUserNav } from "@/components/custom/sidebar-user-nav";
-import { Button } from "@/components/ui/button";
+import { BetterTooltip } from "./better-tooltip";
+import { PlusIcon } from "./icons";
+import { SidebarHistory } from "./sidebar-history";
+import { SidebarUserNav } from "./sidebar-user-nav";
+import { Button } from "./ui/button";
 import {
   Sidebar,
   SidebarContent,
@@ -16,7 +16,7 @@ import {
   SidebarHeader,
   SidebarMenu,
   useSidebar,
-} from "@/components/ui/sidebar";
+} from "./ui/sidebar";
 
 import type { User } from "next-auth";
 

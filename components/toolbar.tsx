@@ -16,12 +16,6 @@ import {
 } from "react";
 import { useOnClickOutside } from "usehooks-ts";
 
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 import { sanitizeUIMessages } from "@/lib/utils";
 
 import {
@@ -31,6 +25,12 @@ import {
   StopIcon,
   SummarizeIcon,
 } from "./icons";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "./ui/tooltip";
 
 import type { ChatRequestOptions, CreateMessage, Message } from "ai";
 

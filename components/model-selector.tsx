@@ -4,16 +4,16 @@ import { startTransition, useMemo, useOptimistic, useState } from "react";
 
 import { models } from "@/ai/models";
 import { saveModelId } from "@/app/(chat)/actions";
-import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+
+import { CheckCirclFillIcon, ChevronDownIcon } from "./icons";
+import { Button } from "./ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { cn } from "@/lib/utils";
-
-import { CheckCirclFillIcon, ChevronDownIcon } from "./icons";
+} from "./ui/dropdown-menu";
 
 export function ModelSelector({
   selectedModelId,
