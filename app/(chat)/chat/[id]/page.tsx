@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { DEFAULT_MODEL_NAME, models } from "@/ai/models";
 import { auth } from "@/app/(auth)/auth";
 import { Chat as PreviewChat } from "@/components/custom/chat";
-import { getChatById, getMessagesByChatId } from "@/db/queries";
+import { getChatByIdAndUserId, getMessagesByChatId } from "@/db/queries";
 import { convertToUIMessages } from "@/lib/utils";
 
 interface PageProps {
@@ -14,22 +14,24 @@ interface PageProps {
 }
 
 export default async function Page(props: PageProps) {
-  const params = await props.params;
-  const [session, cookieStore] = await Promise.all([auth(), cookies()]);
+  const [session, cookieStore, params] = await Promise.all([
+    auth(),
+    cookies(),
+    props.params,
+  ]);
   if (!session?.user?.id) {
     notFound();
   }
 
-  const chat = await getChatById({ id: params.id });
+  const chat = await getChatByIdAndUserId({
+    chatId: params.id,
+    userId: session.user.id,
+  });
   if (!chat) {
     notFound();
   }
 
-  if (session.user.id !== chat.userId) {
-    notFound();
-  }
-
-  const messagesFromDb = await getMessagesByChatId({ id: params.id });
+  const messagesFromDb = await getMessagesByChatId({ id: chat.id });
   const modelIdFromCookie = cookieStore.get("model-id")?.value;
   const selectedModelId =
     models.find((model) => model.id === modelIdFromCookie)?.id ||
