@@ -28,7 +28,7 @@ export const chat = pgTable("Chat", {
     .$defaultFn(() => uuidv4()),
   userId: uuid("userId")
     .notNull()
-    .references(() => user.id),
+    .references(() => user.id, { onDelete: "cascade" }),
   createdAt: timestamp("createdAt").notNull(),
   title: text("title").notNull(),
 });
@@ -41,7 +41,7 @@ export const message = pgTable("Message", {
     .$defaultFn(() => uuidv4()),
   chatId: uuid("chatId")
     .notNull()
-    .references(() => chat.id),
+    .references(() => chat.id, { onDelete: "cascade" }),
   role: varchar("role").notNull(),
   createdAt: timestamp("createdAt").notNull(),
   content: json("content").notNull(),
@@ -52,12 +52,10 @@ export type Message = typeof message.$inferSelect;
 export const vote = pgTable(
   "Vote",
   {
-    chatId: uuid("chatId")
-      .notNull()
-      .references(() => chat.id),
+    chatId: uuid("chatId").notNull(),
     messageId: uuid("messageId")
       .notNull()
-      .references(() => message.id),
+      .references(() => message.id, { onDelete: "cascade" }),
     isUpvoted: boolean("isUpvoted").notNull(),
   },
   (table) => [
@@ -79,7 +77,7 @@ export const document = pgTable(
     content: text("content"),
     userId: uuid("userId")
       .notNull()
-      .references(() => user.id),
+      .references(() => user.id, { onDelete: "cascade" }),
   },
   (table) => [
     primaryKey({
