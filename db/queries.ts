@@ -1,7 +1,8 @@
 "server-only";
 
-import { genSaltSync, hashSync } from "bcrypt-ts";
 import { and, asc, desc, eq, gt } from "drizzle-orm";
+
+import { hashPassword } from "@/lib/utils/hash";
 
 import { db } from "./db";
 import {
@@ -31,10 +32,8 @@ export async function getUser(email: string): Promise<User | undefined> {
 }
 
 export async function createUser(email: string, password: string) {
-  const salt = genSaltSync(10);
-  const hash = hashSync(password, salt);
-
   try {
+    const hash = await hashPassword(password);
     return await db.insert(user).values({ email, password: hash });
   } catch (error) {
     console.error("Failed to create user in database");

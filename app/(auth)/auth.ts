@@ -1,8 +1,8 @@
-import { compare } from "bcrypt-ts";
 import NextAuth, { type User, type Session } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 
 import { getUser } from "@/db/queries";
+import { isPasswordsMatch } from "@/lib/utils/hash";
 
 import { authConfig } from "./auth.config";
 import { authFormSchema } from "./auth.schema";
@@ -31,7 +31,7 @@ export const {
         const { email, password } = validatedFields.data;
         const user = await getUser(email);
         if (!user?.password) return null;
-        const passwordsMatch = await compare(password, user.password);
+        const passwordsMatch = await isPasswordsMatch(password, user.password);
         if (passwordsMatch) {
           return {
             id: user.id,
