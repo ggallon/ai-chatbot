@@ -2,7 +2,7 @@
 
 import { z } from "zod";
 
-import { createUser, getUser } from "@/db/queries";
+import { createUser, getUserByEmail } from "@/db/queries/user";
 
 import { signIn } from "./auth";
 import { authFormSchema } from "./auth.schema";
@@ -57,7 +57,7 @@ export const register = async (
       password: formData.get("password"),
     });
 
-    const user = await getUser(validatedData.email);
+    const user = await getUserByEmail(validatedData.email);
     if (user) {
       return { status: "user_exists" } as RegisterActionState;
     }

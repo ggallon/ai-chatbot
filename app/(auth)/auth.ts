@@ -1,7 +1,7 @@
 import NextAuth, { type User, type Session } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 
-import { getUser } from "@/db/queries";
+import { getUserByEmailWithPassword } from "@/db/queries/user";
 import { isPasswordsMatch } from "@/lib/utils/hash";
 
 import { authConfig } from "./auth.config";
@@ -29,7 +29,7 @@ export const {
           return null;
         }
         const { email, password } = validatedFields.data;
-        const user = await getUser(email);
+        const user = await getUserByEmailWithPassword(email);
         if (!user?.password) return null;
         const passwordsMatch = await isPasswordsMatch(password, user.password);
         if (passwordsMatch) {

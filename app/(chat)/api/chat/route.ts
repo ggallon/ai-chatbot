@@ -15,15 +15,10 @@ import { getWeather } from "@/ai/tools/weather";
 import { getMostRecentUserMessage, sanitizeResponseMessages } from "@/ai/utils";
 import { auth } from "@/app/(auth)/auth";
 import { generateTitleFromUserMessage } from "@/app/(chat)/actions";
-import {
-  deleteChatById,
-  getChatById,
-  getDocumentById,
-  saveChat,
-  saveDocument,
-  saveMessages,
-  saveSuggestions,
-} from "@/db/queries";
+import { deleteChatById, getChatById, saveChat } from "@/db/queries/chat";
+import { getDocumentById, saveDocument } from "@/db/queries/document";
+import { saveMessages } from "@/db/queries/message";
+import { saveSuggestions } from "@/db/queries/suggestion";
 import { generateUUID } from "@/lib/utils/uuid";
 
 import type { Suggestion } from "@/db/schema";
@@ -324,14 +319,12 @@ export async function DELETE(request: Request) {
   }
 
   const session = await auth();
-
   if (!session || !session.user) {
     return new Response("Unauthorized", { status: 401 });
   }
 
   try {
     const chat = await getChatById({ id });
-
     if (chat?.userId !== session.user.id) {
       return new Response("Unauthorized", { status: 401 });
     }

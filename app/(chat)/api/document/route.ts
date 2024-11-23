@@ -3,7 +3,7 @@ import {
   deleteDocumentsByIdAfterTimestamp,
   getDocumentsById,
   saveDocument,
-} from "@/db/queries";
+} from "@/db/queries/document";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
