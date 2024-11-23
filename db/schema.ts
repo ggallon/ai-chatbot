@@ -101,9 +101,7 @@ export const suggestion = pgTable(
     suggestedText: text("suggestedText").notNull(),
     description: text("description"),
     isResolved: boolean("isResolved").notNull().default(false),
-    userId: uuid("userId")
-      .notNull()
-      .references(() => user.id),
+    userId: uuid("userId").notNull(),
     createdAt: timestamp("createdAt").notNull(),
   },
   (table) => [
@@ -111,7 +109,7 @@ export const suggestion = pgTable(
       name: "fkey_documentId_documentCreatedAt",
       columns: [table.documentId, table.documentCreatedAt],
       foreignColumns: [document.id, document.createdAt],
-    }),
+    }).onDelete("cascade"),
   ]
 );
 
