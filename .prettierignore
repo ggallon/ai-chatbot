@@ -12,7 +12,7 @@ components/ui
 hooks/use-mobile.tsx
 
 # drizzle
-lib/drizzle
+db/migrations
 
 # @pnpm
 pnpm-lock.yaml
