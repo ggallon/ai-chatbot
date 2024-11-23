@@ -2,7 +2,7 @@ import { toast } from "sonner";
 import { useSWRConfig } from "swr";
 import { useCopyToClipboard } from "usehooks-ts";
 
-import { getMessageIdFromAnnotations } from "@/lib/utils";
+import { getMessageIdFromAnnotations } from "@/ai/utils";
 
 import { CopyIcon, ThumbDownIcon, ThumbUpIcon } from "./icons";
 import { Button } from "./ui/button";

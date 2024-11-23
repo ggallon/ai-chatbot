@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils/cn";
 
 import { BetterTooltip } from "./better-tooltip";
 import { SidebarLeftIcon } from "./icons";

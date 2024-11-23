@@ -16,7 +16,7 @@ import {
   useWindowSize,
 } from "usehooks-ts";
 
-import { fetcher } from "@/lib/utils";
+import { fetcher } from "@/lib/utils/fetcher";
 
 import { DiffView } from "./diffview";
 import { DocumentSkeleton } from "./document-skeleton";

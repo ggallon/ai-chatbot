@@ -4,7 +4,7 @@ import { startTransition, useMemo, useOptimistic, useState } from "react";
 
 import { models } from "@/ai/models";
 import { saveModelId } from "@/app/(chat)/actions";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils/cn";
 
 import { CheckCirclFillIcon, ChevronDownIcon } from "./icons";
 import { Button } from "./ui/button";

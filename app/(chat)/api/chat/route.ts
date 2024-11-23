@@ -12,6 +12,7 @@ import { customModel } from "@/ai";
 import { models } from "@/ai/models";
 import { blocksPrompt, regularPrompt } from "@/ai/prompts";
 import { getWeather } from "@/ai/tools/weather";
+import { getMostRecentUserMessage, sanitizeResponseMessages } from "@/ai/utils";
 import { auth } from "@/app/(auth)/auth";
 import { generateTitleFromUserMessage } from "@/app/(chat)/actions";
 import {
@@ -23,11 +24,7 @@ import {
   saveMessages,
   saveSuggestions,
 } from "@/db/queries";
-import {
-  generateUUID,
-  getMostRecentUserMessage,
-  sanitizeResponseMessages,
-} from "@/lib/utils";
+import { generateUUID } from "@/lib/utils/uuid";
 
 import type { Suggestion } from "@/db/schema";
 

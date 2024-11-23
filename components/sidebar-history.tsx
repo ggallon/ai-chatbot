@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import useSWR from "swr";
 
-import { fetcher } from "@/lib/utils";
+import { fetcher } from "@/lib/utils/fetcher";
 
 import { MoreHorizontalIcon, TrashIcon } from "./icons";
 import {

@@ -16,7 +16,7 @@ import {
 } from "react";
 import { useOnClickOutside } from "usehooks-ts";
 
-import { sanitizeUIMessages } from "@/lib/utils";
+import { sanitizeUIMessages } from "@/ai/utils";
 
 import {
   ArrowUpIcon,
