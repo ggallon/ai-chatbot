@@ -31,8 +31,8 @@ export async function getUser(email: string): Promise<User | undefined> {
 }
 
 export async function createUser(email: string, password: string) {
-  let salt = genSaltSync(10);
-  let hash = hashSync(password, salt);
+  const salt = genSaltSync(10);
+  const hash = hashSync(password, salt);
 
   try {
     return await db.insert(user).values({ email, password: hash });
