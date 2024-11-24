@@ -3,7 +3,7 @@
 import { and, asc, desc, eq, gt } from "drizzle-orm";
 
 import { db } from "@/db/db";
-import { document, type Document } from "@/db/schema";
+import { document, type Document, type User } from "@/db/schema";
 
 type SaveDocument = Omit<typeof document.$inferInsert, "createdAt"> & {
   id: string;
@@ -45,17 +45,18 @@ export async function getDocumentById({
   }
 }
 
-export async function getDocumentsById({
+export async function getDocumentsByIdAndUserId({
   id,
+  userId,
 }: {
   id: Document["id"];
-}): Promise<Document[] | []> {
+  userId: User["id"];
+}): Promise<Document[]> {
   try {
-    return await db
-      .select()
-      .from(document)
-      .where(eq(document.id, id))
-      .orderBy(asc(document.createdAt));
+    return await db.query.document.findMany({
+      where: and(eq(document.id, id), eq(document.userId, userId)),
+      orderBy: asc(document.createdAt),
+    });
   } catch (error) {
     console.error("Failed to get document by id from database");
     throw error;
