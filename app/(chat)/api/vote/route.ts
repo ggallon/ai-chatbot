@@ -1,11 +1,11 @@
-import { type NextRequest } from "next/server";
-
 import { auth } from "@/app/(auth)/auth";
 import {
   getVotesByChatId,
   voteMessage,
   type VoteMesage,
 } from "@/db/queries/vote";
+
+import type { NextRequest } from "next/server";
 
 export async function GET(request: NextRequest) {
   const session = await auth();
