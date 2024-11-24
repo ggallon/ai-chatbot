@@ -71,7 +71,9 @@ export type Vote = typeof vote.$inferSelect;
 export const document = pgTable(
   "Document",
   {
-    id: uuid("id").$defaultFn(() => uuidv4()),
+    id: uuid("id")
+      .notNull()
+      .$defaultFn(() => uuidv4()),
     createdAt: timestamp("createdAt").notNull(),
     title: text("title").notNull(),
     content: text("content"),

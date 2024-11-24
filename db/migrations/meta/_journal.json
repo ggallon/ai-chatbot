@@ -36,6 +36,13 @@
       "when": 1732362350694,
       "tag": "0004_smiling_human_robot",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1732408050137,
+      "tag": "0005_reflective_power_pack",
+      "breakpoints": true
     }
   ]
 }

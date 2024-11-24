@@ -32,7 +32,7 @@ export async function saveDocument({
 export async function getDocumentById({
   id,
 }: {
-  id: string;
+  id: Document["id"];
 }): Promise<Document | undefined> {
   try {
     return await db.query.document.findFirst({
@@ -48,7 +48,7 @@ export async function getDocumentById({
 export async function getDocumentsById({
   id,
 }: {
-  id: string;
+  id: Document["id"];
 }): Promise<Document[] | []> {
   try {
     return await db
@@ -66,7 +66,7 @@ export async function deleteDocumentsByIdAfterTimestamp({
   id,
   timestamp,
 }: {
-  id: string;
+  id: Document["id"];
   timestamp: Date;
 }) {
   try {
