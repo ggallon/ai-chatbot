@@ -3,7 +3,12 @@
 import { and, eq } from "drizzle-orm";
 
 import { db } from "@/db/db";
-import { suggestion, type Suggestion } from "@/db/schema";
+import {
+  suggestion,
+  type Document,
+  type Suggestion,
+  type User,
+} from "@/db/schema";
 
 export async function saveSuggestions({
   suggestions,
@@ -18,16 +23,20 @@ export async function saveSuggestions({
   }
 }
 
-export async function getSuggestionsByDocumentId({
+export async function getSuggestionsByDocumentIdAndUserId({
   documentId,
+  userId,
 }: {
-  documentId: string;
-}) {
+  documentId: Document["id"];
+  userId: User["id"];
+}): Promise<Suggestion[]> {
   try {
-    return await db
-      .select()
-      .from(suggestion)
-      .where(and(eq(suggestion.documentId, documentId)));
+    return await db.query.suggestion.findMany({
+      where: and(
+        eq(suggestion.documentId, documentId),
+        eq(suggestion.userId, userId)
+      ),
+    });
   } catch (error) {
     console.error(
       "Failed to get suggestions by document version from database"
