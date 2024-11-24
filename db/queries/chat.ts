@@ -21,9 +21,15 @@ export async function saveChat({ id, userId, title }: SaveChat) {
   }
 }
 
-export async function deleteChatById({ id }: { id: Chat["id"] }) {
+export async function deleteChatByIdAndUserId({
+  id,
+  userId,
+}: {
+  id: Chat["id"];
+  userId: User["id"];
+}) {
   try {
-    await db.delete(chat).where(eq(chat.id, id));
+    await db.delete(chat).where(and(eq(chat.id, id), eq(chat.userId, userId)));
   } catch (error) {
     console.error("Failed to delete chat by id from database");
     throw error;
@@ -46,15 +52,15 @@ export async function getChatById({
 }
 
 export async function getChatByIdAndUserId({
-  chatId,
+  id,
   userId,
 }: {
-  chatId: Chat["id"];
+  id: Chat["id"];
   userId: User["id"];
 }): Promise<Chat | undefined> {
   try {
     return await db.query.chat.findFirst({
-      where: and(eq(chat.id, chatId), eq(chat.userId, userId)),
+      where: and(eq(chat.id, id), eq(chat.userId, userId)),
     });
   } catch (error) {
     console.error("Failed to get chat by id from database");

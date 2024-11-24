@@ -25,7 +25,7 @@ export default async function Page(props: PageProps) {
   }
 
   const chat = await getChatByIdAndUserId({
-    chatId: params.id,
+    id: params.id,
     userId: session.user.id,
   });
   if (!chat) {

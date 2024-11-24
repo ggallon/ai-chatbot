@@ -15,13 +15,18 @@ import { getWeather } from "@/ai/tools/weather";
 import { getMostRecentUserMessage, sanitizeResponseMessages } from "@/ai/utils";
 import { auth } from "@/app/(auth)/auth";
 import { generateTitleFromUserMessage } from "@/app/(chat)/actions";
-import { deleteChatById, getChatById, saveChat } from "@/db/queries/chat";
+import {
+  deleteChatByIdAndUserId,
+  getChatByIdAndUserId,
+  saveChat,
+} from "@/db/queries/chat";
 import { getDocumentById, saveDocument } from "@/db/queries/document";
 import { saveMessages } from "@/db/queries/message";
 import { saveSuggestions } from "@/db/queries/suggestion";
 import { generateUUID } from "@/lib/utils/uuid";
 
 import type { Suggestion } from "@/db/schema";
+import type { NextRequest } from "next/server";
 
 export const maxDuration = 60;
 
@@ -40,17 +45,17 @@ const blocksTools: AllowedTools[] = [
 const weatherTools: AllowedTools[] = ["getWeather"];
 
 export async function POST(request: Request) {
+  const session = await auth();
+  if (!session?.user?.id) {
+    return new Response("Unauthorized", { status: 401 });
+  }
+
   const {
     id,
     messages,
     modelId,
   }: { id: string; messages: Array<Message>; modelId: string } =
     await request.json();
-
-  const session = await auth();
-  if (!session?.user?.id) {
-    return new Response("Unauthorized", { status: 401 });
-  }
 
   const model = models.find((model) => model.id === modelId);
   if (!model) {
@@ -64,7 +69,7 @@ export async function POST(request: Request) {
   }
 
   const userId = session.user.id;
-  const chat = await getChatById({ id });
+  const chat = await getChatByIdAndUserId({ id, userId });
   if (!chat) {
     const title = await generateTitleFromUserMessage({ message: userMessage });
     await saveChat({ id, userId, title });
@@ -121,14 +126,12 @@ export async function POST(request: Request) {
 
           streamingData.append({ type: "finish", content: "" });
 
-          if (userId) {
-            await saveDocument({
-              id,
-              title,
-              content: draftText,
-              userId,
-            });
-          }
+          await saveDocument({
+            id,
+            title,
+            content: draftText,
+            userId,
+          });
 
           return {
             id,
@@ -184,14 +187,12 @@ export async function POST(request: Request) {
 
           streamingData.append({ type: "finish", content: "" });
 
-          if (userId) {
-            await saveDocument({
-              id,
-              title: document.title,
-              content: draftText,
-              userId,
-            });
-          }
+          await saveDocument({
+            id,
+            title: document.title,
+            content: draftText,
+            userId,
+          });
 
           return {
             id,
@@ -248,16 +249,14 @@ export async function POST(request: Request) {
             suggestions.push(suggestion);
           }
 
-          if (userId) {
-            await saveSuggestions({
-              suggestions: suggestions.map((suggestion) => ({
-                ...suggestion,
-                userId,
-                createdAt: new Date(),
-                documentCreatedAt: document.createdAt,
-              })),
-            });
-          }
+          await saveSuggestions({
+            suggestions: suggestions.map((suggestion) => ({
+              ...suggestion,
+              userId,
+              createdAt: new Date(),
+              documentCreatedAt: document.createdAt,
+            })),
+          });
 
           return {
             id: documentId,
@@ -310,27 +309,20 @@ export async function POST(request: Request) {
   return result.toDataStreamResponse({ data: streamingData });
 }
 
-export async function DELETE(request: Request) {
-  const { searchParams } = new URL(request.url);
-  const id = searchParams.get("id");
+export async function DELETE(request: NextRequest) {
+  const session = await auth();
+  if (!session?.user?.id) {
+    return new Response("Unauthorized", { status: 401 });
+  }
 
+  const searchParams = request.nextUrl.searchParams;
+  const id = searchParams.get("id");
   if (!id) {
     return new Response("Not Found", { status: 404 });
   }
 
-  const session = await auth();
-  if (!session || !session.user) {
-    return new Response("Unauthorized", { status: 401 });
-  }
-
   try {
-    const chat = await getChatById({ id });
-    if (chat?.userId !== session.user.id) {
-      return new Response("Unauthorized", { status: 401 });
-    }
-
-    await deleteChatById({ id });
-
+    await deleteChatByIdAndUserId({ id, userId: session.user.id });
     return new Response("Chat deleted", { status: 200 });
   } catch (error) {
     return new Response("An error occurred while processing your request", {
