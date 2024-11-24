@@ -55,7 +55,7 @@ export const register = async (
 
     const user = await getUserByEmail(validatedData.email);
     if (user) {
-      return { status: "user_exists" } as RegisterActionState;
+      return { status: "user_exists" } as AuthActionState;
     }
 
     await createUser(validatedData.email, validatedData.password);
