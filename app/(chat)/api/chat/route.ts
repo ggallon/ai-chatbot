@@ -267,35 +267,33 @@ export async function POST(request: Request) {
       }),
     },
     onFinish: async ({ response }) => {
-      if (session?.user?.id) {
-        try {
-          const responseMessagesWithoutIncompleteToolCalls =
-            sanitizeResponseMessages(response.messages);
+      try {
+        const responseMessagesWithoutIncompleteToolCalls =
+          sanitizeResponseMessages(response.messages);
 
-          await saveMessages({
-            messages: responseMessagesWithoutIncompleteToolCalls.map(
-              (message) => {
-                const messageId = generateUUID();
+        await saveMessages({
+          messages: responseMessagesWithoutIncompleteToolCalls.map(
+            (message) => {
+              const messageId = generateUUID();
 
-                if (message.role === "assistant") {
-                  streamingData.appendMessageAnnotation({
-                    messageIdFromServer: messageId,
-                  });
-                }
-
-                return {
-                  id: messageId,
-                  chatId: id,
-                  role: message.role,
-                  content: message.content,
-                  createdAt: new Date(),
-                };
+              if (message.role === "assistant") {
+                streamingData.appendMessageAnnotation({
+                  messageIdFromServer: messageId,
+                });
               }
-            ),
-          });
-        } catch (error) {
-          console.error("Failed to save chat");
-        }
+
+              return {
+                id: messageId,
+                chatId: id,
+                role: message.role,
+                content: message.content,
+                createdAt: new Date(),
+              };
+            }
+          ),
+        });
+      } catch (error) {
+        console.error("Failed to save chat");
       }
 
       streamingData.close();
