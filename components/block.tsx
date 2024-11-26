@@ -1,6 +1,6 @@
 import cx from "classnames";
 import { formatDistance } from "date-fns";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion } from "motion/react";
 import {
   useCallback,
   useEffect,
