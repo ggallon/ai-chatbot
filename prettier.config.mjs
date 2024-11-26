@@ -9,7 +9,7 @@ const config = {
   trailingComma: "es5",
   bracketSpacing: true,
   tailwindConfig: "./tailwind.config.ts",
-  tailwindFunctions: ["cn"],
+  tailwindFunctions: ["cn", "cx"],
   plugins: ["prettier-plugin-tailwindcss"],
 };
 
