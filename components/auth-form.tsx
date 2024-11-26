@@ -7,10 +7,12 @@ export function AuthForm({
   action,
   children,
   defaultEmail = "",
+  type,
 }: {
   action: (formData: FormData) => void;
   children: React.ReactNode;
   defaultEmail?: string;
+  type: "login" | "register";
 }) {
   return (
     <Form action={action} className="flex flex-col gap-4 px-4 sm:px-16">
@@ -28,7 +30,7 @@ export function AuthForm({
           className="text-md bg-muted md:text-sm"
           type="email"
           placeholder="user@acme.com"
-          autoComplete="email"
+          autoComplete="username"
           required
           autoFocus
           defaultValue={defaultEmail}
@@ -48,6 +50,7 @@ export function AuthForm({
           name="password"
           className="text-md bg-muted md:text-sm"
           type="password"
+          autoComplete={type === "login" ? "current-password" : "new-password"}
           required
         />
       </div>
