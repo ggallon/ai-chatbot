@@ -45,14 +45,14 @@ export async function POST(request: NextRequest) {
   const { content, title }: { content: string; title: string } =
     await request.json();
 
-  const document = await saveDocument({
+  await saveDocument({
     id,
     content,
     title,
     userId: session.user.id,
   });
 
-  return Response.json(document, { status: 200 });
+  return new Response("Saved", { status: 200 });
 }
 
 export async function PATCH(request: NextRequest) {
