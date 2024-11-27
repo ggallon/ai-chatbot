@@ -76,7 +76,7 @@ export function MessageActions({
                   loading: "Upvoting Response...",
                   success: () => {
                     mutate<Array<Vote>>(
-                      `/api/vote?chatId=${chatId}`,
+                      `/api/vote/${chatId}`,
                       (currentVotes) => {
                         if (!currentVotes) return [];
 
@@ -130,7 +130,7 @@ export function MessageActions({
                   loading: "Downvoting Response...",
                   success: () => {
                     mutate<Array<Vote>>(
-                      `/api/vote?chatId=${chatId}`,
+                      `/api/vote/${chatId}`,
                       (currentVotes) => {
                         if (!currentVotes) return [];
 
