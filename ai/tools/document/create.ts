@@ -7,6 +7,8 @@ import { saveDocument } from "@/db/queries/document";
 
 import type { Model } from "@/ai/models";
 
+import { getDraftText } from "./utils/getDraftText";
+
 export const createDocument = ({
   model,
   dataStream,
@@ -33,20 +35,7 @@ export const createDocument = ({
         prompt: title,
       });
 
-      let draftText = "";
-      for await (const delta of fullStream) {
-        const { type } = delta;
-
-        if (type === "text-delta") {
-          const { textDelta } = delta;
-
-          draftText += textDelta;
-          dataStream.writeData({
-            type: "text-delta",
-            content: textDelta,
-          });
-        }
-      }
+      const draftText = await getDraftText({ fullStream, dataStream });
 
       dataStream.writeData({ type: "finish", content: "" });
 

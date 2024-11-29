@@ -4,6 +4,8 @@ import { z } from "zod";
 import { customModel } from "@/ai";
 import { getDocumentById, saveDocument } from "@/db/queries/document";
 
+import { getDraftText } from "./utils/getDraftText";
+
 import type { Model } from "@/ai/models";
 
 export const updateDocument = ({
@@ -50,20 +52,7 @@ export const updateDocument = ({
         ],
       });
 
-      let draftText = "";
-      for await (const delta of fullStream) {
-        const { type } = delta;
-
-        if (type === "text-delta") {
-          const { textDelta } = delta;
-
-          draftText += textDelta;
-          dataStream.writeData({
-            type: "text-delta",
-            content: textDelta,
-          });
-        }
-      }
+      const draftText = await getDraftText({ fullStream, dataStream });
 
       dataStream.writeData({ type: "finish", content: "" });
 
