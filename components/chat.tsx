@@ -41,6 +41,7 @@ export function Chat({
     stop,
     data: streamingData,
   } = useChat({
+    api: "/api/chat",
     body: { id, modelId: selectedModelId },
     initialMessages,
     onFinish: () => {
