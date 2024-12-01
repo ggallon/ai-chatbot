@@ -7,7 +7,9 @@ const compat = new FlatCompat({
 
 const eslintConfig = [
   { ignores: ["**/components/ui/**"] },
-  ...compat.extends("next/core-web-vitals", "next/typescript"),
+  ...compat.config({
+    extends: ["next/core-web-vitals", "next/typescript"],
+  }),
   eslintConfigPrettier,
   {
     rules: {

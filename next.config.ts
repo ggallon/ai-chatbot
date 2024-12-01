@@ -2,6 +2,9 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   /* config options here */
+  eslint: {
+    dirs: ["ai", "app", "components", "db", "hook", "lib"],
+  },
   experimental: {
     ppr: true,
   },
