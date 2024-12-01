@@ -14,6 +14,7 @@ import { toast } from "sonner";
 import { useLocalStorage, useWindowSize } from "usehooks-ts";
 
 import { sanitizeUIMessages } from "@/ai/utils";
+import { uploadFile } from "@/lib/utils/upload-file";
 
 import { ArrowUpIcon, PaperclipIcon, StopIcon } from "./icons";
 import { PreviewAttachment } from "./preview-attachment";
@@ -129,35 +130,6 @@ export function MultimodalInput({
     width,
     chatId,
   ]);
-
-  const uploadFile = async (file: File) => {
-    const formData = new FormData();
-    formData.append("file", file);
-
-    try {
-      const response = await fetch(`/api/files/upload`, {
-        method: "POST",
-        body: formData,
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        const { url, pathname, contentType } = data;
-
-        return {
-          url,
-          name: pathname,
-          contentType,
-        };
-      } else {
-        const { error } = await response.json();
-        toast.error(error);
-      }
-    } catch (error) {
-      console.error("Failed to upload file:", error);
-      toast.error("Failed to upload file, please try again!");
-    }
-  };
 
   const handleFileChange = useCallback(
     async (event: ChangeEvent<HTMLInputElement>) => {
