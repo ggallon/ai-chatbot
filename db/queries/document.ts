@@ -1,4 +1,4 @@
-"server-only";
+import "server-only";
 
 import { and, asc, desc, eq, gt } from "drizzle-orm";
 
