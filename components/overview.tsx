@@ -1,10 +1,11 @@
 import { motion } from "motion/react";
 import Link from "next/link";
+import { memo } from "react";
 
 import { MessageIcon, VercelIcon } from "./icons";
 
-export const Overview = () => {
-  return (
+export const Overview = memo(function Overview({ show }: { show: boolean }) {
+  return show ? (
     <motion.div
       key="overview"
       className="mx-auto max-w-3xl md:mt-20"
@@ -48,5 +49,5 @@ export const Overview = () => {
         </p>
       </div>
     </motion.div>
-  );
-};
+  ) : null;
+});
