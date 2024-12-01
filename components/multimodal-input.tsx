@@ -1,12 +1,11 @@
 "use client";
 
 import cx from "classnames";
-import { motion } from "motion/react";
 import {
-  useRef,
-  useEffect,
-  useState,
   useCallback,
+  useEffect,
+  useRef,
+  useState,
   type Dispatch,
   type SetStateAction,
   type ChangeEvent,
@@ -18,6 +17,7 @@ import { sanitizeUIMessages } from "@/ai/utils";
 
 import { ArrowUpIcon, PaperclipIcon, StopIcon } from "./icons";
 import { PreviewAttachment } from "./preview-attachment";
+import { SuggestedActions } from "./suggested-actions";
 import { Button } from "./ui/button";
 import { Textarea } from "./ui/textarea";
 
@@ -27,19 +27,6 @@ import type {
   CreateMessage,
   Message,
 } from "ai";
-
-const suggestedActions = [
-  {
-    title: "What is the weather",
-    label: "in San Francisco?",
-    action: "What is the weather in San Francisco?",
-  },
-  {
-    title: "Help me draft an essay",
-    label: "about Silicon Valley",
-    action: "Help me draft a short essay about Silicon Valley",
-  },
-];
 
 export function MultimodalInput({
   chatId,
@@ -198,43 +185,23 @@ export function MultimodalInput({
     [setAttachments]
   );
 
+  const showSuggestedActions =
+    messages.length === 0 &&
+    attachments.length === 0 &&
+    uploadQueue.length === 0;
+
+  const appendSuggestedActions = useCallback(
+    async (action: string) => await append({ role: "user", content: action }),
+    [append]
+  );
+
   return (
     <div className="relative flex w-full flex-col gap-4">
-      {messages.length === 0 &&
-        attachments.length === 0 &&
-        uploadQueue.length === 0 && (
-          <div className="grid w-full gap-2 sm:grid-cols-2">
-            {suggestedActions.map((suggestedAction, index) => (
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 20 }}
-                transition={{ delay: 0.05 * index }}
-                key={index}
-                className={index > 1 ? "hidden sm:block" : "block"}
-              >
-                <Button
-                  variant="ghost"
-                  onClick={async () => {
-                    window.history.replaceState({}, "", `/chat/${chatId}`);
-
-                    append({
-                      role: "user",
-                      content: suggestedAction.action,
-                    });
-                  }}
-                  className="h-auto w-full flex-1 items-start justify-start gap-1 rounded-xl border px-4 py-3.5 text-left text-sm sm:flex-col"
-                >
-                  <span className="font-medium">{suggestedAction.title}</span>
-                  <span className="text-muted-foreground">
-                    {suggestedAction.label}
-                  </span>
-                </Button>
-              </motion.div>
-            ))}
-          </div>
-        )}
-
+      <SuggestedActions
+        show={showSuggestedActions}
+        append={appendSuggestedActions}
+        chatId={chatId}
+      />
       <input
         type="file"
         className="pointer-events-none fixed -left-4 -top-4 size-0.5 opacity-0"
