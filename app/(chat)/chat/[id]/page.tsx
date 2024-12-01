@@ -1,11 +1,10 @@
-import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 
-import { DEFAULT_MODEL_NAME, models } from "@/ai/models";
 import { convertToUIMessages } from "@/ai/utils";
 import { auth } from "@/app/(auth)/auth";
 import { Chat } from "@/components/chat";
 import { getChatByIdAndUserId } from "@/db/queries/chat";
+import { getSelectedModelId } from "@/lib/utils/get-selected-model-id";
 
 interface PageProps {
   params: Promise<{
@@ -14,9 +13,9 @@ interface PageProps {
 }
 
 export default async function Page(props: PageProps) {
-  const [session, cookieStore, params] = await Promise.all([
+  const [session, selectedModelId, params] = await Promise.all([
     auth(),
-    cookies(),
+    getSelectedModelId(),
     props.params,
   ]);
   if (!session?.user?.id) {
@@ -31,11 +30,6 @@ export default async function Page(props: PageProps) {
   if (!chat) {
     notFound();
   }
-
-  const modelIdFromCookie = cookieStore.get("model-id")?.value;
-  const selectedModelId =
-    models.find((model) => model.id === modelIdFromCookie)?.id ||
-    DEFAULT_MODEL_NAME;
 
   return (
     <Chat
