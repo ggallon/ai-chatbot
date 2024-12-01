@@ -3,7 +3,7 @@
 import { and, desc, eq } from "drizzle-orm";
 
 import { db } from "@/db/db";
-import { chat, type Chat, type User } from "@/db/schema";
+import { chat, type Chat, type ChatWithMessages, type User } from "@/db/schema";
 
 type SaveChat = Omit<typeof chat.$inferInsert, "createdAt"> & { id: string };
 
@@ -54,13 +54,24 @@ export async function getChatById({
 export async function getChatByIdAndUserId({
   id,
   userId,
+  withMessages = false,
 }: {
   id: Chat["id"];
   userId: User["id"];
-}): Promise<Chat | undefined> {
+  withMessages?: boolean;
+}): Promise<Chat | ChatWithMessages | undefined> {
   try {
     return await db.query.chat.findFirst({
       where: and(eq(chat.id, id), eq(chat.userId, userId)),
+      ...(withMessages
+        ? {
+            with: {
+              messages: {
+                orderBy: (message, { asc }) => [asc(message.createdAt)],
+              },
+            },
+          }
+        : {}),
     });
   } catch (error) {
     console.error("Failed to get chat by id from database");

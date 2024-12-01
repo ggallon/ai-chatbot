@@ -6,7 +6,6 @@ import { convertToUIMessages } from "@/ai/utils";
 import { auth } from "@/app/(auth)/auth";
 import { Chat } from "@/components/chat";
 import { getChatByIdAndUserId } from "@/db/queries/chat";
-import { getMessagesByChatId } from "@/db/queries/message";
 
 interface PageProps {
   params: Promise<{
@@ -27,12 +26,12 @@ export default async function Page(props: PageProps) {
   const chat = await getChatByIdAndUserId({
     id: params.id,
     userId: session.user.id,
+    withMessages: true,
   });
   if (!chat) {
     notFound();
   }
 
-  const messagesFromDb = await getMessagesByChatId({ id: chat.id });
   const modelIdFromCookie = cookieStore.get("model-id")?.value;
   const selectedModelId =
     models.find((model) => model.id === modelIdFromCookie)?.id ||
@@ -41,7 +40,9 @@ export default async function Page(props: PageProps) {
   return (
     <Chat
       id={chat.id}
-      initialMessages={convertToUIMessages(messagesFromDb ?? [])}
+      initialMessages={convertToUIMessages(
+        "messages" in chat ? chat.messages : []
+      )}
       selectedModelId={selectedModelId}
     />
   );

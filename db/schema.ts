@@ -9,6 +9,7 @@ import {
   foreignKey,
   boolean,
 } from "drizzle-orm/pg-core";
+import { relations } from "drizzle-orm";
 import { v4 as uuidv4 } from "uuid";
 
 export const user = pgTable("User", {
@@ -35,6 +36,10 @@ export const chat = pgTable("Chat", {
 
 export type Chat = typeof chat.$inferSelect;
 
+export const chatsRelations = relations(chat, ({ many }) => ({
+  messages: many(message),
+}));
+
 export const message = pgTable("Message", {
   id: uuid("id")
     .primaryKey()
@@ -48,6 +53,17 @@ export const message = pgTable("Message", {
 });
 
 export type Message = typeof message.$inferSelect;
+
+export type ChatWithMessages = Chat & {
+  messages: Message[];
+};
+
+export const messageRelations = relations(message, ({ one }) => ({
+  chat: one(chat, {
+    fields: [message.chatId],
+    references: [chat.id],
+  }),
+}));
 
 export const vote = pgTable(
   "Vote",
