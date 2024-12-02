@@ -1,4 +1,3 @@
-import cx from "classnames";
 import { formatDistance } from "date-fns";
 import { AnimatePresence, motion } from "motion/react";
 import {
@@ -8,26 +7,19 @@ import {
   type Dispatch,
   type SetStateAction,
 } from "react";
-import { toast } from "sonner";
 import useSWR, { useSWRConfig } from "swr";
-import {
-  useCopyToClipboard,
-  useDebounceCallback,
-  useWindowSize,
-} from "usehooks-ts";
+import { useDebounceCallback, useWindowSize } from "usehooks-ts";
 
 import { fetcher } from "@/lib/utils/fetcher";
 
+import { BlockActions } from "./block-actions";
+import { BlockCloseButton } from "./block-close-button";
+import { BlockMessages } from "./block-messages";
 import { DiffView } from "./diffview";
 import { DocumentSkeleton } from "./document-skeleton";
 import { Editor } from "./editor";
-import { CopyIcon, CrossIcon, DeltaIcon, RedoIcon, UndoIcon } from "./icons";
-import { PreviewMessage } from "./message";
 import { MultimodalInput } from "./multimodal-input";
 import { Toolbar } from "./toolbar";
-import { Button } from "./ui/button";
-import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
-import { useScrollToBottom } from "./use-scroll-to-bottom";
 import { VersionFooter } from "./version-footer";
 
 import type { Document, Suggestion, Vote } from "@/db/schema";
@@ -91,9 +83,6 @@ export function Block({
     chatRequestOptions?: ChatRequestOptions
   ) => void;
 }) {
-  const [messagesContainerRef, messagesEndRef] =
-    useScrollToBottom<HTMLDivElement>();
-
   const {
     data: documents,
     isLoading: isDocumentsFetching,
@@ -250,8 +239,6 @@ export function Block({
   const { width: windowWidth, height: windowHeight } = useWindowSize();
   const isMobile = windowWidth ? windowWidth < 768 : false;
 
-  const [_, copyToClipboard] = useCopyToClipboard();
-
   return (
     <motion.div
       className="fixed left-0 top-0 z-50 flex h-dvh w-dvw flex-row bg-muted"
@@ -293,31 +280,14 @@ export function Block({
           </AnimatePresence>
 
           <div className="flex h-full flex-col items-center justify-between gap-4">
-            <div
-              ref={messagesContainerRef}
-              className="flex h-full flex-col items-center gap-4 overflow-y-scroll px-4 pt-20"
-            >
-              {messages.map((message, index) => (
-                <PreviewMessage
-                  chatId={chatId}
-                  key={message.id}
-                  message={message}
-                  block={block}
-                  setBlock={setBlock}
-                  isLoading={isLoading && index === messages.length - 1}
-                  vote={
-                    votes
-                      ? votes.find((vote) => vote.messageId === message.id)
-                      : undefined
-                  }
-                />
-              ))}
-
-              <div
-                ref={messagesEndRef}
-                className="min-h-[24px] min-w-[24px] shrink-0"
-              />
-            </div>
+            <BlockMessages
+              chatId={chatId}
+              block={block}
+              isLoading={isLoading}
+              setBlock={setBlock}
+              votes={votes}
+              messages={messages}
+            />
 
             <form className="relative flex w-full flex-row items-end gap-2 px-4 pb-4">
               <MultimodalInput
@@ -404,18 +374,7 @@ export function Block({
       >
         <div className="flex flex-row items-start justify-between p-2">
           <div className="flex flex-row items-start gap-4">
-            <Button
-              variant="outline"
-              className="h-fit p-2 dark:hover:bg-zinc-700"
-              onClick={() => {
-                setBlock((currentBlock) => ({
-                  ...currentBlock,
-                  isVisible: false,
-                }));
-              }}
-            >
-              <CrossIcon size={18} />
-            </Button>
+            <BlockCloseButton setBlock={setBlock} />
 
             <div className="flex flex-col">
               <div className="font-medium">
@@ -442,78 +401,13 @@ export function Block({
             </div>
           </div>
 
-          <div className="flex flex-row gap-1">
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button
-                  variant="outline"
-                  className="h-fit p-2 dark:hover:bg-zinc-700"
-                  onClick={() => {
-                    copyToClipboard(block.content);
-                    toast.success("Copied to clipboard!");
-                  }}
-                  disabled={block.status === "streaming"}
-                >
-                  <CopyIcon size={18} />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>Copy to clipboard</TooltipContent>
-            </Tooltip>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button
-                  variant="outline"
-                  className="!pointer-events-auto h-fit p-2 dark:hover:bg-zinc-700"
-                  onClick={() => {
-                    handleVersionChange("prev");
-                  }}
-                  disabled={
-                    currentVersionIndex === 0 || block.status === "streaming"
-                  }
-                >
-                  <UndoIcon size={18} />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>View Previous version</TooltipContent>
-            </Tooltip>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button
-                  variant="outline"
-                  className="!pointer-events-auto h-fit p-2 dark:hover:bg-zinc-700"
-                  onClick={() => {
-                    handleVersionChange("next");
-                  }}
-                  disabled={isCurrentVersion || block.status === "streaming"}
-                >
-                  <RedoIcon size={18} />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>View Next version</TooltipContent>
-            </Tooltip>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button
-                  variant="outline"
-                  className={cx(
-                    "!pointer-events-auto h-fit p-2 dark:hover:bg-zinc-700",
-                    {
-                      "bg-muted": mode === "diff",
-                    }
-                  )}
-                  onClick={() => {
-                    handleVersionChange("toggle");
-                  }}
-                  disabled={
-                    block.status === "streaming" || currentVersionIndex === 0
-                  }
-                >
-                  <DeltaIcon size={18} />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>View changes</TooltipContent>
-            </Tooltip>
-          </div>
+          <BlockActions
+            block={block}
+            currentVersionIndex={currentVersionIndex}
+            handleVersionChange={handleVersionChange}
+            isCurrentVersion={isCurrentVersion}
+            mode={mode}
+          />
         </div>
 
         <div className="prose h-full !max-w-full items-center overflow-y-scroll bg-background px-4 py-8 pb-40 dark:prose-invert dark:bg-muted md:p-20">
