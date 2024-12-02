@@ -14,10 +14,7 @@ function PureBlockStreamHandler({
   setBlock,
   streamingData,
 }: BlockStreamHandlerProps) {
-  useBlockStream({
-    streamingData,
-    setBlock,
-  });
+  useBlockStream({ streamingData, setBlock });
 
   return null;
 }

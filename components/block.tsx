@@ -157,13 +157,11 @@ export function Block({
 
             setIsContentDirty(false);
 
-            const newDocument = {
+            return [...currentDocuments, {
               ...currentDocument,
               content: updatedContent,
               createdAt: new Date(),
-            };
-
-            return [...currentDocuments, newDocument];
+            }];
           } else {
             return currentDocuments;
           }
