@@ -2,13 +2,12 @@
 
 import { useChat } from "@ai-sdk/react";
 import { AnimatePresence } from "motion/react";
+import dynamic from "next/dynamic";
 import { useState } from "react";
 import useSWR, { useSWRConfig } from "swr";
 import { useWindowSize } from "usehooks-ts";
 
 import { fetcher } from "@/lib/utils/fetcher";
-
-import { Block, type UIBlock } from "./block";
 import { BlockStreamHandler } from "./block-stream-handler";
 import { ChatHeader } from "./chat-header";
 import { PreviewMessage, ThinkingMessage } from "./message";
@@ -16,8 +15,13 @@ import { MultimodalInput } from "./multimodal-input";
 import { Overview } from "./overview";
 import { useScrollToBottom } from "./use-scroll-to-bottom";
 
-import type { Vote } from "@/db/schema";
+const DynamicBlock = dynamic(() => import("./block").then((mod) => mod.Block), {
+  ssr: false,
+});
+
 import type { Attachment, Message } from "ai";
+import type { Vote } from "@/db/schema";
+import type { UIBlock } from "./block";
 
 export function Chat({
   id,
@@ -129,7 +133,7 @@ export function Chat({
 
       <AnimatePresence>
         {block && block.isVisible && (
-          <Block
+          <DynamicBlock
             chatId={id}
             input={input}
             setInput={setInput}
