@@ -163,7 +163,7 @@ export function MultimodalInput({
     uploadQueue.length === 0;
 
   const appendSuggestedActions = useCallback(
-    async (action: string) => await append({ role: "user", content: action }),
+    (action: string) => append({ role: "user", content: action }),
     [append]
   );
 
