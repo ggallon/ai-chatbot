@@ -1,15 +1,13 @@
 import { cn } from "@/lib/utils/cn";
 
-import { BetterTooltip } from "./better-tooltip";
-import { SidebarLeftIcon } from "./icons";
-import { Button } from "./ui/button";
-import { SidebarTrigger, useSidebar } from "./ui/sidebar";
-
-import type { ComponentProps } from "react";
+import { BetterTooltip } from "@/components/better-tooltip";
+import { SidebarLeftIcon } from "@/components/icons";
+import { Button } from "@/components/ui/button";
+import { SidebarTrigger, useSidebar } from "@/components/ui/sidebar";
 
 export function SidebarToggle({
   className,
-}: ComponentProps<typeof SidebarTrigger>) {
+}: React.ComponentProps<typeof SidebarTrigger>) {
   const { toggleSidebar } = useSidebar();
 
   return (

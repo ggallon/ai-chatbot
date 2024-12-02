@@ -4,8 +4,8 @@ import { useRouter } from "next/navigation";
 
 import { BetterTooltip } from "./better-tooltip";
 import { PlusIcon } from "./icons";
-import { SidebarHistory } from "./sidebar-history";
-import { SidebarUserNav } from "./sidebar-user-nav";
+import { SidebarHistory } from "./sidebar/history";
+import { SidebarUserNav } from "./sidebar/user-nav";
 import { Button } from "./ui/button";
 import {
   Sidebar,

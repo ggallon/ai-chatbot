@@ -7,7 +7,7 @@ import { useWindowSize } from "usehooks-ts";
 import { BetterTooltip } from "./better-tooltip";
 import { PlusIcon, VercelIcon } from "./icons";
 import { ModelSelector } from "./model-selector";
-import { SidebarToggle } from "./sidebar-toggle";
+import { SidebarToggle } from "./sidebar/toggle";
 import { Button } from "./ui/button";
 import { useSidebar } from "./ui/sidebar";
 

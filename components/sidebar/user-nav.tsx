@@ -1,4 +1,5 @@
 "use client";
+
 import { ChevronUp } from "lucide-react";
 import Image from "next/image";
 import { signOut } from "next-auth/react";
@@ -10,8 +11,12 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "./ui/dropdown-menu";
-import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "./ui/sidebar";
+} from "@/components/ui/dropdown-menu";
+import {
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+} from "@/components/ui/sidebar";
 
 import type { User } from "next-auth";
 
