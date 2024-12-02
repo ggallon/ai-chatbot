@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbo",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -14,6 +14,7 @@
     "db:migrate": "drizzle-kit migrate ",
     "db:push": "drizzle-kit push",
     "db:studio": "drizzle-kit studio",
+    "analyze": "ANALYZE=true next build",
     "update-deps": "pnpm update --interactive --latest"
   },
   "dependencies": {
@@ -69,6 +70,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "3.2.0",
+    "@next/bundle-analyzer": "15.0.4-canary.34",
     "@tailwindcss/typography": "0.5.15",
     "@types/node": "20.17.2",
     "@types/react": "npm:types-react@rc",
