@@ -36,7 +36,6 @@ import {
 } from '@/components/ui/sidebar';
 import type { Chat } from '@/lib/db/schema';
 import { fetcher } from '@/lib/utils';
-import equal from 'fast-deep-equal';
 
 type GroupedChats = {
   today: Chat[];
