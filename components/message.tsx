@@ -2,7 +2,7 @@
 
 import type { Message } from 'ai';
 import cx from 'classnames';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { memo, type Dispatch, type SetStateAction } from 'react';
 
 import type { Vote } from '@/lib/db/schema';

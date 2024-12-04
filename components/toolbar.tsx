@@ -7,7 +7,7 @@ import {
   motion,
   useMotionValue,
   useTransform,
-} from 'framer-motion';
+} from 'motion/react';
 import {
   type Dispatch,
   memo,
@@ -117,7 +117,7 @@ const Tool = ({
           onHoverEnd={() => {
             if (selectedTool !== type) setIsHovered(false);
           }}
-          onKeyDown={(event) => {
+          onKeyDown={(event: any) => {
             if (event.key === 'Enter') {
               handleSelect();
             }
