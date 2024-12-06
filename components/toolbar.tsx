@@ -38,7 +38,7 @@ import equal from 'fast-deep-equal';
 type ToolProps = {
   type: 'final-polish' | 'request-suggestions' | 'adjust-reading-level';
   description: string;
-  icon: JSX.Element;
+  icon: React.JSX.Element;
   selectedTool: string | null;
   setSelectedTool: Dispatch<SetStateAction<string | null>>;
   isToolbarVisible?: boolean;
@@ -345,11 +345,12 @@ const PureToolbar = ({
   setMessages: Dispatch<SetStateAction<Message[]>>;
 }) => {
   const toolbarRef = useRef<HTMLDivElement>(null);
-  const timeoutRef = useRef<ReturnType<typeof setTimeout>>();
+  const timeoutRef = useRef<NodeJS.Timeout>(null);
 
   const [selectedTool, setSelectedTool] = useState<string | null>(null);
   const [isAnimating, setIsAnimating] = useState(false);
 
+  // @ts-expect-error: Should expect never null
   useOnClickOutside(toolbarRef, () => {
     setIsToolbarVisible(false);
     setSelectedTool(null);
