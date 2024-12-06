@@ -12,7 +12,7 @@ import { cn } from '@/lib/utils';
 import { useChatVisibility } from '@/hooks/use-chat-visibility';
 
 import {
-  CheckCirclFillIcon,
+  CheckCircleFillIcon,
   ChevronDownIcon,
   GlobeIcon,
   LockIcon,
@@ -99,7 +99,7 @@ export function VisibilitySelector({
               )}
             </div>
             <div className="text-primary dark:text-primary-foreground opacity-0 group-data-[active=true]/item:opacity-100">
-              <CheckCirclFillIcon />
+              <CheckCircleFillIcon />
             </div>
           </DropdownMenuItem>
         ))}

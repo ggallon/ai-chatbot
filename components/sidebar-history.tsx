@@ -9,7 +9,7 @@ import { toast } from 'sonner';
 import useSWR from 'swr';
 
 import {
-  CheckCirclFillIcon,
+  CheckCircleFillIcon,
   GlobeIcon,
   LockIcon,
   MoreHorizontalIcon,
@@ -110,7 +110,9 @@ const PureChatItem = ({
                     <LockIcon size={12} />
                     <span>Private</span>
                   </div>
-                  {visibilityType === 'private' ? <CheckCirclFillIcon /> : null}
+                  {visibilityType === 'private' ? (
+                    <CheckCircleFillIcon />
+                  ) : null}
                 </DropdownMenuItem>
                 <DropdownMenuItem
                   className="cursor-pointer flex-row justify-between"
@@ -122,7 +124,7 @@ const PureChatItem = ({
                     <GlobeIcon />
                     <span>Public</span>
                   </div>
-                  {visibilityType === 'public' ? <CheckCirclFillIcon /> : null}
+                  {visibilityType === 'public' ? <CheckCircleFillIcon /> : null}
                 </DropdownMenuItem>
               </DropdownMenuSubContent>
             </DropdownMenuPortal>
