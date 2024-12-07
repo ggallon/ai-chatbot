@@ -11,6 +11,7 @@ import { auth } from '@/app/(auth)/auth';
 import { customModel } from '@/lib/ai';
 import { models } from '@/lib/ai/models';
 import { systemPrompt } from '@/lib/ai/prompts';
+import { getWeather } from '@/lib/ai/tools/get-weather';
 import {
   deleteChatById,
   getChatById,
@@ -103,22 +104,7 @@ export async function POST(request: Request) {
     maxSteps: 5,
     experimental_activeTools: allTools,
     tools: {
-      getWeather: {
-        description: 'Get the current weather at a location',
-        parameters: z.object({
-          latitude: z.number(),
-          longitude: z.number(),
-          city: z.string().describe('The city to get the weather for'),
-        }),
-        execute: async ({ latitude, longitude, city }) => {
-          const response = await fetch(
-            `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m&hourly=temperature_2m&daily=sunrise,sunset&timezone=auto&forecast_days=3`,
-          );
-
-          const weatherData = await response.json();
-          return { ...weatherData, city };
-        },
-      },
+      getWeather,
       createDocument: {
         description: 'Create a document for a writing activity',
         parameters: z.object({
