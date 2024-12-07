@@ -5,6 +5,8 @@ import { useEffect, useState } from 'react';
 
 interface WeatherAtLocation {
   city: string;
+  country: string;
+  state: string;
   latitude: number;
   longitude: number;
   generationtime_ms: number;
