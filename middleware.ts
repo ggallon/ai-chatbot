@@ -9,7 +9,7 @@ export const config = {
     /*
      * Match all request paths except for the ones starting with:
      * - api (API routes)
-     * - chat (APP routes) for public shared chat
+     * - chat/p (APP routes) for public shared chat
      * - _next/static (static files)
      * - _next/image (image optimization files)
      * - .well-known/*, favicon.ico, sitemap.xml, robots.txt (metadata files)
