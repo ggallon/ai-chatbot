@@ -46,6 +46,8 @@ interface WeatherAtLocation {
 
 const SAMPLE = {
   city: 'Bordeaux',
+  country: 'FR',
+  state: 'none',
   latitude: 44.84,
   longitude: -0.58,
   generationtime_ms: 0.053048,
