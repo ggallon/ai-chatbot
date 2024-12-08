@@ -15,7 +15,7 @@
   "vcs": {
     "enabled": true,
     "clientKind": "git",
-    "defaultBranch": "main",
+    "defaultBranch": "next",
     "useIgnoreFile": true
   },
   "formatter": {
