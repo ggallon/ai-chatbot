@@ -88,7 +88,7 @@ export type Document = InferSelectModel<typeof document>;
 export const suggestion = pgTable(
   'Suggestion',
   {
-    id: uuid('id').notNull().defaultRandom(),
+    id: uuid('id').primaryKey().notNull().defaultRandom(),
     documentId: uuid('documentId').notNull(),
     documentCreatedAt: timestamp('documentCreatedAt').notNull(),
     originalText: text('originalText').notNull(),
@@ -100,13 +100,13 @@ export const suggestion = pgTable(
       .references(() => user.id),
     createdAt: timestamp('createdAt').notNull(),
   },
-  (table) => ({
-    pk: primaryKey({ columns: [table.id] }),
-    documentRef: foreignKey({
+  (table) => [
+    foreignKey({
+      name: 'fkey_documentId_documentCreatedAt',
       columns: [table.documentId, table.documentCreatedAt],
       foreignColumns: [document.id, document.createdAt],
-    }),
-  }),
+    }).onDelete('cascade'),
+  ],
 );
 
 export type Suggestion = InferSelectModel<typeof suggestion>;

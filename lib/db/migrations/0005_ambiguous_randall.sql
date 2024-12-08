@@ -1,0 +1,1 @@
+ALTER TABLE "Suggestion" ADD PRIMARY KEY ("id");
