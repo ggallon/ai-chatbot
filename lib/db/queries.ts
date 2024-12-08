@@ -6,16 +6,19 @@ import { drizzle } from 'drizzle-orm/postgres-js';
 import postgres from 'postgres';
 
 import {
-  user,
   chat,
-  type User,
   document,
-  type Suggestion,
-  suggestion,
-  type Message,
   message,
+  suggestion,
+  user,
   vote,
+  type Chat,
+  type Message,
+  type Suggestion,
+  type User,
 } from './schema';
+
+import type { VisibilityType } from '@/components/visibility-selector';
 
 // Optionally, if not using email/pass login, you can
 // use the Drizzle adapter for Auth.js / NextAuth
@@ -93,9 +96,18 @@ export async function getChatsByUserId({ id }: { id: string }) {
   }
 }
 
-export async function getChatById({ id }: { id: string }) {
+export async function getChatById({
+  id,
+  visibility,
+}: {
+  id: Chat['id'];
+  visibility?: VisibilityType;
+}): Promise<Chat | undefined> {
   try {
-    const [selectedChat] = await db.select().from(chat).where(eq(chat.id, id));
+    const queryFilter = visibility
+      ? and(eq(chat.id, id), eq(chat.visibility, visibility))
+      : eq(chat.id, id);
+    const [selectedChat] = await db.select().from(chat).where(queryFilter);
     return selectedChat;
   } catch (error) {
     console.error('Failed to get chat by id from database');

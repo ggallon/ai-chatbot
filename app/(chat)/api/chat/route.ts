@@ -161,15 +161,13 @@ export async function DELETE(request: Request) {
   }
 
   const session = await auth();
-
-  if (!session || !session.user) {
+  if (!session?.user?.id) {
     return new Response('Unauthorized', { status: 401 });
   }
 
   try {
     const chat = await getChatById({ id });
-
-    if (chat.userId !== session.user.id) {
+    if (chat?.userId !== session.user.id) {
       return new Response('Unauthorized', { status: 401 });
     }
 

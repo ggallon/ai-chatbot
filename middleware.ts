@@ -14,6 +14,6 @@ export const config = {
      * - _next/image (image optimization files)
      * - .well-known/*, favicon.ico, sitemap.xml, robots.txt (metadata files)
      */
-    '/((?!api|chat|_next/static|_next/image|.well-known|favicon|fonts|sitemap|robots.txt).*)',
+    '/((?!api|chat/p|_next/static|_next/image|.well-known|favicon|fonts|sitemap|robots.txt).*)',
   ],
 };
