@@ -57,6 +57,13 @@
       "when": 1733704420245,
       "tag": "0007_brave_alice",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1733704876211,
+      "tag": "0008_fancy_wilson_fisk",
+      "breakpoints": true
     }
   ]
 }
