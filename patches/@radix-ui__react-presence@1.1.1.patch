@@ -16,7 +16,7 @@ index 5d139c059b54dd3a6578121a95386241e82c87c7..741e7250d91d95c4fd94ac7b11d5f8c3
      }, [])
    };
 diff --git a/dist/index.mjs b/dist/index.mjs
-index 5ab5280818c2471068756b1122c11463b5e19a18..03073875f284f40abf15c72c7fea2292ee63e518 100644
+index 5ab5280818c2471068756b1122c11463b5e19a18..0c2039e82ac29445668cc7646b7167f3f78a3cd6 100644
 --- a/dist/index.mjs
 +++ b/dist/index.mjs
 @@ -110,7 +110,11 @@ function usePresence(present) {
@@ -27,7 +27,7 @@ index 5ab5280818c2471068756b1122c11463b5e19a18..03073875f284f40abf15c72c7fea2292
 +      if (node2) {
 +        stylesRef.current = getComputedStyle(node2);
 +      } else {
-+        stylesRef.current = {} as any;
++        stylesRef.current = {};
 +      }
        setNode(node2);
      }, [])
