@@ -1,0 +1,34 @@
+diff --git a/dist/index.js b/dist/index.js
+index 5d139c059b54dd3a6578121a95386241e82c87c7..741e7250d91d95c4fd94ac7b11d5f8c342255694 100644
+--- a/dist/index.js
++++ b/dist/index.js
+@@ -145,7 +145,11 @@ function usePresence(present) {
+   return {
+     isPresent: ["mounted", "unmountSuspended"].includes(state),
+     ref: React2.useCallback((node2) => {
+-      if (node2) stylesRef.current = getComputedStyle(node2);
++      if (node2) {
++        stylesRef.current = getComputedStyle(node2);
++      } else {
++        stylesRef.current = {};
++      }
+       setNode(node2);
+     }, [])
+   };
+diff --git a/dist/index.mjs b/dist/index.mjs
+index 5ab5280818c2471068756b1122c11463b5e19a18..03073875f284f40abf15c72c7fea2292ee63e518 100644
+--- a/dist/index.mjs
++++ b/dist/index.mjs
+@@ -110,7 +110,11 @@ function usePresence(present) {
+   return {
+     isPresent: ["mounted", "unmountSuspended"].includes(state),
+     ref: React2.useCallback((node2) => {
+-      if (node2) stylesRef.current = getComputedStyle(node2);
++      if (node2) {
++        stylesRef.current = getComputedStyle(node2);
++      } else {
++        stylesRef.current = {} as any;
++      }
+       setNode(node2);
+     }, [])
+   };

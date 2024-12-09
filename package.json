@@ -94,6 +94,9 @@
       "postcss": "8.4.49",
       "swr": "2.2.6-beta.4",
       "use-sync-external-store": "1.4.0"
+    },
+    "patchedDependencies": {
+      "@radix-ui/react-presence@1.1.1": "patches/@radix-ui__react-presence@1.1.1.patch"
     }
   }
 }
