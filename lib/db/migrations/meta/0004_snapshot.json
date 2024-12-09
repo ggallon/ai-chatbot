@@ -263,8 +263,8 @@
           "onDelete": "no action",
           "onUpdate": "no action"
         },
-        "fkey_documentId_documentCreatedAt": {
-          "name": "fkey_documentId_documentCreatedAt",
+        "Suggestion_doctId_docCreatedAt_Doc_id_createdAt_fk": {
+          "name": "Suggestion_doctId_docCreatedAt_Doc_id_createdAt_fk",
           "tableFrom": "Suggestion",
           "tableTo": "Document",
           "columnsFrom": [

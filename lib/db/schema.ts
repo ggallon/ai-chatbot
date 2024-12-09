@@ -103,7 +103,7 @@ export const suggestion = pgTable(
   },
   (table) => [
     foreignKey({
-      name: 'fkey_documentId_documentCreatedAt',
+      name: 'Suggestion_doctId_docCreatedAt_Doc_id_createdAt_fk',
       columns: [table.documentId, table.documentCreatedAt],
       foreignColumns: [document.id, document.createdAt],
     }).onDelete('cascade'),
