@@ -5,7 +5,6 @@ import useSWR, { useSWRConfig } from 'swr';
 
 import { updateChatVisibility } from '@/app/(chat)/actions';
 
-import type { VisibilityType } from '@/components/visibility-selector';
 import type { Chat } from '@/lib/db/schema';
 
 export function useChatVisibility({
@@ -13,7 +12,7 @@ export function useChatVisibility({
   initialVisibility,
 }: {
   chatId: string;
-  initialVisibility: VisibilityType;
+  initialVisibility: Chat['visibility'];
 }) {
   const { mutate, cache } = useSWRConfig();
   const history: Array<Chat> = cache.get('/api/history')?.data;
@@ -33,7 +32,7 @@ export function useChatVisibility({
     return chat.visibility;
   }, [history, chatId, localVisibility]);
 
-  const setVisibilityType = (updatedVisibilityType: VisibilityType) => {
+  const setVisibilityType = (updatedVisibilityType: Chat['visibility']) => {
     setLocalVisibility(updatedVisibilityType);
 
     mutate<Array<Chat>>(

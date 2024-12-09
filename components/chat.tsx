@@ -8,7 +8,6 @@ import useSWR, { useSWRConfig } from 'swr';
 import { useWindowSize } from 'usehooks-ts';
 
 import { ChatHeader } from '@/components/chat-header';
-import type { Vote } from '@/lib/db/schema';
 import { fetcher } from '@/lib/utils';
 
 import { Block, type UIBlock } from './block';
@@ -16,7 +15,7 @@ import { BlockStreamHandler } from './block-stream-handler';
 import { Messages } from './messages';
 import { MultimodalInput } from './multimodal-input';
 
-import type { VisibilityType } from './visibility-selector';
+import type { Chat as ChatType, Vote } from '@/lib/db/schema';
 
 export function Chat({
   id,
@@ -28,7 +27,7 @@ export function Chat({
   id: string;
   initialMessages: Array<Message>;
   selectedModelId: string;
-  selectedVisibilityType: VisibilityType;
+  selectedVisibilityType: ChatType['visibility'];
   isReadonly: boolean;
 }) {
   const { mutate } = useSWRConfig();

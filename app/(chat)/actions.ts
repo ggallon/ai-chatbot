@@ -10,7 +10,7 @@ import {
   updateChatVisiblityById,
 } from '@/lib/db/queries';
 
-import type { VisibilityType } from '@/components/visibility-selector';
+import type { Chat } from '@/lib/db/schema';
 
 export async function saveModelId(model: string) {
   const cookieStore = await cookies();
@@ -49,7 +49,7 @@ export async function updateChatVisibility({
   visibility,
 }: {
   chatId: string;
-  visibility: VisibilityType;
+  visibility: Chat['visibility'];
 }) {
   await updateChatVisiblityById({ chatId, visibility });
 }

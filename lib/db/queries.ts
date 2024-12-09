@@ -19,8 +19,6 @@ import {
   type User,
 } from './schema';
 
-import type { VisibilityType } from '@/components/visibility-selector';
-
 // Optionally, if not using email/pass login, you can
 // use the Drizzle adapter for Auth.js / NextAuth
 // https://authjs.dev/reference/adapter/drizzle
@@ -108,7 +106,7 @@ export async function getChatById({
   visibility,
 }: {
   id: Chat['id'];
-  visibility?: VisibilityType;
+  visibility?: Chat['visibility'];
 }): Promise<Chat | undefined> {
   try {
     const queryFilter = visibility

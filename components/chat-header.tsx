@@ -15,7 +15,9 @@ import {
 } from '@/components/ui/tooltip';
 import { useSidebar } from '@/components/ui/sidebar';
 import { PlusIcon, VercelIcon } from './icons';
-import { VisibilitySelector, type VisibilityType } from './visibility-selector';
+import { VisibilitySelector } from './visibility-selector';
+
+import type { Chat } from '@/lib/db/schema';
 
 function PureChatHeader({
   chatId,
@@ -25,7 +27,7 @@ function PureChatHeader({
 }: {
   chatId: string;
   selectedModelId: string;
-  selectedVisibilityType: VisibilityType;
+  selectedVisibilityType: Chat['visibility'];
   isReadonly: boolean;
 }) {
   const router = useRouter();
