@@ -1,7 +1,6 @@
 'use client';
 
-import type { Attachment, Message } from 'ai';
-import { useChat } from 'ai/react';
+import { useChat } from '@ai-sdk/react';
 import { AnimatePresence } from 'motion/react';
 import { useState } from 'react';
 import useSWR, { useSWRConfig } from 'swr';
@@ -15,6 +14,7 @@ import { BlockStreamHandler } from './block-stream-handler';
 import { Messages } from './messages';
 import { MultimodalInput } from './multimodal-input';
 
+import type { Attachment, Message } from 'ai';
 import type { Chat as ChatType, Vote } from '@/lib/db/schema';
 
 export function Chat({
