@@ -50,6 +50,13 @@
       "when": 1733702516787,
       "tag": "0006_late_rage",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1733704420245,
+      "tag": "0007_brave_alice",
+      "breakpoints": true
     }
   ]
 }
