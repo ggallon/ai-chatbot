@@ -74,13 +74,14 @@ export const document = pgTable(
     content: text('content'),
     userId: uuid('userId')
       .notNull()
-      .references(() => user.id),
+      .references(() => user.id, { onDelete: 'cascade' }),
   },
-  (table) => {
-    return {
-      pk: primaryKey({ columns: [table.id, table.createdAt] }),
-    };
-  },
+  (table) => [
+    primaryKey({
+      name: 'Document_id_createdAt_pk',
+      columns: [table.id, table.createdAt],
+    }),
+  ],
 );
 
 export type Document = InferSelectModel<typeof document>;
