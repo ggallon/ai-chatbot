@@ -96,7 +96,8 @@
       "use-sync-external-store": "1.4.0"
     },
     "patchedDependencies": {
-      "@radix-ui/react-presence@1.1.1": "patches/@radix-ui__react-presence@1.1.1.patch"
+      "@radix-ui/react-presence@1.1.1": "patches/@radix-ui__react-presence@1.1.1.patch",
+      "@radix-ui/react-slot": "patches/@radix-ui__react-slot.patch"
     }
   }
 }

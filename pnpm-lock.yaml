@@ -14,6 +14,9 @@ patchedDependencies:
   '@radix-ui/react-presence@1.1.1':
     hash: st3oteh4egccjals34fuqqdkii
     path: patches/@radix-ui__react-presence@1.1.1.patch
+  '@radix-ui/react-slot':
+    hash: sgl2itdoobnzdfpoiuqkqqunju
+    path: patches/@radix-ui__react-slot.patch
 
 importers:
 
@@ -45,7 +48,7 @@ importers:
         version: 1.1.0(@types/react-dom@19.0.2(@types/react@19.0.1))(@types/react@19.0.1)(react-dom@19.0.0-rc-1c9b1387-20241204(react@19.0.0-rc-1c9b1387-20241204))(react@19.0.0-rc-1c9b1387-20241204)
       '@radix-ui/react-slot':
         specifier: 1.1.0
-        version: 1.1.0(@types/react@19.0.1)(react@19.0.0-rc-1c9b1387-20241204)
+        version: 1.1.0(patch_hash=sgl2itdoobnzdfpoiuqkqqunju)(@types/react@19.0.1)(react@19.0.0-rc-1c9b1387-20241204)
       '@radix-ui/react-tooltip':
         specifier: 1.1.4
         version: 1.1.4(@types/react-dom@19.0.2(@types/react@19.0.1))(@types/react@19.0.1)(react-dom@19.0.0-rc-1c9b1387-20241204(react@19.0.0-rc-1c9b1387-20241204))(react@19.0.0-rc-1c9b1387-20241204)
@@ -4240,7 +4243,7 @@ snapshots:
       '@radix-ui/react-context': 1.1.1(@types/react@19.0.1)(react@19.0.0-rc-1c9b1387-20241204)
       '@radix-ui/react-dialog': 1.1.2(@types/react-dom@19.0.2(@types/react@19.0.1))(@types/react@19.0.1)(react-dom@19.0.0-rc-1c9b1387-20241204(react@19.0.0-rc-1c9b1387-20241204))(react@19.0.0-rc-1c9b1387-20241204)
       '@radix-ui/react-primitive': 2.0.0(@types/react-dom@19.0.2(@types/react@19.0.1))(@types/react@19.0.1)(react-dom@19.0.0-rc-1c9b1387-20241204(react@19.0.0-rc-1c9b1387-20241204))(react@19.0.0-rc-1c9b1387-20241204)
-      '@radix-ui/react-slot': 1.1.0(@types/react@19.0.1)(react@19.0.0-rc-1c9b1387-20241204)
+      '@radix-ui/react-slot': 1.1.0(patch_hash=sgl2itdoobnzdfpoiuqkqqunju)(@types/react@19.0.1)(react@19.0.0-rc-1c9b1387-20241204)
       react: 19.0.0-rc-1c9b1387-20241204
       react-dom: 19.0.0-rc-1c9b1387-20241204(react@19.0.0-rc-1c9b1387-20241204)
     optionalDependencies:
@@ -4261,7 +4264,7 @@ snapshots:
       '@radix-ui/react-compose-refs': 1.1.0(@types/react@19.0.1)(react@19.0.0-rc-1c9b1387-20241204)
       '@radix-ui/react-context': 1.1.0(@types/react@19.0.1)(react@19.0.0-rc-1c9b1387-20241204)
       '@radix-ui/react-primitive': 2.0.0(@types/react-dom@19.0.2(@types/react@19.0.1))(@types/react@19.0.1)(react-dom@19.0.0-rc-1c9b1387-20241204(react@19.0.0-rc-1c9b1387-20241204))(react@19.0.0-rc-1c9b1387-20241204)
-      '@radix-ui/react-slot': 1.1.0(@types/react@19.0.1)(react@19.0.0-rc-1c9b1387-20241204)
+      '@radix-ui/react-slot': 1.1.0(patch_hash=sgl2itdoobnzdfpoiuqkqqunju)(@types/react@19.0.1)(react@19.0.0-rc-1c9b1387-20241204)
       react: 19.0.0-rc-1c9b1387-20241204
       react-dom: 19.0.0-rc-1c9b1387-20241204(react@19.0.0-rc-1c9b1387-20241204)
     optionalDependencies:
@@ -4298,7 +4301,7 @@ snapshots:
       '@radix-ui/react-portal': 1.1.2(@types/react-dom@19.0.2(@types/react@19.0.1))(@types/react@19.0.1)(react-dom@19.0.0-rc-1c9b1387-20241204(react@19.0.0-rc-1c9b1387-20241204))(react@19.0.0-rc-1c9b1387-20241204)
       '@radix-ui/react-presence': 1.1.1(patch_hash=st3oteh4egccjals34fuqqdkii)(@types/react-dom@19.0.2(@types/react@19.0.1))(@types/react@19.0.1)(react-dom@19.0.0-rc-1c9b1387-20241204(react@19.0.0-rc-1c9b1387-20241204))(react@19.0.0-rc-1c9b1387-20241204)
       '@radix-ui/react-primitive': 2.0.0(@types/react-dom@19.0.2(@types/react@19.0.1))(@types/react@19.0.1)(react-dom@19.0.0-rc-1c9b1387-20241204(react@19.0.0-rc-1c9b1387-20241204))(react@19.0.0-rc-1c9b1387-20241204)
-      '@radix-ui/react-slot': 1.1.0(@types/react@19.0.1)(react@19.0.0-rc-1c9b1387-20241204)
+      '@radix-ui/react-slot': 1.1.0(patch_hash=sgl2itdoobnzdfpoiuqkqqunju)(@types/react@19.0.1)(react@19.0.0-rc-1c9b1387-20241204)
       '@radix-ui/react-use-controllable-state': 1.1.0(@types/react@19.0.1)(react@19.0.0-rc-1c9b1387-20241204)
       aria-hidden: 1.2.4
       react: 19.0.0-rc-1c9b1387-20241204
@@ -4391,7 +4394,7 @@ snapshots:
       '@radix-ui/react-presence': 1.1.1(patch_hash=st3oteh4egccjals34fuqqdkii)(@types/react-dom@19.0.2(@types/react@19.0.1))(@types/react@19.0.1)(react-dom@19.0.0-rc-1c9b1387-20241204(react@19.0.0-rc-1c9b1387-20241204))(react@19.0.0-rc-1c9b1387-20241204)
       '@radix-ui/react-primitive': 2.0.0(@types/react-dom@19.0.2(@types/react@19.0.1))(@types/react@19.0.1)(react-dom@19.0.0-rc-1c9b1387-20241204(react@19.0.0-rc-1c9b1387-20241204))(react@19.0.0-rc-1c9b1387-20241204)
       '@radix-ui/react-roving-focus': 1.1.0(@types/react-dom@19.0.2(@types/react@19.0.1))(@types/react@19.0.1)(react-dom@19.0.0-rc-1c9b1387-20241204(react@19.0.0-rc-1c9b1387-20241204))(react@19.0.0-rc-1c9b1387-20241204)
-      '@radix-ui/react-slot': 1.1.0(@types/react@19.0.1)(react@19.0.0-rc-1c9b1387-20241204)
+      '@radix-ui/react-slot': 1.1.0(patch_hash=sgl2itdoobnzdfpoiuqkqqunju)(@types/react@19.0.1)(react@19.0.0-rc-1c9b1387-20241204)
       '@radix-ui/react-use-callback-ref': 1.1.0(@types/react@19.0.1)(react@19.0.0-rc-1c9b1387-20241204)
       aria-hidden: 1.2.4
       react: 19.0.0-rc-1c9b1387-20241204
@@ -4441,7 +4444,7 @@ snapshots:
 
   '@radix-ui/react-primitive@2.0.0(@types/react-dom@19.0.2(@types/react@19.0.1))(@types/react@19.0.1)(react-dom@19.0.0-rc-1c9b1387-20241204(react@19.0.0-rc-1c9b1387-20241204))(react@19.0.0-rc-1c9b1387-20241204)':
     dependencies:
-      '@radix-ui/react-slot': 1.1.0(@types/react@19.0.1)(react@19.0.0-rc-1c9b1387-20241204)
+      '@radix-ui/react-slot': 1.1.0(patch_hash=sgl2itdoobnzdfpoiuqkqqunju)(@types/react@19.0.1)(react@19.0.0-rc-1c9b1387-20241204)
       react: 19.0.0-rc-1c9b1387-20241204
       react-dom: 19.0.0-rc-1c9b1387-20241204(react@19.0.0-rc-1c9b1387-20241204)
     optionalDependencies:
@@ -4480,7 +4483,7 @@ snapshots:
       '@radix-ui/react-popper': 1.2.0(@types/react-dom@19.0.2(@types/react@19.0.1))(@types/react@19.0.1)(react-dom@19.0.0-rc-1c9b1387-20241204(react@19.0.0-rc-1c9b1387-20241204))(react@19.0.0-rc-1c9b1387-20241204)
       '@radix-ui/react-portal': 1.1.2(@types/react-dom@19.0.2(@types/react@19.0.1))(@types/react@19.0.1)(react-dom@19.0.0-rc-1c9b1387-20241204(react@19.0.0-rc-1c9b1387-20241204))(react@19.0.0-rc-1c9b1387-20241204)
       '@radix-ui/react-primitive': 2.0.0(@types/react-dom@19.0.2(@types/react@19.0.1))(@types/react@19.0.1)(react-dom@19.0.0-rc-1c9b1387-20241204(react@19.0.0-rc-1c9b1387-20241204))(react@19.0.0-rc-1c9b1387-20241204)
-      '@radix-ui/react-slot': 1.1.0(@types/react@19.0.1)(react@19.0.0-rc-1c9b1387-20241204)
+      '@radix-ui/react-slot': 1.1.0(patch_hash=sgl2itdoobnzdfpoiuqkqqunju)(@types/react@19.0.1)(react@19.0.0-rc-1c9b1387-20241204)
       '@radix-ui/react-use-callback-ref': 1.1.0(@types/react@19.0.1)(react@19.0.0-rc-1c9b1387-20241204)
       '@radix-ui/react-use-controllable-state': 1.1.0(@types/react@19.0.1)(react@19.0.0-rc-1c9b1387-20241204)
       '@radix-ui/react-use-layout-effect': 1.1.0(@types/react@19.0.1)(react@19.0.0-rc-1c9b1387-20241204)
@@ -4503,7 +4506,7 @@ snapshots:
       '@types/react': 19.0.1
       '@types/react-dom': 19.0.2(@types/react@19.0.1)
 
-  '@radix-ui/react-slot@1.1.0(@types/react@19.0.1)(react@19.0.0-rc-1c9b1387-20241204)':
+  '@radix-ui/react-slot@1.1.0(patch_hash=sgl2itdoobnzdfpoiuqkqqunju)(@types/react@19.0.1)(react@19.0.0-rc-1c9b1387-20241204)':
     dependencies:
       '@radix-ui/react-compose-refs': 1.1.0(@types/react@19.0.1)(react@19.0.0-rc-1c9b1387-20241204)
       react: 19.0.0-rc-1c9b1387-20241204
@@ -4521,7 +4524,7 @@ snapshots:
       '@radix-ui/react-portal': 1.1.2(@types/react-dom@19.0.2(@types/react@19.0.1))(@types/react@19.0.1)(react-dom@19.0.0-rc-1c9b1387-20241204(react@19.0.0-rc-1c9b1387-20241204))(react@19.0.0-rc-1c9b1387-20241204)
       '@radix-ui/react-presence': 1.1.1(patch_hash=st3oteh4egccjals34fuqqdkii)(@types/react-dom@19.0.2(@types/react@19.0.1))(@types/react@19.0.1)(react-dom@19.0.0-rc-1c9b1387-20241204(react@19.0.0-rc-1c9b1387-20241204))(react@19.0.0-rc-1c9b1387-20241204)
       '@radix-ui/react-primitive': 2.0.0(@types/react-dom@19.0.2(@types/react@19.0.1))(@types/react@19.0.1)(react-dom@19.0.0-rc-1c9b1387-20241204(react@19.0.0-rc-1c9b1387-20241204))(react@19.0.0-rc-1c9b1387-20241204)
-      '@radix-ui/react-slot': 1.1.0(@types/react@19.0.1)(react@19.0.0-rc-1c9b1387-20241204)
+      '@radix-ui/react-slot': 1.1.0(patch_hash=sgl2itdoobnzdfpoiuqkqqunju)(@types/react@19.0.1)(react@19.0.0-rc-1c9b1387-20241204)
       '@radix-ui/react-use-controllable-state': 1.1.0(@types/react@19.0.1)(react@19.0.0-rc-1c9b1387-20241204)
       '@radix-ui/react-visually-hidden': 1.1.0(@types/react-dom@19.0.2(@types/react@19.0.1))(@types/react@19.0.1)(react-dom@19.0.0-rc-1c9b1387-20241204(react@19.0.0-rc-1c9b1387-20241204))(react@19.0.0-rc-1c9b1387-20241204)
       react: 19.0.0-rc-1c9b1387-20241204
