@@ -71,6 +71,13 @@
       "when": 1733704967476,
       "tag": "0009_far_maximus",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1733705557132,
+      "tag": "0010_friendly_sunspot",
+      "breakpoints": true
     }
   ]
 }
