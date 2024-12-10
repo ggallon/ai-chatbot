@@ -93,7 +93,7 @@ const PurePreviewMessage = ({
 
           {message.content && mode === 'view' && (
             <div className="flex flex-row gap-2 items-start">
-              <div className="flex flex-col prose dark:prose-invert">
+              <div className="flex flex-col prose dark:prose-invert max-w-none prose-p:mb-2 prose-ol:my-0">
                 <Markdown>{message.content as string}</Markdown>
               </div>
               {message.role === 'user' && !isReadonly && (
