@@ -1,10 +1,13 @@
 import type { ChatRequestOptions, Message } from 'ai';
+import equal from 'fast-deep-equal';
+import { memo, type Dispatch, type SetStateAction } from 'react';
+
 import { PreviewMessage, ThinkingMessage } from './message';
 import { useScrollToBottom } from './use-scroll-to-bottom';
 import { Overview } from './overview';
-import type { UIBlock } from './block';
-import { type Dispatch, memo, type SetStateAction } from 'react';
+
 import type { Vote } from '@/lib/db/schema';
+import type { UIBlock } from './block';
 
 interface MessagesProps {
   chatId: string;
@@ -74,15 +77,11 @@ function PureMessages({
   );
 }
 
-function areEqual(prevProps: MessagesProps, nextProps: MessagesProps) {
-  if (
-    prevProps.block.status === 'streaming' &&
-    nextProps.block.status === 'streaming'
-  ) {
-    return true;
-  }
+export const Messages = memo(PureMessages, (prevProps, nextProps) => {
+  if (prevProps.isLoading !== nextProps.isLoading) return false;
+  if (prevProps.isLoading && nextProps.isLoading) return false;
+  if (prevProps.messages.length !== nextProps.messages.length) return false;
+  if (!equal(prevProps.votes, nextProps.votes)) return false;
 
-  return false;
-}
-
-export const Messages = memo(PureMessages, areEqual);
+  return true;
+});

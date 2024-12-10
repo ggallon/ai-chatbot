@@ -33,7 +33,6 @@ import {
   StopIcon,
   SummarizeIcon,
 } from './icons';
-import equal from 'fast-deep-equal';
 
 type ToolProps = {
   type: 'final-polish' | 'request-suggestions' | 'adjust-reading-level';
@@ -470,5 +469,8 @@ const PureToolbar = ({
 };
 
 export const Toolbar = memo(PureToolbar, (prevProps, nextProps) => {
-  return equal(prevProps, nextProps);
+  if (prevProps.isLoading !== nextProps.isLoading) return false;
+  if (prevProps.isToolbarVisible !== nextProps.isToolbarVisible) return false;
+
+  return true;
 });

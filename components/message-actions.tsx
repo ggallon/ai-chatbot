@@ -1,4 +1,5 @@
-import type { Message } from 'ai';
+import equal from 'fast-deep-equal';
+import { memo } from 'react';
 import { toast } from 'sonner';
 import { useSWRConfig } from 'swr';
 import { useCopyToClipboard } from 'usehooks-ts';
@@ -15,7 +16,9 @@ import {
   TooltipTrigger,
 } from './ui/tooltip';
 
-export function MessageActions({
+import type { Message } from 'ai';
+
+export function PureMessageActions({
   chatId,
   message,
   vote,
@@ -164,3 +167,13 @@ export function MessageActions({
     </TooltipProvider>
   );
 }
+
+export const MessageActions = memo(
+  PureMessageActions,
+  (prevProps, nextProps) => {
+    if (!equal(prevProps.vote, nextProps.vote)) return false;
+    if (prevProps.isLoading !== nextProps.isLoading) return false;
+
+    return true;
+  },
+);
