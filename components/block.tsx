@@ -418,7 +418,7 @@ function PureBlock({
           />
         </div>
 
-        <div className="prose dark:prose-invert dark:bg-muted bg-background h-full overflow-y-scroll px-4 py-8 md:p-20 !max-w-full pb-40 items-center">
+        <div className="prose dark:prose-invert dark:bg-muted bg-background h-full overflow-y-scroll px-4 py-8 md:p-14 !max-w-full pb-40 items-center">
           <div className="flex flex-row max-w-[600px] mx-auto">
             {isDocumentsFetching && !block.content ? (
               <DocumentSkeleton />

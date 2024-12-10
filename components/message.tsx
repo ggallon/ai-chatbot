@@ -3,6 +3,7 @@
 import type { ChatRequestOptions, Message } from 'ai';
 import cx from 'classnames';
 import { motion } from 'motion/react';
+import Image from 'next/image';
 import { memo, useState, type Dispatch, type SetStateAction } from 'react';
 
 import type { Vote } from '@/lib/db/schema';
@@ -56,18 +57,27 @@ const PurePreviewMessage = ({
     >
       <div
         className={cn(
-          'flex gap-4 w-full group-data-[role=user]/message:ml-auto group-data-[role=user]/message:max-w-2xl',
+          'flex gap-4 w-full group-data-[role=user]/message:max-w-2xl',
           {
             'w-full': mode === 'edit',
             'group-data-[role=user]/message:w-fit': mode !== 'edit',
           },
         )}
       >
-        {message.role === 'assistant' && (
-          <div className="size-8 flex items-center rounded-full justify-center ring-1 shrink-0 ring-border">
-            <SparklesIcon size={14} />
-          </div>
-        )}
+        <div className="size-7 flex items-center rounded-full justify-center ring-1 shrink-0 ring-border">
+          {message.role === 'assistant' ? (
+            <SparklesIcon size={12} />
+          ) : (
+            <Image
+              src="https://avatar.vercel.sh/user_email"
+              alt="user_email"
+              width={20}
+              height={20}
+              className="rounded-full"
+              unoptimized={true}
+            />
+          )}
+        </div>
 
         <div className="flex flex-col gap-2 w-full">
           {message.experimental_attachments && (
@@ -83,6 +93,9 @@ const PurePreviewMessage = ({
 
           {message.content && mode === 'view' && (
             <div className="flex flex-row gap-2 items-start">
+              <div className="flex flex-col prose dark:prose-invert">
+                <Markdown>{message.content as string}</Markdown>
+              </div>
               {message.role === 'user' && !isReadonly && (
                 <Tooltip>
                   <TooltipTrigger asChild>
@@ -99,22 +112,11 @@ const PurePreviewMessage = ({
                   <TooltipContent>Edit message</TooltipContent>
                 </Tooltip>
               )}
-
-              <div
-                className={cn('flex flex-col gap-4', {
-                  'bg-primary text-primary-foreground px-3 py-2 rounded-xl':
-                    message.role === 'user',
-                })}
-              >
-                <Markdown>{message.content as string}</Markdown>
-              </div>
             </div>
           )}
 
           {message.content && mode === 'edit' && (
             <div className="flex flex-row gap-2 items-start">
-              <div className="size-8" />
-
               <MessageEditor
                 key={message.id}
                 message={message}
@@ -122,6 +124,7 @@ const PurePreviewMessage = ({
                 setMessages={setMessages}
                 reload={reload}
               />
+              <div className="size-8" />
             </div>
           )}
 
