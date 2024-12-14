@@ -2,11 +2,12 @@ import { textblockTypeInputRule } from 'prosemirror-inputrules';
 import { Schema } from 'prosemirror-model';
 import { schema } from 'prosemirror-schema-basic';
 import { addListNodes } from 'prosemirror-schema-list';
-import type { Transaction } from 'prosemirror-state';
-import type { EditorView } from 'prosemirror-view';
-import type { MutableRefObject } from 'react';
 
 import { buildContentFromDocument } from './functions';
+
+import type { Transaction } from 'prosemirror-state';
+import type { EditorView } from 'prosemirror-view';
+import type { RefObject } from 'react';
 
 export const documentSchema = new Schema({
   nodes: addListNodes(schema.spec.nodes, 'paragraph block*', 'block'),
@@ -27,7 +28,7 @@ export const handleTransaction = ({
   saveContent,
 }: {
   transaction: Transaction;
-  editorRef: MutableRefObject<EditorView | null>;
+  editorRef: RefObject<EditorView | null>;
   saveContent: (updatedContent: string, debounce: boolean) => void;
 }) => {
   if (!editorRef || !editorRef.current) return;
