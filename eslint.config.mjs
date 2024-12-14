@@ -8,7 +8,6 @@ const compat = new FlatCompat({
 });
 
 const eslintConfig = [
-  { ignores: ['**/components/ui/**'] },
   ...compat.config({
     extends: ['next/core-web-vitals', 'next/typescript', 'prettier'],
   }),
@@ -16,6 +15,7 @@ const eslintConfig = [
   eslintPluginImportX.flatConfigs.typescript,
   eslintConfigPrettier,
   {
+    ignores: ['./components/ui/**'],
     rules: {
       'import-x/no-deprecated': 'warn',
       '@typescript-eslint/no-explicit-any': 'warn',
