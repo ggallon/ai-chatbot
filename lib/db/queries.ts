@@ -71,12 +71,15 @@ export async function saveChat({
   }
 }
 
-export async function deleteChatById({ id }: { id: string }) {
+export async function deleteChatById({
+  id,
+  userId,
+}: {
+  id: Chat['id'];
+  userId: Chat['userId'];
+}) {
   try {
-    await db.delete(vote).where(eq(vote.chatId, id));
-    await db.delete(message).where(eq(message.chatId, id));
-
-    return await db.delete(chat).where(eq(chat.id, id));
+    await db.delete(chat).where(and(eq(chat.id, id), eq(chat.userId, userId)));
   } catch (error) {
     console.error('Failed to delete chat by id from database');
     throw error;
