@@ -1,9 +1,7 @@
 'use client';
 
-import { isToday, isYesterday, subMonths, subWeeks } from 'date-fns';
 import Link from 'next/link';
 import { useParams, usePathname, useRouter } from 'next/navigation';
-import type { User } from 'next-auth';
 import { memo, useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import useSWR from 'swr';
@@ -45,17 +43,12 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from '@/components/ui/sidebar';
-import type { Chat } from '@/lib/db/schema';
-import { fetcher } from '@/lib/utils';
 import { useChatVisibility } from '@/hooks/use-chat-visibility';
+import { groupChatsByDate } from '@/lib/group-chats-by-date';
+import { fetcher } from '@/lib/utils';
 
-type GroupedChats = {
-  today: Chat[];
-  yesterday: Chat[];
-  lastWeek: Chat[];
-  lastMonth: Chat[];
-  older: Chat[];
-};
+import type { User } from 'next-auth';
+import type { Chat } from '@/lib/db/schema';
 
 const PureChatItem = ({
   chat,
@@ -246,39 +239,6 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
       </SidebarGroup>
     );
   }
-
-  const groupChatsByDate = (chats: Chat[]): GroupedChats => {
-    const now = new Date();
-    const oneWeekAgo = subWeeks(now, 1);
-    const oneMonthAgo = subMonths(now, 1);
-
-    return chats.reduce(
-      (groups, chat) => {
-        const chatDate = new Date(chat.createdAt);
-
-        if (isToday(chatDate)) {
-          groups.today.push(chat);
-        } else if (isYesterday(chatDate)) {
-          groups.yesterday.push(chat);
-        } else if (chatDate > oneWeekAgo) {
-          groups.lastWeek.push(chat);
-        } else if (chatDate > oneMonthAgo) {
-          groups.lastMonth.push(chat);
-        } else {
-          groups.older.push(chat);
-        }
-
-        return groups;
-      },
-      {
-        today: [],
-        yesterday: [],
-        lastWeek: [],
-        lastMonth: [],
-        older: [],
-      } as GroupedChats,
-    );
-  };
 
   return (
     <>
