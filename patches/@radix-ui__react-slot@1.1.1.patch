@@ -1,19 +1,19 @@
 diff --git a/dist/index.js b/dist/index.js
-index 724cd6fcdf2dce8622bcef6a4880e92fe05cf44c..c335e011edad42951d0c67439debe27a6a7688aa 100644
+index 724cd6fcdf2dce8622bcef6a4880e92fe05cf44c..309f846d1c30dbf51ff1e45c051e09a00c22798a 100644
 --- a/dist/index.js
 +++ b/dist/index.js
-@@ -63,11 +63,15 @@ var SlotClone = React.forwardRef((props, forwardedRef) => {
+@@ -63,11 +63,16 @@ var SlotClone = React.forwardRef((props, forwardedRef) => {
    const { children, ...slotProps } = props;
    if (React.isValidElement(children)) {
      const childrenRef = getElementRef(children);
 -    return React.cloneElement(children, {
--      ...mergeProps(slotProps, children.props),
++    // TODO https://github.com/radix-ui/primitives/pull/3229
++    const props = {
+       ...mergeProps(slotProps, children.props),
 -      // @ts-ignore
 -      ref: forwardedRef ? (0, import_react_compose_refs.composeRefs)(forwardedRef, childrenRef) : childrenRef
 -    });
-+    const props = {
-+      ...mergeProps(slotProps, children.props)
-+    }
++    };
 +    // do not pass ref to React.Fragment for React 19 compatibility
 +    if (children.type !== React.Fragment) {
 +      props.ref = forwardedRef ? (0, import_react_compose_refs.composeRefs)(forwardedRef, childrenRef) : childrenRef;
@@ -24,21 +24,21 @@ index 724cd6fcdf2dce8622bcef6a4880e92fe05cf44c..c335e011edad42951d0c67439debe27a
    return React.Children.count(children) > 1 ? React.Children.only(null) : null;
  });
 diff --git a/dist/index.mjs b/dist/index.mjs
-index 73e28afb741e05e1d1bb4206fa917918bb9457ec..61b961dae21928d73c2a543d4e463e144846a29f 100644
+index 73e28afb741e05e1d1bb4206fa917918bb9457ec..86036f0487f2771805787fa977f34b38a89e20a6 100644
 --- a/dist/index.mjs
 +++ b/dist/index.mjs
-@@ -25,11 +25,15 @@ var SlotClone = React.forwardRef((props, forwardedRef) => {
+@@ -25,11 +25,16 @@ var SlotClone = React.forwardRef((props, forwardedRef) => {
    const { children, ...slotProps } = props;
    if (React.isValidElement(children)) {
      const childrenRef = getElementRef(children);
 -    return React.cloneElement(children, {
--      ...mergeProps(slotProps, children.props),
++    // TODO https://github.com/radix-ui/primitives/pull/3229
++    const props = {
+       ...mergeProps(slotProps, children.props),
 -      // @ts-ignore
 -      ref: forwardedRef ? composeRefs(forwardedRef, childrenRef) : childrenRef
 -    });
-+    const props = {
-+      ...mergeProps(slotProps, children.props)
-+    }
++    };
 +    // do not pass ref to React.Fragment for React 19 compatibility
 +    if (children.type !== React.Fragment) {
 +      props.ref = forwardedRef ? composeRefs(forwardedRef, childrenRef) : childrenRef;

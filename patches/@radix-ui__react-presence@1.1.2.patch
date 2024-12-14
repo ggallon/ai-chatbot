@@ -1,12 +1,13 @@
 diff --git a/dist/index.js b/dist/index.js
-index 5d139c059b54dd3a6578121a95386241e82c87c7..741e7250d91d95c4fd94ac7b11d5f8c342255694 100644
+index 5d139c059b54dd3a6578121a95386241e82c87c7..025ad9b0dc7a5eede219494e24dc91b8fe19fa0f 100644
 --- a/dist/index.js
 +++ b/dist/index.js
-@@ -145,7 +145,11 @@ function usePresence(present) {
+@@ -145,7 +145,12 @@ function usePresence(present) {
    return {
      isPresent: ["mounted", "unmountSuspended"].includes(state),
      ref: React2.useCallback((node2) => {
 -      if (node2) stylesRef.current = getComputedStyle(node2);
++      // TODO: https://github.com/radix-ui/primitives/pull/3234
 +      if (node2) {
 +        stylesRef.current = getComputedStyle(node2);
 +      } else {
@@ -16,14 +17,15 @@ index 5d139c059b54dd3a6578121a95386241e82c87c7..741e7250d91d95c4fd94ac7b11d5f8c3
      }, [])
    };
 diff --git a/dist/index.mjs b/dist/index.mjs
-index 5ab5280818c2471068756b1122c11463b5e19a18..0c2039e82ac29445668cc7646b7167f3f78a3cd6 100644
+index 5ab5280818c2471068756b1122c11463b5e19a18..ce3c4cfcd57334175819074218616263f5afd169 100644
 --- a/dist/index.mjs
 +++ b/dist/index.mjs
-@@ -110,7 +110,11 @@ function usePresence(present) {
+@@ -110,7 +110,12 @@ function usePresence(present) {
    return {
      isPresent: ["mounted", "unmountSuspended"].includes(state),
      ref: React2.useCallback((node2) => {
 -      if (node2) stylesRef.current = getComputedStyle(node2);
++      // TODO: https://github.com/radix-ui/primitives/pull/3234
 +      if (node2) {
 +        stylesRef.current = getComputedStyle(node2);
 +      } else {
