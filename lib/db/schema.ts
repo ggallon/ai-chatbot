@@ -21,7 +21,7 @@ export function lower(email: AnyPgColumn): SQL {
 export const user = pgTable(
   'User',
   {
-    id: uuid('id').primaryKey().notNull().defaultRandom(),
+    id: uuid('id').primaryKey().defaultRandom(),
     email: varchar('email', { length: 64 }).notNull(),
     password: varchar('password', { length: 64 }),
   },
@@ -31,7 +31,7 @@ export const user = pgTable(
 export type User = InferSelectModel<typeof user>;
 
 export const chat = pgTable('Chat', {
-  id: uuid('id').primaryKey().notNull().defaultRandom(),
+  id: uuid('id').primaryKey().defaultRandom(),
   createdAt: timestamp('createdAt').notNull(),
   title: text('title').notNull(),
   userId: uuid('userId')
@@ -45,7 +45,7 @@ export const chat = pgTable('Chat', {
 export type Chat = InferSelectModel<typeof chat>;
 
 export const message = pgTable('Message', {
-  id: uuid('id').primaryKey().notNull().defaultRandom(),
+  id: uuid('id').primaryKey().defaultRandom(),
   chatId: uuid('chatId')
     .notNull()
     .references(() => chat.id, { onDelete: 'cascade' }),
@@ -97,7 +97,7 @@ export type Document = InferSelectModel<typeof document>;
 export const suggestion = pgTable(
   'Suggestion',
   {
-    id: uuid('id').primaryKey().notNull().defaultRandom(),
+    id: uuid('id').primaryKey().defaultRandom(),
     documentId: uuid('documentId').notNull(),
     documentCreatedAt: timestamp('documentCreatedAt').notNull(),
     originalText: text('originalText').notNull(),
