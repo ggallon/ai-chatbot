@@ -2,6 +2,11 @@ import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
   /* config options here */
+  eslint: {
+    // By default, Next.js will run ESLint for all files
+    // in the pages/, app/, components/, lib/, and src/ directories
+    dirs: ['app', 'components', 'hooks', 'lib'],
+  },
   experimental: {
     ppr: true,
   },
