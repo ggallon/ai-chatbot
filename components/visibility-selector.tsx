@@ -8,7 +8,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/utils/cn';
 import { useChatVisibility } from '@/hooks/use-chat-visibility';
 
 import {

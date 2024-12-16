@@ -8,7 +8,7 @@ import Image from 'next/image';
 import { memo, useState } from 'react';
 
 import { useBlock } from '@/hooks/use-block';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/utils/cn';
 
 import { DocumentToolCall, DocumentToolResult } from './document';
 import { PencilEditIcon, SparklesIcon } from './icons';

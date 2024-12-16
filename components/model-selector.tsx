@@ -11,7 +11,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { models } from '@/lib/ai/models';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/utils/cn';
 
 import { CheckCircleFillIcon, ChevronDownIcon } from './icons';
 
