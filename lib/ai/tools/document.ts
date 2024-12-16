@@ -1,4 +1,4 @@
-import { streamObject, streamText, tool, type StreamData } from 'ai';
+import { streamObject, streamText, tool, type DataStreamWriter } from 'ai';
 import { z } from 'zod';
 
 import { customModel } from '@/lib/ai';
@@ -14,12 +14,12 @@ import type { Suggestion } from '@/lib/db/schema';
 
 export interface ExtendedOptions {
   modelApiIdentifier: Model['apiIdentifier'];
-  streamingData: StreamData;
+  dataStream: DataStreamWriter;
   userId?: string;
 }
 
 export const initDocumentTools = (options: ExtendedOptions) => {
-  const { modelApiIdentifier, streamingData, userId } = options;
+  const { modelApiIdentifier, dataStream, userId } = options;
   return {
     createDocument: tool({
       description: 'Create a document for a writing activity',
@@ -29,9 +29,9 @@ export const initDocumentTools = (options: ExtendedOptions) => {
       execute: async ({ title }) => {
         const id = generateUUID();
 
-        streamingData.append({ type: 'id', content: id });
-        streamingData.append({ type: 'title', content: title });
-        streamingData.append({ type: 'clear', content: '' });
+        dataStream.writeData({ type: 'id', content: id });
+        dataStream.writeData({ type: 'title', content: title });
+        dataStream.writeData({ type: 'clear', content: '' });
 
         const { fullStream } = streamText({
           model: customModel(modelApiIdentifier),
@@ -48,14 +48,14 @@ export const initDocumentTools = (options: ExtendedOptions) => {
             const { textDelta } = delta;
 
             draftText += textDelta;
-            streamingData.append({
+            dataStream.writeData({
               type: 'text-delta',
               content: textDelta,
             });
           }
         }
 
-        streamingData.append({ type: 'finish', content: '' });
+        dataStream.writeData({ type: 'finish', content: '' });
 
         if (userId) {
           await saveDocument({
@@ -92,7 +92,7 @@ export const initDocumentTools = (options: ExtendedOptions) => {
         const { content: currentContent } = document;
         let draftText = '';
 
-        streamingData.append({
+        dataStream.writeData({
           type: 'clear',
           content: document.title,
         });
@@ -125,14 +125,14 @@ export const initDocumentTools = (options: ExtendedOptions) => {
             const { textDelta } = delta;
 
             draftText += textDelta;
-            streamingData.append({
+            dataStream.writeData({
               type: 'text-delta',
               content: textDelta,
             });
           }
         }
 
-        streamingData.append({ type: 'finish', content: '' });
+        dataStream.writeData({ type: 'finish', content: '' });
 
         if (userId) {
           await saveDocument({
@@ -194,7 +194,7 @@ export const initDocumentTools = (options: ExtendedOptions) => {
             isResolved: false,
           };
 
-          streamingData.append({ type: 'suggestion', content: suggestion });
+          dataStream.writeData({ type: 'suggestion', content: suggestion });
 
           suggestions.push(suggestion);
         }

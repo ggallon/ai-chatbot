@@ -1,6 +1,6 @@
 import {
   convertToCoreMessages,
-  StreamData,
+  createDataStreamResponse,
   streamText,
   type Message,
 } from 'ai';
@@ -38,6 +38,12 @@ const weatherTools: AllowedTools[] = ['getWeather'];
 const allTools: AllowedTools[] = [...blocksTools, ...weatherTools];
 
 export async function POST(request: Request) {
+  const session = await auth();
+  if (!session?.user?.id) {
+    return new Response('Unauthorized', { status: 401 });
+  }
+  const userId = session.user.id;
+
   const {
     id,
     messages,
@@ -45,104 +51,95 @@ export async function POST(request: Request) {
   }: { id: string; messages: Array<Message>; modelId: string } =
     await request.json();
 
-  const session = await auth();
-
-  if (!session || !session.user || !session.user.id) {
-    return new Response('Unauthorized', { status: 401 });
-  }
-
   const model = models.find((model) => model.id === modelId);
-
   if (!model) {
     return new Response('Model not found', { status: 404 });
   }
 
   const coreMessages = convertToCoreMessages(messages);
   const userMessage = getMostRecentUserMessage(coreMessages);
-
   if (!userMessage) {
     return new Response('No user message found', { status: 400 });
   }
 
   const chat = await getChatById({ id });
-
   if (!chat) {
     const title = await generateTitleFromUserMessage({ message: userMessage });
-    await saveChat({ id, userId: session.user.id, title });
+    await saveChat({ id, userId, title });
   }
 
   const userMessageId = generateUUID();
-
   await saveMessages({
     messages: [
       { ...userMessage, id: userMessageId, createdAt: new Date(), chatId: id },
     ],
   });
 
-  const streamingData = new StreamData();
+  return createDataStreamResponse({
+    execute: (dataStream) => {
+      dataStream.writeData({
+        type: 'user-message-id',
+        content: userMessageId,
+      });
 
-  streamingData.append({
-    type: 'user-message-id',
-    content: userMessageId,
-  });
+      const documentTools = initDocumentTools({
+        modelApiIdentifier: model.apiIdentifier,
+        dataStream,
+        userId,
+      });
 
-  const documentTools = initDocumentTools({
-    modelApiIdentifier: model.apiIdentifier,
-    streamingData,
-    userId: session.user.id,
-  });
+      const result = streamText({
+        model: customModel(model.apiIdentifier),
+        system: systemPrompt,
+        messages: coreMessages,
+        maxSteps: 5,
+        experimental_activeTools: allTools,
+        tools: {
+          getWeather,
+          ...documentTools,
+        },
+        onFinish: async ({ response }) => {
+          try {
+            const responseMessagesWithoutIncompleteToolCalls =
+              sanitizeResponseMessages(response.messages);
 
-  const result = streamText({
-    model: customModel(model.apiIdentifier),
-    system: systemPrompt,
-    messages: coreMessages,
-    maxSteps: 5,
-    experimental_activeTools: allTools,
-    tools: {
-      getWeather,
-      ...documentTools,
+            await saveMessages({
+              messages: responseMessagesWithoutIncompleteToolCalls.map(
+                (message) => {
+                  const messageId = generateUUID();
+
+                  if (message.role === 'assistant') {
+                    dataStream.writeMessageAnnotation({
+                      messageIdFromServer: messageId,
+                    });
+                  }
+
+                  return {
+                    id: messageId,
+                    chatId: id,
+                    role: message.role,
+                    content: message.content,
+                    createdAt: new Date(),
+                  };
+                },
+              ),
+            });
+          } catch (error) {
+            console.error('Failed to save chat');
+          }
+        },
+        experimental_telemetry: {
+          isEnabled: true,
+          functionId: 'stream-text',
+        },
+      });
+
+      result.mergeIntoDataStream(dataStream);
     },
-    onFinish: async ({ response }) => {
-      if (session.user?.id) {
-        try {
-          const responseMessagesWithoutIncompleteToolCalls =
-            sanitizeResponseMessages(response.messages);
-
-          await saveMessages({
-            messages: responseMessagesWithoutIncompleteToolCalls.map(
-              (message) => {
-                const messageId = generateUUID();
-
-                if (message.role === 'assistant') {
-                  streamingData.appendMessageAnnotation({
-                    messageIdFromServer: messageId,
-                  });
-                }
-
-                return {
-                  id: messageId,
-                  chatId: id,
-                  role: message.role,
-                  content: message.content,
-                  createdAt: new Date(),
-                };
-              },
-            ),
-          });
-        } catch (error) {
-          console.error('Failed to save chat');
-        }
-      }
-
-      streamingData.close();
+    onError: (error) => {
+      // Error messages are masked by default for security reasons.
+      // If you want to expose the error message to the client, you can do so here:
+      return error instanceof Error ? error.message : String(error);
     },
-    experimental_telemetry: {
-      isEnabled: true,
-      functionId: 'stream-text',
-    },
-  });
-
-  return result.toDataStreamResponse({
-    data: streamingData,
   });
 }
