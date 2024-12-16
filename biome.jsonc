@@ -6,7 +6,10 @@
       ".next",
       ".vercel",
       "**/pnpm-lock.yaml",
+      // shadcn/ui
       "components/ui/",
+      "hooks/use-mobile.tsx",
+      // drizzle
       "lib/db/migrations",
       "lib/editor/react-renderer.tsx",
       "node_modules",
