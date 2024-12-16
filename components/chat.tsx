@@ -7,7 +7,7 @@ import useSWR, { useSWRConfig } from 'swr';
 import { useWindowSize } from 'usehooks-ts';
 
 import { ChatHeader } from '@/components/chat-header';
-import { fetcher } from '@/lib/utils';
+import { fetcher } from '@/lib/utils/fetcher';
 
 import { Block, type UIBlock } from './block';
 import { BlockStreamHandler } from './block-stream-handler';

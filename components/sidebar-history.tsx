@@ -45,7 +45,7 @@ import {
 } from '@/components/ui/sidebar';
 import { useChatVisibility } from '@/hooks/use-chat-visibility';
 import { groupChatsByDate } from '@/lib/group-chats-by-date';
-import { fetcher } from '@/lib/utils';
+import { fetcher } from '@/lib/utils/fetcher';
 
 import type { User } from 'next-auth';
 import type { Chat } from '@/lib/db/schema';
