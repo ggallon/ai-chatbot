@@ -4,8 +4,7 @@ import { toast } from 'sonner';
 import { useSWRConfig } from 'swr';
 import { useCopyToClipboard } from 'usehooks-ts';
 
-import type { Vote } from '@/lib/db/schema';
-import { getMessageIdFromAnnotations } from '@/lib/utils';
+import { getMessageIdFromAnnotations } from '@/lib/ai/utils';
 
 import { CopyIcon, ThumbDownIcon, ThumbUpIcon } from './icons';
 import { Button } from './ui/button';
@@ -17,6 +16,7 @@ import {
 } from './ui/tooltip';
 
 import type { Message } from 'ai';
+import type { Vote } from '@/lib/db/schema';
 
 export function PureMessageActions({
   chatId,
