@@ -4,17 +4,20 @@ import { AnimatePresence, motion } from 'motion/react';
 import { useState } from 'react';
 import { useWindowSize } from 'usehooks-ts';
 
-import type { UISuggestion } from '@/lib/editor/suggestions';
-
 import { CrossIcon, MessageIcon } from './icons';
 import { Button } from './ui/button';
+
+import type { DocumentKind } from '@/lib/db/schema';
+import type { UISuggestion } from '@/lib/editor/suggestions';
 
 export const Suggestion = ({
   suggestion,
   onApply,
+  blockKind,
 }: {
   suggestion: UISuggestion;
   onApply: () => void;
+  blockKind: DocumentKind;
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const { width: windowWidth } = useWindowSize();

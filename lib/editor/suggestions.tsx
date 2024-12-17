@@ -8,7 +8,7 @@ import {
 import { createRoot } from 'react-dom/client';
 
 import { Suggestion as PreviewSuggestion } from '@/components/suggestion';
-import type { Suggestion } from '@/lib/db/schema';
+import type { DocumentKind, Suggestion } from '@/lib/db/schema';
 
 export interface UISuggestion extends Suggestion {
   selectionStart: number;
@@ -69,6 +69,7 @@ export function projectWithPositions(
 export function createSuggestionWidget(
   suggestion: UISuggestion,
   view: EditorView,
+  blockKind: DocumentKind = 'text',
 ): { dom: HTMLElement; destroy: () => void } {
   const dom = document.createElement('span');
   const root = createRoot(dom);
@@ -111,7 +112,13 @@ export function createSuggestionWidget(
     dispatch(textTransaction);
   };
 
-  root.render(<PreviewSuggestion suggestion={suggestion} onApply={onApply} />);
+  root.render(
+    <PreviewSuggestion
+      suggestion={suggestion}
+      onApply={onApply}
+      blockKind={blockKind}
+    />,
+  );
 
   return {
     dom,
