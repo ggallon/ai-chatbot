@@ -14,10 +14,10 @@ import { getWeather } from '@/lib/ai/tools/get-weather';
 import { initDocumentTools } from '@/lib/ai/tools/document';
 import { getChatById, saveChat, saveMessages } from '@/lib/db/queries';
 import {
-  generateUUID,
   getMostRecentUserMessage,
   sanitizeResponseMessages,
 } from '@/lib/utils';
+import { generateUUID } from '@/lib/utils/uuid';
 
 export const maxDuration = 60;
 

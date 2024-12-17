@@ -2,7 +2,7 @@ import { streamObject, streamText, tool, type DataStreamWriter } from 'ai';
 import { z } from 'zod';
 
 import { customModel } from '@/lib/ai';
-import { generateUUID } from '@/lib/utils';
+import { generateUUID } from '@/lib/utils/uuid';
 import {
   getDocumentById,
   saveDocument,
