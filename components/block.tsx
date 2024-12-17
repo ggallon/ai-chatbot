@@ -1,23 +1,16 @@
-import type {
-  Attachment,
-  ChatRequestOptions,
-  CreateMessage,
-  Message,
-} from 'ai';
 import { formatDistance } from 'date-fns';
 import { AnimatePresence, motion } from 'motion/react';
 import {
-  type Dispatch,
   memo,
-  type SetStateAction,
   useCallback,
   useEffect,
   useState,
+  type Dispatch,
+  type SetStateAction,
 } from 'react';
 import useSWR, { useSWRConfig } from 'swr';
 import { useDebounceCallback, useWindowSize } from 'usehooks-ts';
 
-import type { Document, Suggestion, Vote } from '@/lib/db/schema';
 import { fetcher } from '@/lib/utils/fetcher';
 
 import { DiffView } from './diffview';
@@ -30,9 +23,18 @@ import { BlockActions } from './block-actions';
 import { BlockCloseButton } from './block-close-button';
 import { BlockMessages } from './block-messages';
 
+import type {
+  Attachment,
+  ChatRequestOptions,
+  CreateMessage,
+  Message,
+} from 'ai';
+import type { Document, DocumentKind, Suggestion, Vote } from '@/lib/db/schema';
+
 export interface UIBlock {
   title: string;
   documentId: string;
+  kind: DocumentKind;
   content: string;
   isVisible: boolean;
   status: 'streaming' | 'idle';

@@ -1,8 +1,10 @@
 import { memo, type SetStateAction } from 'react';
-
-import type { UIBlock } from './block';
-import { FileIcon, LoaderIcon, MessageIcon, PencilEditIcon } from './icons';
 import { toast } from 'sonner';
+
+import { FileIcon, LoaderIcon, MessageIcon, PencilEditIcon } from './icons';
+
+import type { DocumentKind } from '@/lib/db/schema';
+import type { UIBlock } from './block';
 
 const getActionText = (
   type: 'create' | 'update' | 'request-suggestions',
@@ -24,7 +26,7 @@ const getActionText = (
 
 interface DocumentToolResultProps {
   type: 'create' | 'update' | 'request-suggestions';
-  result: { id: string; title: string };
+  result: { id: string; title: string; kind: DocumentKind };
   block: UIBlock;
   setBlock: (value: SetStateAction<UIBlock>) => void;
   isReadonly: boolean;
@@ -59,6 +61,7 @@ function PureDocumentToolResult({
 
         setBlock({
           documentId: result.id,
+          kind: result.kind,
           content: '',
           title: result.title,
           isVisible: true,

@@ -13,6 +13,7 @@ export function useBlock() {
     () => ({
       documentId: 'init',
       content: '',
+      kind: 'text',
       title: '',
       status: 'idle', // Ensure this matches the allowed union type
       isVisible: false,

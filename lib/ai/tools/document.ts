@@ -27,10 +27,12 @@ export const initDocumentTools = (options: ExtendedOptions) => {
         title: z.string(),
       }),
       execute: async ({ title }) => {
+        const kind = 'text';
         const id = generateUUID();
 
         dataStream.writeData({ type: 'id', content: id });
         dataStream.writeData({ type: 'title', content: title });
+        dataStream.writeData({ type: 'kind', content: kind });
         dataStream.writeData({ type: 'clear', content: '' });
 
         const { fullStream } = streamText({
@@ -62,6 +64,7 @@ export const initDocumentTools = (options: ExtendedOptions) => {
             id,
             title,
             content: draftText,
+            kind,
             userId,
           });
         }
@@ -70,6 +73,7 @@ export const initDocumentTools = (options: ExtendedOptions) => {
           id,
           title,
           content: 'A document was created and is now visible to the user.',
+          kind,
         };
       },
     }),
@@ -139,6 +143,7 @@ export const initDocumentTools = (options: ExtendedOptions) => {
             id,
             title: document.title,
             content: draftText,
+            kind: document.kind,
             userId,
           });
         }
@@ -146,6 +151,7 @@ export const initDocumentTools = (options: ExtendedOptions) => {
         return {
           id,
           title: document.title,
+          kind: document.kind,
           content: 'The document has been updated successfully.',
         };
       },
@@ -213,6 +219,7 @@ export const initDocumentTools = (options: ExtendedOptions) => {
         return {
           id: documentId,
           title: document.title,
+          kind: document.kind,
           message: 'Suggestions have been added to the document',
         };
       },

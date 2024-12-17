@@ -13,6 +13,7 @@ import {
   user,
   vote,
   type Chat,
+  type DocumentKind,
   type Message,
   type Suggestion,
   type User,
@@ -185,11 +186,13 @@ export async function saveDocument({
   id,
   title,
   content,
+  kind,
   userId,
 }: {
   id: string;
   title: string;
   content: string;
+  kind: DocumentKind;
   userId: string;
 }) {
   try {
@@ -198,6 +201,7 @@ export async function saveDocument({
       title,
       content,
       userId,
+      kind,
       createdAt: new Date(),
     });
   } catch (error) {
