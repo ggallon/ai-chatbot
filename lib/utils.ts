@@ -7,7 +7,7 @@ import type {
   ToolInvocation,
 } from 'ai';
 
-import type { Message as DBMessage, Document } from '@/lib/db/schema';
+import type { Message as DBMessage } from '@/lib/db/schema';
 
 function addToolMessageToChat({
   toolMessage,
@@ -167,16 +167,6 @@ export function sanitizeUIMessages(messages: Array<Message>): Array<Message> {
 export function getMostRecentUserMessage(messages: Array<CoreMessage>) {
   const userMessages = messages.filter((message) => message.role === 'user');
   return userMessages.at(-1);
-}
-
-export function getDocumentTimestampByIndex(
-  documents: Array<Document>,
-  index: number,
-) {
-  if (!documents) return new Date();
-  if (index > documents.length) return new Date();
-
-  return documents[index].createdAt;
 }
 
 export function getMessageIdFromAnnotations(message: Message) {
