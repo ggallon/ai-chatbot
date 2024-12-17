@@ -18,7 +18,7 @@ import {
 import type { Message } from 'ai';
 import type { Vote } from '@/lib/db/schema';
 
-export function PureMessageActions({
+function PureMessageActions({
   chatId,
   message,
   vote,
