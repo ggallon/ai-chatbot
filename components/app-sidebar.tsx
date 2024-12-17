@@ -38,7 +38,7 @@ export function AppSidebar({ user }: { user: User | undefined }) {
                 Chatbot
               </span>
             </Link>
-            <Tooltip>
+            <Tooltip delayDuration={900}>
               <TooltipTrigger asChild>
                 <Button
                   variant="ghost"

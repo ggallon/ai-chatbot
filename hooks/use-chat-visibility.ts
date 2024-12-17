@@ -11,7 +11,7 @@ export function useChatVisibility({
   chatId,
   initialVisibility,
 }: {
-  chatId: string;
+  chatId: Chat['id'];
   initialVisibility: Chat['visibility'];
 }) {
   const { mutate, cache } = useSWRConfig();
@@ -25,7 +25,7 @@ export function useChatVisibility({
     },
   );
 
-  const visibilityType = useMemo(() => {
+  const visibilityType = useMemo<Chat['visibility']>(() => {
     if (!history) return localVisibility;
     const chat = history.find((chat) => chat.id === chatId);
     if (!chat) return 'private';
