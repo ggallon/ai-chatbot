@@ -80,7 +80,7 @@ export const document = pgTable(
   'Document',
   {
     id: uuid('id').notNull().defaultRandom(),
-    kind: varchar('text', { enum: ['text', 'code'] })
+    kind: varchar('kind', { enum: ['text', 'code'] })
       .$type<DocumentKind>()
       .notNull()
       .default('text'),
