@@ -43,7 +43,7 @@ const PurePreviewMessage = ({
   ) => Promise<string | null | undefined>;
   isReadonly: boolean;
 }) => {
-  const [block, setBlock] = useBlock();
+  const { block, setBlock } = useBlock();
   const [mode, setMode] = useState<'view' | 'edit'>('view');
 
   return (
