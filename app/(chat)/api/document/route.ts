@@ -51,7 +51,7 @@ export async function POST(request: Request) {
   }: { content: string; title: string; kind: DocumentKind } =
     await request.json();
 
-  const document = await saveDocument({
+  await saveDocument({
     id,
     content,
     title,
@@ -59,7 +59,7 @@ export async function POST(request: Request) {
     userId: session.user.id,
   });
 
-  return Response.json(document, { status: 200 });
+  return Response.json('Saved', { status: 200 });
 }
 
 export async function PATCH(request: Request) {
