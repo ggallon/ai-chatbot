@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 
 import { auth } from '@/app/(auth)/auth';
 import { Chat } from '@/components/chat';
+import { DataStreamHandler } from '@/components/data-stream-handler';
 import { DEFAULT_MODEL_NAME, models } from '@/lib/ai/models';
 import { convertToUIMessages } from '@/lib/ai/utils';
 import { getChatById, getMessagesByChatId } from '@/lib/db/queries';
@@ -36,12 +37,15 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
     DEFAULT_MODEL_NAME;
 
   return (
-    <Chat
-      id={chat.id}
-      initialMessages={convertToUIMessages(messagesFromDb)}
-      selectedModelId={selectedModelId}
-      selectedVisibilityType={chat.visibility}
-      isReadonly={!isChatOwner}
-    />
+    <>
+      <Chat
+        id={chat.id}
+        initialMessages={convertToUIMessages(messagesFromDb)}
+        selectedModelId={selectedModelId}
+        selectedVisibilityType={chat.visibility}
+        isReadonly={!isChatOwner}
+      />
+      <DataStreamHandler id={chat.id} />
+    </>
   );
 }
