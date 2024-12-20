@@ -7,30 +7,28 @@ import { useSWRConfig } from 'swr';
 import { useWindowSize } from 'usehooks-ts';
 
 import { Button } from '@/components/ui/button';
+import { useBlock } from '@/hooks/use-block';
 import { getDocumentTimestampByIndex } from '@/lib/db/utils';
 import { LoaderIcon } from './icons';
 
 import type { Document } from '@/lib/db/schema';
-import type { UIBlock } from './block';
 
 interface VersionFooterProps {
-  block: UIBlock;
   handleVersionChange: (type: 'next' | 'prev' | 'toggle' | 'latest') => void;
   documents: Array<Document> | undefined;
   currentVersionIndex: number;
 }
 
 export const VersionFooter = ({
-  block,
   handleVersionChange,
   documents,
   currentVersionIndex,
 }: VersionFooterProps) => {
+  const { block } = useBlock();
   const { width } = useWindowSize();
-  const isMobile = width < 768;
-
-  const { mutate } = useSWRConfig();
   const [isMutating, setIsMutating] = useState(false);
+  const { mutate } = useSWRConfig();
+  const isMobile = width < 768;
 
   if (!documents) return;
 

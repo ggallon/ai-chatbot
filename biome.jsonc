@@ -38,6 +38,7 @@
       "a11y": {
         "useHtmlLang": "warn", // Not in recommended ruleset, turning on manually
         "noHeaderScope": "warn", // Not in recommended ruleset, turning on manually
+        "useKeyWithClickEvents": "off", // Disable keyboard event requirement with click events
         "useValidAriaRole": {
           "level": "warn",
           "options": {

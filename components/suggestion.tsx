@@ -1,5 +1,6 @@
 'use client';
 
+import cx from 'classnames';
 import { AnimatePresence, motion } from 'motion/react';
 import { useState } from 'react';
 import { useWindowSize } from 'usehooks-ts';
@@ -26,7 +27,10 @@ export const Suggestion = ({
     <AnimatePresence>
       {!isExpanded ? (
         <motion.div
-          className="absolute cursor-pointer text-muted-foreground -right-8 p-1"
+          className={cx('cursor-pointer text-muted-foreground p-1', {
+            'absolute -right-8': blockKind === 'text',
+            'sticky top-0 right-4': blockKind === 'code',
+          })}
           onClick={() => {
             setIsExpanded(true);
           }}

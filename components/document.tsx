@@ -1,10 +1,11 @@
-import { memo, type SetStateAction } from 'react';
+import { memo } from 'react';
 import { toast } from 'sonner';
+
+import { useBlock } from '@/hooks/use-block';
 
 import { FileIcon, LoaderIcon, MessageIcon, PencilEditIcon } from './icons';
 
 import type { DocumentKind } from '@/lib/db/schema';
-import type { UIBlock } from './block';
 
 const getActionText = (
   type: 'create' | 'update' | 'request-suggestions',
@@ -27,17 +28,16 @@ const getActionText = (
 interface DocumentToolResultProps {
   type: 'create' | 'update' | 'request-suggestions';
   result: { id: string; title: string; kind: DocumentKind };
-  block: UIBlock;
-  setBlock: (value: SetStateAction<UIBlock>) => void;
   isReadonly: boolean;
 }
 
 function PureDocumentToolResult({
   type,
   result,
-  setBlock,
   isReadonly,
 }: DocumentToolResultProps) {
+  const { setBlock } = useBlock();
+
   return (
     <button
       type="button"
@@ -91,16 +91,16 @@ export const DocumentToolResult = memo(PureDocumentToolResult, () => true);
 interface DocumentToolCallProps {
   type: 'create' | 'update' | 'request-suggestions';
   args: { title: string };
-  setBlock: (value: SetStateAction<UIBlock>) => void;
   isReadonly: boolean;
 }
 
 function PureDocumentToolCall({
   type,
   args,
-  setBlock,
   isReadonly,
 }: DocumentToolCallProps) {
+  const { setBlock } = useBlock();
+
   return (
     <button
       type="button"
