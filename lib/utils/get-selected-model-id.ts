@@ -2,7 +2,7 @@
 
 import { cookies } from 'next/headers';
 
-import { DEFAULT_MODEL_NAME, models } from '@/ai/models';
+import { DEFAULT_MODEL_NAME, models } from '@/lib/ai/models';
 
 export async function getSelectedModelId() {
   const modelIdFromCookie = (await cookies()).get('model-id')?.value;
