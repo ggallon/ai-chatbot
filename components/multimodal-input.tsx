@@ -286,7 +286,7 @@ function PureAttachmentsButton({
   fileInputRef,
   isLoading,
 }: {
-  fileInputRef: React.MutableRefObject<HTMLInputElement | null>;
+  fileInputRef: React.RefObject<HTMLInputElement | null>;
   isLoading: boolean;
 }) {
   return (
