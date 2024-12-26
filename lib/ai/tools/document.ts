@@ -9,6 +9,8 @@ import {
   saveSuggestions,
 } from '@/lib/db/queries';
 
+import { generateDraftText } from './generateDratfText';
+
 import type { Model } from '@/lib/ai/models';
 import type { Suggestion } from '@/lib/db/schema';
 
@@ -43,20 +45,7 @@ export const initDocumentTools = (options: ExtendedOptions) => {
           prompt: title,
         });
 
-        let draftText = '';
-        for await (const delta of fullStream) {
-          const { type } = delta;
-
-          if (type === 'text-delta') {
-            const { textDelta } = delta;
-
-            draftText += textDelta;
-            dataStream.writeData({
-              type: 'text-delta',
-              content: textDelta,
-            });
-          }
-        }
+        const draftText = await generateDraftText({ fullStream, dataStream });
 
         dataStream.writeData({ type: 'finish', content: '' });
 
@@ -95,7 +84,6 @@ export const initDocumentTools = (options: ExtendedOptions) => {
         }
 
         const { content: currentContent } = document;
-        let draftText = '';
 
         dataStream.writeData({
           type: 'clear',
@@ -104,8 +92,14 @@ export const initDocumentTools = (options: ExtendedOptions) => {
 
         const { fullStream } = streamText({
           model: customModel(modelApiIdentifier),
-          system:
-            'You are a helpful writing assistant. Based on the description, please update the piece of writing.',
+          messages: [
+            {
+              role: 'user',
+              content: `Update the following contents of the document based on the given prompt:
+              ${description}`,
+            },
+            { role: 'user', content: currentContent ?? '' },
+          ],
           experimental_providerMetadata: {
             openai: {
               prediction: {
@@ -114,28 +108,9 @@ export const initDocumentTools = (options: ExtendedOptions) => {
               },
             },
           },
-          messages: [
-            {
-              role: 'user',
-              content: description,
-            },
-            { role: 'user', content: currentContent ?? '' },
-          ],
         });
 
-        for await (const delta of fullStream) {
-          const { type } = delta;
-
-          if (type === 'text-delta') {
-            const { textDelta } = delta;
-
-            draftText += textDelta;
-            dataStream.writeData({
-              type: 'text-delta',
-              content: textDelta,
-            });
-          }
-        }
+        const draftText = await generateDraftText({ fullStream, dataStream });
 
         dataStream.writeData({ type: 'finish', content: '' });
 
