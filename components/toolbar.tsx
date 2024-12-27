@@ -1,6 +1,5 @@
 'use client';
 
-import type { ChatRequestOptions, CreateMessage, Message } from 'ai';
 import cx from 'classnames';
 import {
   AnimatePresence,
@@ -8,16 +7,17 @@ import {
   useMotionValue,
   useTransform,
 } from 'motion/react';
+import { nanoid } from 'nanoid';
 import {
-  type Dispatch,
   memo,
-  type SetStateAction,
   useEffect,
   useRef,
   useState,
+  type Dispatch,
+  type SetStateAction,
 } from 'react';
 import { useOnClickOutside } from 'usehooks-ts';
-import { nanoid } from 'nanoid';
+
 import {
   Tooltip,
   TooltipContent,
@@ -36,6 +36,7 @@ import {
   SummarizeIcon,
 } from './icons';
 
+import type { ChatRequestOptions, CreateMessage, Message } from 'ai';
 import type { DocumentKind } from '@/lib/db/schema';
 
 type ToolProps = {
@@ -140,7 +141,7 @@ const Tool = ({
           onHoverEnd={() => {
             if (selectedTool !== type) setIsHovered(false);
           }}
-          onKeyDown={(event: any) => {
+          onKeyDown={(event) => {
             if (event.key === 'Enter') {
               handleSelect();
             }
@@ -172,7 +173,7 @@ const Tool = ({
   );
 };
 
-const randomArr = [...Array(6)].map((x) => nanoid(5));
+const randomArr = [...Array(6)].map(() => nanoid(5));
 
 const ReadingLevelSelector = ({
   setSelectedTool,

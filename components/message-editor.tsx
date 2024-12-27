@@ -1,18 +1,20 @@
 'use client';
 
-import type { ChatRequestOptions, Message } from 'ai';
-import { Button } from './ui/button';
 import {
-  type Dispatch,
-  type SetStateAction,
   useEffect,
   useRef,
   useState,
+  type Dispatch,
+  type SetStateAction,
 } from 'react';
-import { Textarea } from './ui/textarea';
-import { deleteTrailingMessages } from '@/app/(chat)/actions';
 import { toast } from 'sonner';
+
+import { deleteTrailingMessages } from '@/app/(chat)/actions';
 import { useUserMessageId } from '@/hooks/use-user-message-id';
+import { Button } from './ui/button';
+import { Textarea } from './ui/textarea';
+
+import type { ChatRequestOptions, Message } from 'ai';
 
 export type MessageEditorProps = {
   message: Message;
@@ -96,12 +98,13 @@ export function MessageEditor({
               const index = messages.findIndex((m) => m.id === message.id);
 
               if (index !== -1) {
-                const updatedMessage = {
-                  ...message,
-                  content: draftContent,
-                };
-
-                return [...messages.slice(0, index), updatedMessage];
+                return [
+                  ...messages.slice(0, index),
+                  {
+                    ...message,
+                    content: draftContent,
+                  },
+                ];
               }
 
               return messages;

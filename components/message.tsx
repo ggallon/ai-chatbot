@@ -1,6 +1,5 @@
 'use client';
 
-import type { ChatRequestOptions, Message } from 'ai';
 import cx from 'classnames';
 import equal from 'fast-deep-equal';
 import { AnimatePresence, motion } from 'motion/react';
@@ -18,6 +17,7 @@ import { Weather } from './weather';
 import { Button } from './ui/button';
 import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip';
 
+import type { ChatRequestOptions, Message } from 'ai';
 import type { Vote } from '@/lib/db/schema';
 
 const PurePreviewMessage = ({
@@ -230,14 +230,12 @@ export const PreviewMessage = memo(
 );
 
 export const ThinkingMessage = () => {
-  const role = 'assistant';
-
   return (
     <motion.div
       className="w-full mx-auto max-w-3xl px-4 group/message "
       initial={{ y: 5, opacity: 0 }}
       animate={{ y: 0, opacity: 1, transition: { delay: 1 } }}
-      data-role={role}
+      data-role="assistant"
     >
       <div
         className={cx(

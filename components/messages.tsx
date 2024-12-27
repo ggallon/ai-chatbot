@@ -1,11 +1,11 @@
-import type { ChatRequestOptions, Message } from 'ai';
 import equal from 'fast-deep-equal';
 import { memo } from 'react';
 
 import { PreviewMessage, ThinkingMessage } from './message';
-import { useScrollToBottom } from './use-scroll-to-bottom';
 import { Overview } from './overview';
+import { useScrollToBottom } from './use-scroll-to-bottom';
 
+import type { ChatRequestOptions, Message } from 'ai';
 import type { Vote } from '@/lib/db/schema';
 
 interface MessagesProps {

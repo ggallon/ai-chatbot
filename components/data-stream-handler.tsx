@@ -7,21 +7,27 @@ import { initialBlockData, useBlock } from '@/hooks/use-block';
 import { useUserMessageId } from '@/hooks/use-user-message-id';
 
 import type { Chat, DocumentKind, Suggestion } from '@/lib/db/schema';
-import type { UIBlock } from './block';
 
-type DataStreamDelta = {
-  type:
-    | 'text-delta'
-    | 'code-delta'
-    | 'title'
-    | 'id'
-    | 'suggestion'
-    | 'clear'
-    | 'finish'
-    | 'user-message-id'
-    | 'kind';
-  content: string | Suggestion;
-};
+type DataStreamDelta =
+  | {
+      type:
+        | 'user-message-id'
+        | 'id'
+        | 'title'
+        | 'code-delta'
+        | 'text-delta'
+        | 'clear'
+        | 'finish';
+      content: string;
+    }
+  | {
+      type: 'kind';
+      content: DocumentKind;
+    }
+  | {
+      type: 'suggestion';
+      content: Suggestion;
+    };
 
 export function DataStreamHandler({ id }: { id: Chat['id'] }) {
   const { data: dataStream } = useChat({ id });
@@ -37,7 +43,7 @@ export function DataStreamHandler({ id }: { id: Chat['id'] }) {
 
     (newDeltas as DataStreamDelta[]).forEach((delta: DataStreamDelta) => {
       if (delta.type === 'user-message-id') {
-        setUserMessageIdFromServer(delta.content as string);
+        setUserMessageIdFromServer(delta.content);
         return;
       }
 
@@ -50,29 +56,28 @@ export function DataStreamHandler({ id }: { id: Chat['id'] }) {
           case 'id':
             return {
               ...draftBlock,
-              documentId: delta.content as UIBlock['documentId'],
+              documentId: delta.content,
               status: 'streaming',
             };
 
           case 'title':
             return {
               ...draftBlock,
-              title: delta.content as UIBlock['title'],
+              title: delta.content,
               status: 'streaming',
             };
 
           case 'kind':
             return {
               ...draftBlock,
-              kind: delta.content as DocumentKind,
+              kind: delta.content,
               status: 'streaming',
             };
 
           case 'text-delta':
             return {
               ...draftBlock,
-              content:
-                draftBlock.content + (delta.content as UIBlock['content']),
+              content: draftBlock.content + delta.content,
               isVisible:
                 draftBlock.status === 'streaming' &&
                 draftBlock.content.length > 400 &&
@@ -85,7 +90,7 @@ export function DataStreamHandler({ id }: { id: Chat['id'] }) {
           case 'code-delta':
             return {
               ...draftBlock,
-              content: delta.content as UIBlock['content'],
+              content: delta.content,
               isVisible:
                 draftBlock.status === 'streaming' &&
                 draftBlock.content.length > 300 &&

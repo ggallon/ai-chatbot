@@ -29,10 +29,13 @@ import { ChatItem } from './sidebar-history-chat-item';
 import type { User } from 'next-auth';
 import type { Chat } from '@/lib/db/schema';
 
-export function SidebarHistory({ user }: { user: User | undefined }) {
-  const { setOpenMobile } = useSidebar();
+export function SidebarHistory({ user }: { user?: User }) {
   const { id } = useParams();
   const pathname = usePathname();
+  const router = useRouter();
+  const { setOpenMobile } = useSidebar();
+  const [deleteId, setDeleteId] = useState<string | null>(null);
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const {
     data: history,
     isLoading,
@@ -45,9 +48,6 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
     mutate();
   }, [pathname, mutate]);
 
-  const [deleteId, setDeleteId] = useState<string | null>(null);
-  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
-  const router = useRouter();
   const handleDelete = async () => {
     const deletePromise = fetch(`/api/chat/${deleteId}`, {
       method: 'DELETE',
