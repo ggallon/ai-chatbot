@@ -1,7 +1,7 @@
 'use client';
 
 import { useChat } from '@ai-sdk/react';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import useSWR, { useSWRConfig } from 'swr';
 
 import { Block } from '@/components/block';
@@ -50,8 +50,14 @@ export function Chat({
     },
   });
 
+  const initialMessagesLength = initialMessages.length;
+  const messagesLength = messages.length;
+  const isLoadVotes = useMemo(
+    () => !!isReadonly || initialMessagesLength >= 2 || messagesLength >= 2,
+    [isReadonly, initialMessagesLength, messagesLength],
+  );
   const { data: votes } = useSWR<Array<Vote>>(
-    !isReadonly ? `/api/vote?chatId=${id}` : null,
+    isLoadVotes ? `/api/vote?chatId=${id}` : null,
     fetcher,
   );
 
