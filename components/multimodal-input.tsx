@@ -349,6 +349,6 @@ function PureSendButton({
 }
 
 const SendButton = memo(PureSendButton, (prevProps, nextProps) => {
-  if (prevProps.disabled !== nextProps.disabled) return false;
+  if (prevProps.isDisabled !== nextProps.isDisabled) return false;
   return true;
 });
