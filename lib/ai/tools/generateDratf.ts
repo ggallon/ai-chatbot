@@ -16,7 +16,10 @@ export async function generateDraftText({
   for await (const delta of fullStream) {
     if (delta.type === 'text-delta') {
       draftTextArray.push(delta.textDelta);
-      dataStream.writeData({ type: 'text-delta', content: delta.textDelta });
+      dataStream.writeData({
+        type: 'text-delta',
+        content: delta.textDelta,
+      });
     }
   }
 

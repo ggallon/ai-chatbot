@@ -9,7 +9,7 @@ import {
   saveSuggestions,
 } from '@/lib/db/queries';
 
-import { generateDraftText } from './generateDratfText';
+import { generateDraftText } from './generateDratf';
 
 import type { Model } from '@/lib/ai/models';
 import type { Suggestion } from '@/lib/db/schema';
