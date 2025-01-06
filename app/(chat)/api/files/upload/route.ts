@@ -19,7 +19,6 @@ const FileSchema = z.object({
 
 export async function POST(request: Request) {
   const session = await auth();
-
   if (!session) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
@@ -31,13 +30,11 @@ export async function POST(request: Request) {
   try {
     const formData = await request.formData();
     const file = formData.get('file') as Blob;
-
     if (!file) {
       return NextResponse.json({ error: 'No file uploaded' }, { status: 400 });
     }
 
     const validatedFile = FileSchema.safeParse({ file });
-
     if (!validatedFile.success) {
       const errorMessage = validatedFile.error.errors
         .map((error) => error.message)
@@ -51,7 +48,7 @@ export async function POST(request: Request) {
     const fileBuffer = await file.arrayBuffer();
 
     try {
-      const data = await put(`${filename}`, fileBuffer, {
+      const data = await put(filename, fileBuffer, {
         access: 'public',
       });
 

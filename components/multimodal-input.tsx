@@ -30,6 +30,14 @@ import { Textarea } from './ui/textarea';
 import { SuggestedActions } from './suggested-actions';
 import equal from 'fast-deep-equal';
 
+interface PutBlobResult {
+  url: string;
+  downloadUrl: string;
+  pathname: string;
+  contentType: string;
+  contentDisposition: string;
+}
+
 function PureMultimodalInput({
   chatId,
   input,
@@ -153,7 +161,7 @@ function PureMultimodalInput({
       });
 
       if (response.ok) {
-        const data = await response.json();
+        const data: PutBlobResult = await response.json();
         const { url, pathname, contentType } = data;
 
         return {
