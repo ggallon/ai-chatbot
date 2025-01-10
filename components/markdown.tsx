@@ -33,12 +33,13 @@ const NonMemoizedMarkdown = ({ children }: { children: string }) => {
         <code className={`${match[1] ?? ''} text-foreground`}>{children}</code>
       );
     },
-    a: ({ node, children, ...props }) => {
+    a: ({ node, children, href, ...props }) => {
       return (
         <Link
           className="text-blue-500 hover:underline"
           target="_blank"
           rel="noreferrer"
+          href={href ?? ''}
           {...props}
         >
           {children}
