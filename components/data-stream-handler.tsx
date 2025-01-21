@@ -1,7 +1,8 @@
 'use client';
 
 import { useChat } from 'ai/react';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { useSWRConfig } from 'swr';
 
 import { initialBlockData, useBlock } from '@/hooks/use-block';
 import { useUserMessageId } from '@/hooks/use-user-message-id';
@@ -15,6 +16,7 @@ type DataStreamDelta =
         | 'id'
         | 'title'
         | 'code-delta'
+        | 'image-delta'
         | 'text-delta'
         | 'clear'
         | 'finish';
@@ -34,6 +36,18 @@ export function DataStreamHandler({ id }: { id: Chat['id'] }) {
   const { setBlock } = useBlock();
   const { setUserMessageIdFromServer } = useUserMessageId();
   const lastProcessedIndex = useRef(-1);
+  const [optimisticSuggestions, setOptimisticSuggestions] = useState<
+    Array<Suggestion>
+  >([]);
+  const { mutate } = useSWRConfig();
+
+  useEffect(() => {
+    if (optimisticSuggestions && optimisticSuggestions.length > 0) {
+      const [optimisticSuggestion] = optimisticSuggestions;
+      const url = `/api/suggestions?documentId=${optimisticSuggestion.documentId}`;
+      mutate(url, optimisticSuggestions, false);
+    }
+  }, [optimisticSuggestions, mutate]);
 
   useEffect(() => {
     if (!dataStream?.length) return;
@@ -99,6 +113,24 @@ export function DataStreamHandler({ id }: { id: Chat['id'] }) {
                   : draftBlock.isVisible,
               status: 'streaming',
             };
+
+          case 'image-delta':
+            return {
+              ...draftBlock,
+              content: delta.content,
+              isVisible: true,
+              status: 'streaming',
+            };
+
+          case 'suggestion':
+            setTimeout(() => {
+              setOptimisticSuggestions((currentSuggestions) => [
+                ...currentSuggestions,
+                delta.content,
+              ]);
+            }, 0);
+
+            return draftBlock;
 
           case 'clear':
             return {
