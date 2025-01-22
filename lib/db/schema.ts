@@ -74,13 +74,13 @@ export const vote = pgTable(
 
 export type Vote = InferSelectModel<typeof vote>;
 
-export type DocumentKind = 'text' | 'code';
+export type DocumentKind = 'text' | 'image' | 'code';
 
 export const document = pgTable(
   'Document',
   {
     id: uuid('id').notNull().defaultRandom(),
-    kind: varchar('kind', { enum: ['text', 'code'] })
+    kind: varchar('kind', { enum: ['text', 'image', 'code'] })
       .$type<DocumentKind>()
       .notNull()
       .default('text'),

@@ -20,6 +20,7 @@ import { fetcher } from '@/lib/utils/fetcher';
 import { DiffView } from './diffview';
 import { DocumentSkeleton } from './document-skeleton';
 import { Editor } from './editor';
+import { ImageEditor } from './image-editor';
 import { MultimodalInput } from './multimodal-input';
 import { Toolbar } from './toolbar';
 import { VersionFooter } from './version-footer';
@@ -340,7 +341,7 @@ function PureBlock({
           )}
 
           <motion.div
-            className="fixed dark:bg-muted bg-background h-dvh flex flex-col overflow-y-scroll border-l dark:border-zinc-700 border-zinc-200"
+            className="fixed dark:bg-muted bg-background h-dvh flex flex-col overflow-y-scroll md:border-l dark:border-zinc-700 border-zinc-200"
             initial={
               isMobile
                 ? {
@@ -481,6 +482,19 @@ function PureBlock({
                       newContent={getDocumentContentById(currentVersionIndex)}
                     />
                   )
+                ) : block.kind === 'image' ? (
+                  <ImageEditor
+                    title={block.title}
+                    content={
+                      isCurrentVersion
+                        ? block.content
+                        : getDocumentContentById(currentVersionIndex)
+                    }
+                    isCurrentVersion={isCurrentVersion}
+                    currentVersionIndex={currentVersionIndex}
+                    status={block.status}
+                    isInline={false}
+                  />
                 ) : null}
 
                 {suggestions && suggestions.length > 0 ? (

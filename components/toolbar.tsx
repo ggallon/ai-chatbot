@@ -327,6 +327,7 @@ const toolsByBlockKind: Record<
       icon: <LogsIcon />,
     },
   ],
+  image: [],
 };
 
 export const Tools = ({
@@ -452,6 +453,10 @@ const PureToolbar = ({
     }
   }, [isLoading, setIsToolbarVisible]);
 
+  if (toolsByBlockKind[blockKind].length === 0) {
+    return null;
+  }
+
   return (
     <TooltipProvider delayDuration={0}>
       <motion.div
@@ -470,7 +475,7 @@ const PureToolbar = ({
               : {
                   opacity: 1,
                   y: 0,
-                  height: toolsByBlockKind[blockKind].length * 47,
+                  height: toolsByBlockKind[blockKind].length * 50,
                   transition: { delay: 0 },
                   scale: 1,
                 }
