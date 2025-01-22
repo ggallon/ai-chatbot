@@ -1,8 +1,12 @@
 'use client';
 
-import type { BlockKind } from './block';
+import type { DocumentKind } from '@/lib/db/schema';
 
-export const DocumentSkeleton = ({ blockKind }: { blockKind: BlockKind }) => {
+export const DocumentSkeleton = ({
+  blockKind,
+}: {
+  blockKind: DocumentKind;
+}) => {
   return blockKind === 'image' ? (
     <div className="flex flex-col gap-4 w-full justify-center items-center h-[calc(100dvh-60px)]">
       <div className="animate-pulse rounded-lg bg-muted-foreground/20 size-96" />

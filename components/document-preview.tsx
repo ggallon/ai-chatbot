@@ -118,7 +118,7 @@ export function DocumentPreview({
   );
 }
 
-const LoadingSkeleton = ({ blockKind }: { blockKind: BlockKind }) => (
+const LoadingSkeleton = ({ blockKind }: { blockKind: DocumentKind }) => (
   <div className="w-full">
     <div className="p-4 border rounded-t-2xl flex flex-row gap-2 items-center justify-between dark:bg-muted h-[57px] dark:border-zinc-700 border-b-0">
       <div className="flex flex-row items-center gap-3">
