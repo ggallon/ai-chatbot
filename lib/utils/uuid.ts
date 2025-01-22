@@ -4,8 +4,8 @@
  * @return The generate UUID
  */
 export function generateUUID() {
-  if (typeof self.crypto.randomUUID === typeof Function) {
-    return self.crypto.randomUUID();
+  if (typeof globalThis.crypto.randomUUID === typeof Function) {
+    return globalThis.crypto.randomUUID();
   }
 
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
