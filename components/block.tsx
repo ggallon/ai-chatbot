@@ -459,7 +459,7 @@ function PureBlock({
                 })}
               >
                 {isDocumentsFetching && !block.content ? (
-                  <DocumentSkeleton />
+                  <DocumentSkeleton blockKind={block.kind} />
                 ) : block.kind === 'text' ? (
                   mode === 'edit' ? (
                     <Editor
