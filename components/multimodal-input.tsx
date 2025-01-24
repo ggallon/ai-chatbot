@@ -203,6 +203,24 @@ function PureMultimodalInput({
     [setAttachments],
   );
 
+  const handleSendMessage = useCallback(
+    (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
+      const isEnterPress = event.key === 'Enter' && !event.shiftKey;
+      const isNotComposing = !event.nativeEvent.isComposing;
+
+      if (isEnterPress && isNotComposing) {
+        event.preventDefault();
+
+        if (isLoading) {
+          toast.error('Please wait for the model to finish its response!');
+        } else {
+          submitForm();
+        }
+      }
+    },
+    [isLoading, submitForm],
+  );
+
   const isDisabledSendButton = input.length === 0 || uploadQueue.length > 0;
 
   return (
@@ -253,17 +271,7 @@ function PureMultimodalInput({
         )}
         rows={3}
         autoFocus
-        onKeyDown={(event) => {
-          if (event.key === 'Enter' && !event.shiftKey) {
-            event.preventDefault();
-
-            if (isLoading) {
-              toast.error('Please wait for the model to finish its response!');
-            } else {
-              submitForm();
-            }
-          }
-        }}
+        onKeyDown={handleSendMessage}
       />
 
       {isLoading ? (
