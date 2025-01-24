@@ -7,7 +7,7 @@ import { customModel } from '@/lib/ai';
 import {
   deleteMessagesByChatIdAfterTimestamp,
   getMessageById,
-  updateChatVisiblityById,
+  updateChatVisibilityById,
 } from '@/lib/db/queries';
 
 import type { Chat } from '@/lib/db/schema';
@@ -51,5 +51,5 @@ export async function updateChatVisibility({
   chatId: string;
   visibility: Chat['visibility'];
 }) {
-  await updateChatVisiblityById({ chatId, visibility });
+  await updateChatVisibilityById({ chatId, visibility });
 }
