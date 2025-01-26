@@ -221,8 +221,6 @@ function PureMultimodalInput({
     [isLoading, submitForm],
   );
 
-  const isDisabledSendButton = input.length === 0 || uploadQueue.length > 0;
-
   return (
     <div className="relative w-full flex flex-col gap-4">
       {messages.length === 0 &&
@@ -277,7 +275,11 @@ function PureMultimodalInput({
       {isLoading ? (
         <StopButton stop={stop} setMessages={setMessages} />
       ) : (
-        <SendButton isDisabled={isDisabledSendButton} submitForm={submitForm} />
+        <SendButton
+          input={input}
+          submitForm={submitForm}
+          uploadQueue={uploadQueue}
+        />
       )}
 
       <AttachmentsButton fileInputRef={fileInputRef} isLoading={isLoading} />
@@ -346,11 +348,14 @@ const StopButton = memo(PureStopButton);
 
 function PureSendButton({
   submitForm,
-  isDisabled,
+  input,
+  uploadQueue,
 }: {
   submitForm: () => void;
-  isDisabled: boolean;
+  input: string;
+  uploadQueue: Array<string>;
 }) {
+  const isDisabled = input.length === 0 || uploadQueue.length > 0;
   return (
     <Button
       className="rounded-full p-1.5 h-fit absolute bottom-2 right-2 m-0.5 border dark:border-zinc-600"
@@ -366,6 +371,8 @@ function PureSendButton({
 }
 
 const SendButton = memo(PureSendButton, (prevProps, nextProps) => {
-  if (prevProps.isDisabled !== nextProps.isDisabled) return false;
+  if (prevProps.input !== nextProps.input) return false;
+  if (prevProps.uploadQueue.length !== nextProps.uploadQueue.length)
+    return false;
   return true;
 });
