@@ -1,4 +1,4 @@
-import type { CoreTool, DataStreamWriter, TextStreamPart } from 'ai';
+import type { DataStreamWriter, TextStreamPart, ToolSet } from 'ai';
 
 type AsyncIterableStream<T> = AsyncIterable<T> & ReadableStream<T>;
 
@@ -6,9 +6,7 @@ export async function generateDraftText({
   fullStream,
   dataStream,
 }: {
-  fullStream: AsyncIterableStream<
-    TextStreamPart<Record<string, CoreTool<any, any>>>
-  >;
+  fullStream: AsyncIterableStream<TextStreamPart<ToolSet>>;
   dataStream: DataStreamWriter;
 }) {
   const draftTextArray: string[] = [];
