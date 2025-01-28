@@ -5,14 +5,12 @@ import { useEffect, useRef, useState } from 'react';
 import { useSWRConfig } from 'swr';
 
 import { initialBlockData, useBlock } from '@/hooks/use-block';
-import { useUserMessageId } from '@/hooks/use-user-message-id';
 
 import type { Chat, DocumentKind, Suggestion } from '@/lib/db/schema';
 
 type DataStreamDelta =
   | {
       type:
-        | 'user-message-id'
         | 'id'
         | 'title'
         | 'code-delta'
@@ -34,7 +32,6 @@ type DataStreamDelta =
 export function DataStreamHandler({ id }: { id: Chat['id'] }) {
   const { data: dataStream } = useChat({ id });
   const { setBlock } = useBlock();
-  const { setUserMessageIdFromServer } = useUserMessageId();
   const lastProcessedIndex = useRef(-1);
   const [optimisticSuggestions, setOptimisticSuggestions] = useState<
     Array<Suggestion>
@@ -56,11 +53,6 @@ export function DataStreamHandler({ id }: { id: Chat['id'] }) {
     lastProcessedIndex.current = dataStream.length - 1;
 
     (newDeltas as DataStreamDelta[]).forEach((delta: DataStreamDelta) => {
-      if (delta.type === 'user-message-id') {
-        setUserMessageIdFromServer(delta.content);
-        return;
-      }
-
       setBlock((draftBlock) => {
         if (!draftBlock) {
           return { ...initialBlockData, status: 'streaming' };
@@ -150,7 +142,7 @@ export function DataStreamHandler({ id }: { id: Chat['id'] }) {
         }
       });
     });
-  }, [dataStream, setBlock, setUserMessageIdFromServer]);
+  }, [dataStream, setBlock]);
 
   return null;
 }

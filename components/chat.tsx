@@ -47,7 +47,7 @@ export function Chat({
     initialMessages,
     experimental_throttle: 100,
     sendExtraMessageFields: true, // send id and createdAt for each message
-    generateId: () => generateUUID(),
+    generateId: generateUUID,
     onFinish: () => {
       mutate('/api/history');
     },

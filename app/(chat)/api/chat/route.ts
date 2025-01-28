@@ -1,9 +1,4 @@
-import {
-  convertToCoreMessages,
-  createDataStreamResponse,
-  streamText,
-  type Message,
-} from 'ai';
+import { createDataStreamResponse, streamText, type Message } from 'ai';
 
 import { auth } from '@/app/(auth)/auth';
 import { generateTitleFromUserMessage } from '@/app/(chat)/actions';
@@ -69,8 +64,7 @@ export async function POST(request: Request) {
   await saveMessages({
     messages: [
       {
-        ...convertToCoreMessages([lastUserMessage])[0],
-        id: lastUserMessage.id,
+        ...lastUserMessage,
         createdAt: lastUserMessage.createdAt
           ? new Date(lastUserMessage.createdAt)
           : new Date(),
@@ -81,11 +75,6 @@ export async function POST(request: Request) {
 
   return createDataStreamResponse({
     execute: (dataStream) => {
-      dataStream.writeData({
-        type: 'user-message-id',
-        content: lastUserMessage.id,
-      });
-
       const documentTools = initDocumentTools({
         modelApiIdentifier: model.apiIdentifier,
         dataStream,
@@ -98,7 +87,7 @@ export async function POST(request: Request) {
         messages,
         maxSteps: 5,
         experimental_activeTools: allTools,
-        experimental_generateMessageId: () => generateUUID(),
+        experimental_generateMessageId: generateUUID,
         tools: {
           getWeather,
           ...documentTools,
@@ -111,12 +100,6 @@ export async function POST(request: Request) {
             await saveMessages({
               messages: responseMessagesWithoutIncompleteToolCalls.map(
                 (message) => {
-                  if (message.role === 'assistant') {
-                    dataStream.writeMessageAnnotation({
-                      messageIdFromServer: message.id,
-                    });
-                  }
-
                   return {
                     id: message.id,
                     chatId: id,
