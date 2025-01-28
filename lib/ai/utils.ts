@@ -1,7 +1,6 @@
 import type {
   Attachment,
   CoreAssistantMessage,
-  CoreMessage,
   CoreToolMessage,
   CoreUserMessage,
   Message,

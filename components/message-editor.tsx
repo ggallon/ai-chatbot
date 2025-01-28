@@ -7,7 +7,6 @@ import {
   type Dispatch,
   type SetStateAction,
 } from 'react';
-import { toast } from 'sonner';
 
 import { deleteTrailingMessages } from '@/app/(chat)/actions';
 import { Button } from './ui/button';
