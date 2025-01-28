@@ -1,6 +1,6 @@
 'use server';
 
-import { generateText, type CoreUserMessage } from 'ai';
+import { generateText, type Message } from 'ai';
 import { cookies } from 'next/headers';
 
 import { customModel } from '@/lib/ai';
@@ -20,7 +20,7 @@ export async function saveModelId(model: string) {
 export async function generateTitleFromUserMessage({
   message,
 }: {
-  message: CoreUserMessage;
+  message: Message['content'];
 }) {
   const { text: title } = await generateText({
     model: customModel('openai:gpt-4o-mini'),
@@ -29,7 +29,7 @@ export async function generateTitleFromUserMessage({
     - ensure it is not more than 80 characters long
     - the title should be a summary of the user's message
     - do not use quotes or colons`,
-    prompt: JSON.stringify(message),
+    prompt: message,
   });
 
   return title;

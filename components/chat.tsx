@@ -11,6 +11,7 @@ import { MultimodalInput } from '@/components/multimodal-input';
 
 import { useBlockSelector } from '@/hooks/use-block';
 import { fetcher } from '@/lib/utils/fetcher';
+import { generateUUID } from '@/lib/utils/uuid';
 
 import type { Attachment, Message } from 'ai';
 import type { Chat as ChatType, Vote } from '@/lib/db/schema';
@@ -42,9 +43,11 @@ export function Chat({
     reload,
   } = useChat({
     id,
-    body: { id, modelId: selectedModelId },
+    body: { modelId: selectedModelId },
     initialMessages,
     experimental_throttle: 100,
+    sendExtraMessageFields: true, // send id and createdAt for each message
+    generateId: () => generateUUID(),
     onFinish: () => {
       mutate('/api/history');
     },

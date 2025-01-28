@@ -12,10 +12,7 @@ import { models } from '@/lib/ai/models';
 import { systemPrompt } from '@/lib/ai/prompts';
 import { getWeather } from '@/lib/ai/tools/get-weather';
 import { initDocumentTools } from '@/lib/ai/tools/document';
-import {
-  getMostRecentUserMessage,
-  sanitizeResponseMessages,
-} from '@/lib/ai/utils';
+import { getLastUserMessage, sanitizeResponseMessages } from '@/lib/ai/utils';
 import { getChatById, saveChat, saveMessages } from '@/lib/db/queries';
 import { generateUUID } from '@/lib/utils/uuid';
 
@@ -56,22 +53,29 @@ export async function POST(request: Request) {
     return new Response('Model not found', { status: 404 });
   }
 
-  const coreMessages = convertToCoreMessages(messages);
-  const userMessage = getMostRecentUserMessage(coreMessages);
-  if (!userMessage) {
+  const lastUserMessage = getLastUserMessage(messages);
+  if (!lastUserMessage) {
     return new Response('No user message found', { status: 400 });
   }
 
   const chat = await getChatById({ id });
   if (!chat) {
-    const title = await generateTitleFromUserMessage({ message: userMessage });
+    const title = await generateTitleFromUserMessage({
+      message: lastUserMessage.content,
+    });
     await saveChat({ id, userId, title });
   }
 
-  const userMessageId = generateUUID();
   await saveMessages({
     messages: [
-      { ...userMessage, id: userMessageId, createdAt: new Date(), chatId: id },
+      {
+        ...convertToCoreMessages([lastUserMessage])[0],
+        id: lastUserMessage.id,
+        createdAt: lastUserMessage.createdAt
+          ? new Date(lastUserMessage.createdAt)
+          : new Date(),
+        chatId: id,
+      },
     ],
   });
 
@@ -79,7 +83,7 @@ export async function POST(request: Request) {
     execute: (dataStream) => {
       dataStream.writeData({
         type: 'user-message-id',
-        content: userMessageId,
+        content: lastUserMessage.id,
       });
 
       const documentTools = initDocumentTools({
@@ -91,9 +95,10 @@ export async function POST(request: Request) {
       const result = streamText({
         model: customModel(model.apiIdentifier),
         system: systemPrompt,
-        messages: coreMessages,
+        messages,
         maxSteps: 5,
         experimental_activeTools: allTools,
+        experimental_generateMessageId: () => generateUUID(),
         tools: {
           getWeather,
           ...documentTools,
@@ -106,16 +111,14 @@ export async function POST(request: Request) {
             await saveMessages({
               messages: responseMessagesWithoutIncompleteToolCalls.map(
                 (message) => {
-                  const messageId = generateUUID();
-
                   if (message.role === 'assistant') {
                     dataStream.writeMessageAnnotation({
-                      messageIdFromServer: messageId,
+                      messageIdFromServer: message.id,
                     });
                   }
 
                   return {
-                    id: messageId,
+                    id: message.id,
                     chatId: id,
                     role: message.role,
                     content: message.content,

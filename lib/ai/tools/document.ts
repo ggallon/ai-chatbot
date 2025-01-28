@@ -116,7 +116,7 @@ export const initDocumentTools = (options: ExtendedOptions) => {
 
         if (userId) {
           await saveDocument({
-            id,
+            id: document.id,
             title: document.title,
             content: draftText,
             kind: document.kind,
@@ -193,7 +193,7 @@ export const initDocumentTools = (options: ExtendedOptions) => {
         }
 
         return {
-          id: documentId,
+          id: document.id,
           title: document.title,
           kind: document.kind,
           message: 'Suggestions have been added to the document',
