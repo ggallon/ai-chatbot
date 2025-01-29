@@ -1,4 +1,4 @@
-import { experimental_wrapLanguageModel as wrapLanguageModel } from 'ai';
+import { wrapLanguageModel } from 'ai';
 
 import { customMiddleware } from './custom-middleware';
 import { registry } from './setup-registry';
