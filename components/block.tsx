@@ -471,7 +471,7 @@ function PureBlock({
                       isCurrentVersion={isCurrentVersion}
                       currentVersionIndex={currentVersionIndex}
                       status={block.status}
-                      saveContent={saveContent}
+                      onSaveContent={saveContent}
                       suggestions={isCurrentVersion ? (suggestions ?? []) : []}
                     />
                   ) : (

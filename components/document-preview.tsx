@@ -251,7 +251,7 @@ const DocumentContent = ({ document }: { document: Document }) => {
     isCurrentVersion: true,
     currentVersionIndex: 0,
     status: block.status,
-    saveContent: () => {},
+    onSaveContent: () => {},
     suggestions: [],
   };
 
