@@ -1,4 +1,9 @@
-import { sql, type InferSelectModel, type SQL } from 'drizzle-orm';
+import {
+  sql,
+  type InferInsertModel,
+  type InferSelectModel,
+  type SQL,
+} from 'drizzle-orm';
 import {
   pgTable,
   varchar,
@@ -43,6 +48,7 @@ export const chat = pgTable('Chat', {
 });
 
 export type Chat = InferSelectModel<typeof chat>;
+export type InsertChat = InferInsertModel<typeof chat>;
 
 export const message = pgTable('Message', {
   id: uuid('id').primaryKey().defaultRandom(),

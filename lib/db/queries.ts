@@ -13,6 +13,7 @@ import {
   user,
   vote,
   type Chat,
+  type InsertChat,
   type DocumentKind,
   type Message,
   type Suggestion,
@@ -55,15 +56,12 @@ export async function saveChat({
   id,
   userId,
   title,
-}: {
-  id: string;
-  userId: string;
-  title: string;
-}) {
+  createdAt,
+}: Omit<InsertChat, 'visibility'>) {
   try {
-    return await db.insert(chat).values({
+    await db.insert(chat).values({
       id,
-      createdAt: new Date(),
+      createdAt,
       userId,
       title,
     });
