@@ -17,6 +17,7 @@ import {
   type Message,
   type Suggestion,
   type User,
+  type Vote,
 } from './schema';
 
 // Optionally, if not using email/pass login, you can
@@ -141,15 +142,11 @@ export async function getMessagesByChatId({ id }: { id: string }) {
   }
 }
 
-export async function voteMessage({
-  chatId,
-  messageId,
-  type,
-}: {
-  chatId: string;
-  messageId: string;
+export type VoteMessage = Omit<Vote, 'isUpvoted'> & {
   type: 'up' | 'down';
-}) {
+};
+
+export async function voteMessage({ chatId, messageId, type }: VoteMessage) {
   try {
     const isUpvoted = type === 'up';
     await db
@@ -165,9 +162,13 @@ export async function voteMessage({
   }
 }
 
-export async function getVotesByChatId({ id }: { id: string }) {
+export async function getVotesByChatId({
+  chatId,
+}: {
+  chatId: Chat['id'];
+}): Promise<Array<Vote>> {
   try {
-    return await db.select().from(vote).where(eq(vote.chatId, id));
+    return await db.select().from(vote).where(eq(vote.chatId, chatId));
   } catch (error) {
     console.error('Failed to get votes by chat id from database', error);
     throw error;
