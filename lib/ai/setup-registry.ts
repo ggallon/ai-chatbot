@@ -2,7 +2,7 @@ import { createOpenAI } from '@ai-sdk/openai';
 
 import {
   experimental_createProviderRegistry as createProviderRegistry,
-  experimental_customProvider as customProvider,
+  customProvider,
 } from 'ai';
 
 const openai = createOpenAI({
