@@ -6,6 +6,7 @@ import {
 } from 'drizzle-orm';
 import {
   pgTable,
+  pgEnum,
   varchar,
   timestamp,
   json,
@@ -80,7 +81,12 @@ export const vote = pgTable(
 
 export type Vote = InferSelectModel<typeof vote>;
 
-export type DocumentKind = 'text' | 'image' | 'code';
+export const documentkindEnum = pgEnum('documentkind', [
+  'text',
+  'image',
+  'code',
+]);
+export type DocumentKind = (typeof documentkindEnum.enumValues)[number];
 
 export const document = pgTable(
   'Document',
@@ -90,6 +96,7 @@ export const document = pgTable(
       .$type<DocumentKind>()
       .notNull()
       .default('text'),
+    kindNext: documentkindEnum().notNull().default('text'),
     createdAt: timestamp('createdAt').notNull(),
     userId: uuid('userId')
       .notNull()
