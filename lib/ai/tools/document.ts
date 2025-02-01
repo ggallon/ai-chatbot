@@ -54,6 +54,7 @@ export const initDocumentTools = (options: ExtendedOptions) => {
             id,
             title,
             content: draftText,
+            createdAt: new Date(),
             kind,
             userId,
           });
@@ -119,6 +120,7 @@ export const initDocumentTools = (options: ExtendedOptions) => {
             id: document.id,
             title: document.title,
             content: draftText,
+            createdAt: new Date(),
             kind: document.kind,
             userId,
           });

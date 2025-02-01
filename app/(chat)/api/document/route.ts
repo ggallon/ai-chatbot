@@ -5,7 +5,7 @@ import {
   saveDocument,
 } from '@/lib/db/queries';
 
-import type { DocumentKind } from '@/lib/db/schema';
+import type { Document } from '@/lib/db/schema';
 
 export async function GET(request: Request) {
   const session = await auth();
@@ -44,17 +44,14 @@ export async function POST(request: Request) {
     return new Response('Missing id', { status: 400 });
   }
 
-  const {
-    content,
-    title,
-    kind,
-  }: { content: string; title: string; kind: DocumentKind } =
+  const { title, content, kind }: Pick<Document, 'title' | 'content' | 'kind'> =
     await request.json();
 
   await saveDocument({
     id,
-    content,
     title,
+    content,
+    createdAt: new Date(),
     kind,
     userId: session.user.id,
   });

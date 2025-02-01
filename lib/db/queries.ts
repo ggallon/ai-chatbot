@@ -14,7 +14,8 @@ import {
   vote,
   type Chat,
   type InsertChat,
-  type DocumentKind,
+  type Document,
+  type InsertDocument,
   type Message,
   type Suggestion,
   type User,
@@ -177,15 +178,10 @@ export async function saveDocument({
   id,
   title,
   content,
+  createdAt,
   kind,
   userId,
-}: {
-  id: string;
-  title: string;
-  content: string;
-  kind: DocumentKind;
-  userId: string;
-}) {
+}: InsertDocument) {
   try {
     return await db.insert(document).values({
       id,
@@ -193,7 +189,7 @@ export async function saveDocument({
       content,
       userId,
       kind,
-      createdAt: new Date(),
+      createdAt,
     });
   } catch (error) {
     console.error('Failed to save document in database');

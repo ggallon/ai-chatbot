@@ -108,6 +108,7 @@ export const document = pgTable(
 );
 
 export type Document = InferSelectModel<typeof document>;
+export type InsertDocument = InferInsertModel<typeof document>;
 
 export const suggestion = pgTable(
   'Suggestion',
