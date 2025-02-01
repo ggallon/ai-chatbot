@@ -1,0 +1,1 @@
+ALTER TABLE "Document" RENAME COLUMN "kindNext" TO "kind";

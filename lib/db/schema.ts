@@ -92,11 +92,7 @@ export const document = pgTable(
   'Document',
   {
     id: uuid('id').notNull().defaultRandom(),
-    kind: varchar('kind', { enum: ['text', 'image', 'code'] })
-      .$type<DocumentKind>()
-      .notNull()
-      .default('text'),
-    kindNext: documentkindEnum().notNull().default('text'),
+    kind: documentkindEnum('kind').notNull(),
     createdAt: timestamp('createdAt').notNull(),
     userId: uuid('userId')
       .notNull()
