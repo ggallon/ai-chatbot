@@ -1,0 +1,1 @@
+ALTER TABLE "Chat" RENAME COLUMN "visibilityN" TO "visibility";

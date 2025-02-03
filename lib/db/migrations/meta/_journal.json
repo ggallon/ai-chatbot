@@ -127,6 +127,20 @@
       "when": 1738621626653,
       "tag": "0017_pretty_la_nuit",
       "breakpoints": true
+    },
+    {
+      "idx": 18,
+      "version": "7",
+      "when": 1738621957226,
+      "tag": "0018_mysterious_nitro",
+      "breakpoints": true
+    },
+    {
+      "idx": 19,
+      "version": "7",
+      "when": 1738622056813,
+      "tag": "0019_steep_beast",
+      "breakpoints": true
     }
   ]
 }
