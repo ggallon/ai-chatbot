@@ -19,10 +19,10 @@ import {
   LockIcon,
 } from './icons';
 
-import type { Chat } from '@/lib/db/schema';
+import type { ChatVisibility } from '@/lib/db/schema';
 
 const visibilities: Array<{
-  id: Chat['visibility'];
+  id: ChatVisibility;
   label: string;
   description: string;
   icon: ReactNode;
@@ -47,7 +47,7 @@ export function VisibilitySelector({
   selectedVisibilityType,
 }: {
   chatId: string;
-  selectedVisibilityType: Chat['visibility'];
+  selectedVisibilityType: ChatVisibility;
 } & React.ComponentProps<typeof Button>) {
   const [open, setOpen] = useState(false);
 

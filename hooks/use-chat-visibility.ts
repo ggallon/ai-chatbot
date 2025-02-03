@@ -5,14 +5,14 @@ import useSWR, { useSWRConfig } from 'swr';
 
 import { updateChatVisibility } from '@/app/(chat)/actions';
 
-import type { Chat } from '@/lib/db/schema';
+import type { Chat, ChatVisibility } from '@/lib/db/schema';
 
 export function useChatVisibility({
   chatId,
   initialVisibility,
 }: {
   chatId: Chat['id'];
-  initialVisibility: Chat['visibility'];
+  initialVisibility: ChatVisibility;
 }) {
   const { mutate, cache } = useSWRConfig();
   const history: Array<Chat> = cache.get('/api/history')?.data;

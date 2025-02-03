@@ -14,7 +14,7 @@ import { fetcher } from '@/lib/utils/fetcher';
 import { generateUUID } from '@/lib/utils/uuid';
 
 import type { Attachment, Message } from 'ai';
-import type { Chat as ChatType, Vote } from '@/lib/db/schema';
+import type { ChatVisibility, Vote } from '@/lib/db/schema';
 
 export function Chat({
   id,
@@ -26,7 +26,7 @@ export function Chat({
   id: string;
   initialMessages: Array<Message>;
   selectedModelId: string;
-  selectedVisibilityType: ChatType['visibility'];
+  selectedVisibilityType: ChatVisibility;
   isReadonly: boolean;
 }) {
   const { mutate } = useSWRConfig();

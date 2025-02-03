@@ -13,8 +13,8 @@ import {
   user,
   vote,
   type Chat,
+  type ChatVisibility,
   type InsertChat,
-  type Document,
   type InsertDocument,
   type Message,
   type Suggestion,
@@ -53,19 +53,9 @@ export async function createUser(email: string, password: string) {
   }
 }
 
-export async function saveChat({
-  id,
-  userId,
-  title,
-  createdAt,
-}: Omit<InsertChat, 'visibility'>) {
+export async function saveChat(chatValues: InsertChat) {
   try {
-    await db.insert(chat).values({
-      id,
-      createdAt,
-      userId,
-      title,
-    });
+    await db.insert(chat).values(chatValues);
   } catch (error) {
     console.error('Failed to save chat in database');
     throw error;
@@ -105,7 +95,7 @@ export async function getChatById({
   visibility,
 }: {
   id: Chat['id'];
-  visibility?: Chat['visibility'];
+  visibility?: ChatVisibility;
 }): Promise<Chat | undefined> {
   try {
     const queryFilter = visibility
@@ -128,7 +118,7 @@ export async function saveMessages({ messages }: { messages: Array<Message> }) {
   }
 }
 
-export async function getMessagesByChatId({ id }: { id: string }) {
+export async function getMessagesByChatId({ id }: { id: Chat['id'] }) {
   try {
     return await db
       .select()
@@ -299,7 +289,7 @@ export async function deleteMessagesByChatIdAfterTimestamp({
   chatId,
   timestamp,
 }: {
-  chatId: string;
+  chatId: Chat['id'];
   timestamp: Date;
 }) {
   try {
@@ -320,8 +310,8 @@ export async function updateChatVisibilityById({
   chatId,
   visibility,
 }: {
-  chatId: string;
-  visibility: 'private' | 'public';
+  chatId: Chat['id'];
+  visibility: ChatVisibility;
 }) {
   try {
     return await db.update(chat).set({ visibility }).where(eq(chat.id, chatId));

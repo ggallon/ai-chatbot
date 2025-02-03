@@ -58,17 +58,23 @@ export async function POST(request: Request) {
     const title = await generateTitleFromUserMessage({
       message: lastUserMessage.content,
     });
-    await saveChat({ id, userId, title, createdAt: new Date() });
+    await saveChat({
+      id,
+      userId,
+      title,
+      visibility: 'private',
+      createdAt: new Date(),
+    });
   }
 
   await saveMessages({
     messages: [
       {
         ...lastUserMessage,
+        chatId: id,
         createdAt: lastUserMessage.createdAt
           ? new Date(lastUserMessage.createdAt)
           : new Date(),
-        chatId: id,
       },
     ],
   });
