@@ -36,6 +36,9 @@ export const user = pgTable(
 
 export type User = InferSelectModel<typeof user>;
 
+export const chatVisibilityEnum = pgEnum('visibility', ['public', 'private']);
+export type ChatVisibility = (typeof chatVisibilityEnum.enumValues)[number];
+
 export const chat = pgTable('Chat', {
   id: uuid('id').primaryKey().defaultRandom(),
   createdAt: timestamp('createdAt').notNull(),
@@ -46,6 +49,7 @@ export const chat = pgTable('Chat', {
   visibility: varchar('visibility', { enum: ['public', 'private'] })
     .notNull()
     .default('private'),
+  visibilityN: chatVisibilityEnum().notNull().default('private'),
 });
 
 export type Chat = InferSelectModel<typeof chat>;
