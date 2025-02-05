@@ -1,14 +1,11 @@
 import { compare } from 'bcrypt-ts';
-import NextAuth, { type User, type Session } from 'next-auth';
+import NextAuth from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
+import { ZodError } from 'zod';
 
-import { getUser } from '@/lib/db/queries';
-
+import { getUserByEmail } from '@/lib/db/queries/user';
+import { authFormSchema } from '@/lib/db/validations/auth';
 import { authConfig } from './auth.config';
-
-interface ExtendedSession extends Session {
-  user: User;
-}
 
 export const {
   handlers: { GET, POST },
@@ -19,34 +16,45 @@ export const {
   ...authConfig,
   providers: [
     Credentials({
-      credentials: {},
-      async authorize({ email, password }: any) {
-        const users = await getUser(email);
-        if (users.length === 0) return null;
-        // biome-ignore lint: Forbidden non-null assertion.
-        const passwordsMatch = await compare(password, users[0].password!);
-        if (!passwordsMatch) return null;
-        return users[0] as any;
+      credentials: { email: {}, password: {} },
+      async authorize(credentials) {
+        try {
+          const { email, password } =
+            await authFormSchema.parseAsync(credentials);
+          const user = await getUserByEmail(email);
+          if (user?.password) {
+            const { password: userPassword, ...userInfo } = user;
+            const passwordsMatch = await compare(userPassword, password);
+            if (passwordsMatch) {
+              return userInfo;
+            } else {
+              throw new Error('Invalid credentials.');
+            }
+          } else {
+            throw new Error('Invalid credentials.');
+          }
+        } catch (error) {
+          if (error instanceof ZodError) {
+            // Return `null` to indicate that the credentials are invalid
+            console.log(error.message);
+            return null;
+          }
+          return null;
+        }
       },
     }),
   ],
   callbacks: {
     async jwt({ token, user }) {
-      if (user) {
+      if (user.id) {
         token.id = user.id;
       }
 
       return token;
     },
-    async session({
-      session,
-      token,
-    }: {
-      session: ExtendedSession;
-      token: any;
-    }) {
-      if (session.user) {
-        session.user.id = token.id as string;
+    async session({ session, token }) {
+      if (session.user && token.id) {
+        session.user.id = token.id;
       }
 
       return session;

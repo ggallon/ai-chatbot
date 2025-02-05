@@ -8,20 +8,16 @@ import { toast } from 'sonner';
 import { AuthForm } from '@/components/auth-form';
 import { SubmitButton } from '@/components/submit-button';
 
-import { login, type LoginActionState } from '../actions';
+import { login, type AuthActionState } from '../actions';
 
 export default function Page() {
   const router = useRouter();
-
   const [email, setEmail] = useState('');
   const [isSuccessful, setIsSuccessful] = useState(false);
 
-  const [state, formAction] = useActionState<LoginActionState, FormData>(
-    login,
-    {
-      status: 'idle',
-    },
-  );
+  const [state, formAction] = useActionState<AuthActionState, FormData>(login, {
+    status: 'idle',
+  });
 
   useEffect(() => {
     if (state.status === 'failed') {
@@ -32,7 +28,7 @@ export default function Page() {
       setIsSuccessful(true);
       router.refresh();
     }
-  }, [state.status, router]);
+  }, [router, state.status]);
 
   const handleSubmit = (formData: FormData) => {
     setEmail(formData.get('email') as string);

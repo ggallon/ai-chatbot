@@ -1,47 +1,12 @@
 'use server';
 
-import { z } from 'zod';
+import { ZodError } from 'zod';
 
-import { createUser, getUser } from '@/lib/db/queries';
-
+import { createUser, getUserByEmail } from '@/lib/db/queries/user';
+import { authFormSchema } from '@/lib/db/validations/auth';
 import { signIn } from './auth';
 
-const authFormSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(6),
-});
-
-export interface LoginActionState {
-  status: 'idle' | 'in_progress' | 'success' | 'failed' | 'invalid_data';
-}
-
-export const login = async (
-  _: LoginActionState,
-  formData: FormData,
-): Promise<LoginActionState> => {
-  try {
-    const validatedData = authFormSchema.parse({
-      email: formData.get('email'),
-      password: formData.get('password'),
-    });
-
-    await signIn('credentials', {
-      email: validatedData.email,
-      password: validatedData.password,
-      redirect: false,
-    });
-
-    return { status: 'success' };
-  } catch (error) {
-    if (error instanceof z.ZodError) {
-      return { status: 'invalid_data' };
-    }
-
-    return { status: 'failed' };
-  }
-};
-
-export interface RegisterActionState {
+export interface AuthActionState {
   status:
     | 'idle'
     | 'in_progress'
@@ -51,22 +16,16 @@ export interface RegisterActionState {
     | 'invalid_data';
 }
 
-export const register = async (
-  _: RegisterActionState,
+export const login = async (
+  _: AuthActionState,
   formData: FormData,
-): Promise<RegisterActionState> => {
+): Promise<AuthActionState> => {
   try {
     const validatedData = authFormSchema.parse({
       email: formData.get('email'),
       password: formData.get('password'),
     });
 
-    const [user] = await getUser(validatedData.email);
-
-    if (user) {
-      return { status: 'user_exists' } as RegisterActionState;
-    }
-    await createUser(validatedData.email, validatedData.password);
     await signIn('credentials', {
       email: validatedData.email,
       password: validatedData.password,
@@ -75,7 +34,43 @@ export const register = async (
 
     return { status: 'success' };
   } catch (error) {
-    if (error instanceof z.ZodError) {
+    if (error instanceof ZodError) {
+      return { status: 'invalid_data' };
+    }
+
+    return { status: 'failed' };
+  }
+};
+
+export const register = async (
+  _: AuthActionState,
+  formData: FormData,
+): Promise<AuthActionState> => {
+  try {
+    const validatedData = authFormSchema.parse({
+      email: formData.get('email'),
+      password: formData.get('password'),
+    });
+
+    const user = await getUserByEmail(validatedData.email);
+    if (user) {
+      return { status: 'user_exists' };
+    }
+
+    const userEmail = await createUser({
+      email: validatedData.email,
+      password: validatedData.password,
+      image: `https://avatar.vercel.sh/${validatedData.email}`,
+    });
+    await signIn('credentials', {
+      email: userEmail,
+      password: validatedData.password,
+      redirect: false,
+    });
+
+    return { status: 'success' };
+  } catch (error) {
+    if (error instanceof ZodError) {
       return { status: 'invalid_data' };
     }
 

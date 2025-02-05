@@ -29,12 +29,14 @@ export const user = pgTable(
   {
     id: uuid('id').primaryKey().defaultRandom(),
     email: varchar('email', { length: 64 }).notNull(),
-    password: varchar('password', { length: 64 }),
+    image: text('image'),
+    password: varchar('password', { length: 64 }).notNull(),
   },
   (table) => [uniqueIndex('User_emailUniqueIndex').on(lower(table.email))],
 );
 
 export type User = InferSelectModel<typeof user>;
+export type InsertUser = InferInsertModel<typeof user>;
 
 export const chatVisibilityEnum = pgEnum('visibility', ['public', 'private']);
 export type ChatVisibility = (typeof chatVisibilityEnum.enumValues)[number];

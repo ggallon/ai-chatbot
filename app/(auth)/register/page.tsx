@@ -8,15 +8,14 @@ import { toast } from 'sonner';
 import { AuthForm } from '@/components/auth-form';
 import { SubmitButton } from '@/components/submit-button';
 
-import { register, type RegisterActionState } from '../actions';
+import { register, type AuthActionState } from '../actions';
 
 export default function Page() {
   const router = useRouter();
-
   const [email, setEmail] = useState('');
   const [isSuccessful, setIsSuccessful] = useState(false);
 
-  const [state, formAction] = useActionState<RegisterActionState, FormData>(
+  const [state, formAction] = useActionState<AuthActionState, FormData>(
     register,
     {
       status: 'idle',
@@ -35,7 +34,7 @@ export default function Page() {
       setIsSuccessful(true);
       router.refresh();
     }
-  }, [state, router]);
+  }, [router, state.status]);
 
   const handleSubmit = (formData: FormData) => {
     setEmail(formData.get('email') as string);

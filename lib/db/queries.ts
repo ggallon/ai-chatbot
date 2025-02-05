@@ -1,16 +1,13 @@
 import 'server-only';
 
-import { genSaltSync, hashSync } from 'bcrypt-ts';
 import { and, asc, desc, eq, gt, gte } from 'drizzle-orm';
 
 import { db } from './neon';
 import {
   chat,
   document,
-  lower,
   message,
   suggestion,
-  user,
   vote,
   type Chat,
   type ChatVisibility,
@@ -18,40 +15,8 @@ import {
   type InsertDocument,
   type Message,
   type Suggestion,
-  type User,
   type Vote,
 } from './schema';
-
-// Optionally, if not using email/pass login, you can
-// use the Drizzle adapter for Auth.js / NextAuth
-// https://authjs.dev/reference/adapter/drizzle
-
-export async function getUser(email: string): Promise<Array<User>> {
-  try {
-    return await db
-      .select()
-      .from(user)
-      .where(eq(lower(user.email), email.toLowerCase()));
-  } catch (error) {
-    console.error('Failed to get user from database');
-    throw error;
-  }
-}
-
-export async function createUser(email: string, password: string) {
-  const lowerCaseEmail = email.toLowerCase();
-  const salt = genSaltSync(10);
-  const hash = hashSync(password, salt);
-
-  try {
-    return await db
-      .insert(user)
-      .values({ email: lowerCaseEmail, password: hash });
-  } catch (error) {
-    console.error('Failed to create user in database');
-    throw error;
-  }
-}
 
 export async function saveChat(chatValues: InsertChat) {
   try {
