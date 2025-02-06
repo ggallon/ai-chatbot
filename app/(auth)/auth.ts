@@ -24,7 +24,7 @@ export const {
           const user = await getUserByEmail(email);
           if (user?.password) {
             const { password: userPassword, ...userInfo } = user;
-            const passwordsMatch = await compare(userPassword, password);
+            const passwordsMatch = await compare(password, userPassword);
             if (passwordsMatch) {
               return userInfo;
             } else {
@@ -34,9 +34,8 @@ export const {
             throw new Error('Invalid credentials.');
           }
         } catch (error) {
+          // Return `null` to indicate that the credentials are invalid
           if (error instanceof ZodError) {
-            // Return `null` to indicate that the credentials are invalid
-            console.log(error.message);
             return null;
           }
           return null;
@@ -46,14 +45,14 @@ export const {
   ],
   callbacks: {
     async jwt({ token, user }) {
-      if (user.id) {
+      if (user?.id) {
         token.id = user.id;
       }
 
       return token;
     },
     async session({ session, token }) {
-      if (session.user && token.id) {
+      if (session?.user && token?.id) {
         session.user.id = token.id;
       }
 
