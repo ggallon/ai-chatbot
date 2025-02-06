@@ -1,6 +1,5 @@
 import { z } from 'zod';
 
-// Use Blob instead of File since File is not available in Node.js environment
 export const fileSchema = z.object({
   file: z
     .instanceof(File)
