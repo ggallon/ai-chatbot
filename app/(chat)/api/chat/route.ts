@@ -1,4 +1,9 @@
-import { createDataStreamResponse, streamText, type Message } from 'ai';
+import {
+  createDataStreamResponse,
+  streamText,
+  convertToCoreMessages,
+  type Message,
+} from 'ai';
 
 import { auth } from '@/app/(auth)/auth';
 import { generateTitleFromUserMessage } from '@/app/(chat)/actions';
@@ -71,6 +76,7 @@ export async function POST(request: Request) {
     messages: [
       {
         ...lastUserMessage,
+        content: convertToCoreMessages([lastUserMessage])[0].content,
         chatId: id,
         createdAt: lastUserMessage.createdAt
           ? new Date(lastUserMessage.createdAt)
