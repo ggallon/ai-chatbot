@@ -3,7 +3,8 @@ import { notFound } from 'next/navigation';
 import { Chat } from '@/components/chat';
 import { DEFAULT_MODEL_NAME } from '@/lib/ai/models';
 import { convertToUIMessages } from '@/lib/ai/utils';
-import { getChatById, getMessagesByChatId } from '@/lib/db/queries';
+import { getChatById } from '@/lib/db/queries';
+import { getMessagesByChatId } from '@/lib/db/queries/message';
 
 export default async function Page(props: { params: Promise<{ id: string }> }) {
   const params = await props.params;

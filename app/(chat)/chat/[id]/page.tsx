@@ -5,7 +5,8 @@ import { Chat } from '@/components/chat';
 import { DataStreamHandler } from '@/components/data-stream-handler';
 import { convertToUIMessages } from '@/lib/ai/utils';
 import { getSelectedModelId } from '@/lib/utils/get-selected-model-id';
-import { getChatById, getMessagesByChatId } from '@/lib/db/queries';
+import { getChatById } from '@/lib/db/queries';
+import { getMessagesByChatId } from '@/lib/db/queries/message';
 
 export default async function Page(props: { params: Promise<{ id: string }> }) {
   const [session, selectedModelId, params] = await Promise.all([

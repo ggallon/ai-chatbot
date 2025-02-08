@@ -4,11 +4,11 @@ import { generateText, type Message } from 'ai';
 import { cookies } from 'next/headers';
 
 import { customModel } from '@/lib/ai';
+import { updateChatVisibilityById } from '@/lib/db/queries';
 import {
   deleteMessagesByChatIdAfterTimestamp,
   getMessageById,
-  updateChatVisibilityById,
-} from '@/lib/db/queries';
+} from '@/lib/db/queries/message';
 
 import type { Chat } from '@/lib/db/schema';
 
@@ -36,12 +36,13 @@ export async function generateTitleFromUserMessage({
 }
 
 export async function deleteTrailingMessages({ id }: { id: string }) {
-  const [message] = await getMessageById({ id });
-
-  await deleteMessagesByChatIdAfterTimestamp({
-    chatId: message.chatId,
-    timestamp: message.createdAt,
-  });
+  const message = await getMessageById({ id });
+  if (message) {
+    await deleteMessagesByChatIdAfterTimestamp({
+      chatId: message.chatId,
+      timestamp: message.createdAt,
+    });
+  }
 }
 
 export async function updateChatVisibility({
