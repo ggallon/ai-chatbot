@@ -3,7 +3,7 @@ import {
   getVotesByChatId,
   voteMessage,
   type VoteMessage,
-} from '@/lib/db/queries';
+} from '@/lib/db/queries/vote';
 
 export async function GET(request: Request) {
   const session = await auth();

@@ -8,14 +8,11 @@ import {
   document,
   message,
   suggestion,
-  vote,
   type Chat,
   type ChatVisibility,
   type InsertChat,
   type InsertDocument,
   type Message,
-  type Suggestion,
-  type Vote,
 } from './schema';
 
 export async function saveChat(chatValues: InsertChat) {
@@ -92,39 +89,6 @@ export async function getMessagesByChatId({ id }: { id: Chat['id'] }) {
       .orderBy(asc(message.createdAt));
   } catch (error) {
     console.error('Failed to get messages by chat id from database', error);
-    throw error;
-  }
-}
-
-export type VoteMessage = Omit<Vote, 'isUpvoted'> & {
-  type: 'up' | 'down';
-};
-
-export async function voteMessage({ chatId, messageId, type }: VoteMessage) {
-  try {
-    const isUpvoted = type === 'up';
-    await db
-      .insert(vote)
-      .values({ chatId, messageId, isUpvoted })
-      .onConflictDoUpdate({
-        target: [vote.chatId, vote.messageId],
-        set: { isUpvoted },
-      });
-  } catch (error) {
-    console.error('Failed to upvote message in database', error);
-    throw error;
-  }
-}
-
-export async function getVotesByChatId({
-  chatId,
-}: {
-  chatId: Chat['id'];
-}): Promise<Array<Vote>> {
-  try {
-    return await db.select().from(vote).where(eq(vote.chatId, chatId));
-  } catch (error) {
-    console.error('Failed to get votes by chat id from database', error);
     throw error;
   }
 }
