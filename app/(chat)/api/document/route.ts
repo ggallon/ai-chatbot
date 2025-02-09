@@ -3,7 +3,7 @@ import {
   deleteDocumentsByIdAfterTimestamp,
   getDocumentsById,
   saveDocument,
-} from '@/lib/db/queries';
+} from '@/lib/db/queries/document';
 
 import type { Document } from '@/lib/db/schema';
 

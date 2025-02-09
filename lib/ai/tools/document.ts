@@ -3,7 +3,7 @@ import { z } from 'zod';
 
 import { customModel } from '@/lib/ai';
 import { generateUUID } from '@/lib/utils/uuid';
-import { getDocumentById, saveDocument } from '@/lib/db/queries';
+import { getDocumentById, saveDocument } from '@/lib/db/queries/document';
 import { saveSuggestions } from '@/lib/db/queries/suggestion';
 import { generateDraftText } from './generateDratf';
 
