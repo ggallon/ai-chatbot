@@ -4,7 +4,7 @@ import { generateText, type Message } from 'ai';
 import { cookies } from 'next/headers';
 
 import { customModel } from '@/lib/ai';
-import { updateChatVisibilityById } from '@/lib/db/queries';
+import { updateChatVisibilityById } from '@/lib/db/queries/chat';
 import {
   deleteMessagesByChatIdAfterTimestamp,
   getMessageById,

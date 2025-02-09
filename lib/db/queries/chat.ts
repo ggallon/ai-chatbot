@@ -2,22 +2,13 @@ import 'server-only';
 
 import { and, desc, eq } from 'drizzle-orm';
 
-import { db } from './neon';
+import { db } from '@/lib/db/neon';
 import {
   chat,
   type Chat,
   type ChatVisibility,
   type InsertChat,
-} from './schema';
-
-export async function saveChat(chatValues: InsertChat) {
-  try {
-    await db.insert(chat).values(chatValues);
-  } catch (error) {
-    console.error('Failed to save chat in database');
-    throw error;
-  }
-}
+} from '@/lib/db/schema';
 
 export async function deleteChatById({
   id,
@@ -30,19 +21,6 @@ export async function deleteChatById({
     await db.delete(chat).where(and(eq(chat.id, id), eq(chat.userId, userId)));
   } catch (error) {
     console.error('Failed to delete chat by id from database');
-    throw error;
-  }
-}
-
-export async function getChatsByUserId({ id }: { id: string }) {
-  try {
-    return await db
-      .select()
-      .from(chat)
-      .where(eq(chat.userId, id))
-      .orderBy(desc(chat.createdAt));
-  } catch (error) {
-    console.error('Failed to get chats by user from database');
     throw error;
   }
 }
@@ -62,6 +40,28 @@ export async function getChatById({
     return selectedChat;
   } catch (error) {
     console.error('Failed to get chat by id from database');
+    throw error;
+  }
+}
+
+export async function getChatsByUserId({ id }: { id: string }) {
+  try {
+    return await db
+      .select()
+      .from(chat)
+      .where(eq(chat.userId, id))
+      .orderBy(desc(chat.createdAt));
+  } catch (error) {
+    console.error('Failed to get chats by user from database');
+    throw error;
+  }
+}
+
+export async function saveChat(chatValues: InsertChat) {
+  try {
+    await db.insert(chat).values(chatValues);
+  } catch (error) {
+    console.error('Failed to save chat in database');
     throw error;
   }
 }

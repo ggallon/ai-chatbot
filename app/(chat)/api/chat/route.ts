@@ -13,7 +13,7 @@ import { systemPrompt } from '@/lib/ai/prompts';
 import { getWeather } from '@/lib/ai/tools/get-weather';
 import { initDocumentTools } from '@/lib/ai/tools/document';
 import { getLastUserMessage, sanitizeResponseMessages } from '@/lib/ai/utils';
-import { getChatById, saveChat } from '@/lib/db/queries';
+import { getChatById, saveChat } from '@/lib/db/queries/chat';
 import { saveMessages } from '@/lib/db/queries/message';
 import { generateUUID } from '@/lib/utils/uuid';
 

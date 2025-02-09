@@ -1,5 +1,5 @@
 import { auth } from '@/app/(auth)/auth';
-import { deleteChatById } from '@/lib/db/queries';
+import { deleteChatById } from '@/lib/db/queries/chat';
 
 export async function DELETE(
   request: Request,
