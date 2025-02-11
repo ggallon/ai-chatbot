@@ -11,7 +11,9 @@ import { customModel } from '@/lib/ai';
 import { models } from '@/lib/ai/models';
 import { systemPrompt } from '@/lib/ai/prompts';
 import { getWeather } from '@/lib/ai/tools/get-weather';
-import { initDocumentTools } from '@/lib/ai/tools/document';
+import { createDocument } from '@/lib/ai/tools/document/create';
+import { requestSuggestions } from '@/lib/ai/tools/document/suggestions';
+import { updateDocument } from '@/lib/ai/tools/document/update';
 import { getLastUserMessage, sanitizeResponseMessages } from '@/lib/ai/utils';
 import { getChatById, saveChat } from '@/lib/db/queries/chat';
 import { saveMessages } from '@/lib/db/queries/message';
@@ -88,12 +90,6 @@ export async function POST(request: Request) {
 
   return createDataStreamResponse({
     execute: (dataStream) => {
-      const documentTools = initDocumentTools({
-        modelApiIdentifier: model.apiIdentifier,
-        dataStream,
-        userId,
-      });
-
       const result = streamText({
         model: customModel(model.apiIdentifier),
         system: systemPrompt,
@@ -103,7 +99,21 @@ export async function POST(request: Request) {
         experimental_generateMessageId: generateUUID,
         tools: {
           getWeather,
-          ...documentTools,
+          createDocument: createDocument({
+            modelApiIdentifier: model.apiIdentifier,
+            dataStream,
+            userId,
+          }),
+          updateDocument: updateDocument({
+            modelApiIdentifier: model.apiIdentifier,
+            dataStream,
+            userId,
+          }),
+          requestSuggestions: requestSuggestions({
+            modelApiIdentifier: model.apiIdentifier,
+            dataStream,
+            userId,
+          }),
         },
         onFinish: async ({ response }) => {
           try {

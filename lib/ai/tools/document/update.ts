@@ -1,0 +1,73 @@
+import { tool, type DataStreamWriter } from 'ai';
+import { z } from 'zod';
+
+import { imageDocumentHandler } from '@/blocks/image/server';
+import { textDocumentHandler } from '@/blocks/text/server';
+import { getDocumentById } from '@/lib/db/queries/document';
+
+import type { Model } from '@/lib/ai/models';
+
+export interface ExtendedOptions {
+  modelApiIdentifier: Model['apiIdentifier'];
+  dataStream: DataStreamWriter;
+  userId: string;
+}
+
+export const updateDocument = ({
+  modelApiIdentifier,
+  dataStream,
+  userId,
+}: ExtendedOptions) =>
+  tool({
+    description: 'Update a document with the given description',
+    parameters: z.object({
+      id: z.string().describe('The ID of the document to update'),
+      description: z
+        .string()
+        .describe('The description of changes that need to be made'),
+    }),
+    execute: async ({ id, description }) => {
+      const document = await getDocumentById({ id });
+      if (!document) {
+        return {
+          error: 'Document not found',
+        };
+      }
+
+      dataStream.writeData({ type: 'clear', content: document.title });
+
+      switch (document.kind) {
+        case 'image':
+          await imageDocumentHandler.onUpdateDocument({
+            document,
+            description,
+            modelApiIdentifier: 'openai:large-model',
+            dataStream,
+            userId,
+          });
+          break;
+        case 'text':
+          textDocumentHandler.onUpdateDocument({
+            document,
+            description,
+            modelApiIdentifier,
+            dataStream,
+            userId,
+          });
+          break;
+        default:
+          throw new Error(
+            `No document handler found for kind: ${document.kind}`,
+          );
+      }
+
+      dataStream.writeData({ type: 'finish', content: '' });
+
+      return {
+        id,
+        title: document.title,
+        kind: document.kind,
+        content: 'The document has been updated successfully.',
+      };
+    },
+  });
