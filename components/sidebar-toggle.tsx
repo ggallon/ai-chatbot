@@ -1,6 +1,6 @@
 import type { ComponentProps } from 'react';
 
-import { type SidebarTrigger, useSidebar } from '@/components/ui/sidebar';
+import { useSidebar, type SidebarTrigger } from '@/components/ui/sidebar';
 import {
   Tooltip,
   TooltipContent,

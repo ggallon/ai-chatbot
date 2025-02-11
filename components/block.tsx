@@ -17,16 +17,16 @@ import { useBlock } from '@/hooks/use-block';
 import { cn } from '@/lib/utils/cn';
 import { fetcher } from '@/lib/utils/fetcher';
 
-import { DiffView } from './diffview';
+import { BlockActions } from './block-actions';
+import { BlockCloseButton } from './block-close-button';
+import { BlockMessages } from './block-messages';
 import { DocumentSkeleton } from './document-skeleton';
+import { DiffView } from './diffview';
 import { Editor } from './editor';
 import { ImageEditor } from './image-editor';
 import { MultimodalInput } from './multimodal-input';
 import { Toolbar } from './toolbar';
 import { VersionFooter } from './version-footer';
-import { BlockActions } from './block-actions';
-import { BlockCloseButton } from './block-close-button';
-import { BlockMessages } from './block-messages';
 
 import type {
   Attachment,

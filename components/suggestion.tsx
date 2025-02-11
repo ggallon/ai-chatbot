@@ -4,8 +4,8 @@ import { AnimatePresence, motion } from 'motion/react';
 import { useState } from 'react';
 import { useWindowSize } from 'usehooks-ts';
 
-import { CrossIcon, MessageIcon } from './icons';
 import { cn } from '@/lib/utils/cn';
+import { CrossIcon, MessageIcon } from './icons';
 import { Button } from './ui/button';
 
 import type { DocumentKind } from '@/lib/db/schema';
