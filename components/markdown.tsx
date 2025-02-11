@@ -1,7 +1,24 @@
+import 'katex/dist/katex.min.css';
 import Link from 'next/link';
 import React, { memo } from 'react';
 import ReactMarkdown, { type Components } from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import rehypeKatex from 'rehype-katex';
+import remarkMath from 'remark-math';
+
+// Preprocess LaTeX equations to be rendered by KaTeX
+// ref: https://github.com/remarkjs/react-markdown/issues/785
+const preprocessLaTeX = (content: string) => {
+  const blockProcessedContent = content.replace(
+    /\\\[([\s\S]*?)\\\]/g,
+    (_, equation) => `$$${equation}$$`,
+  );
+  const inlineProcessedContent = blockProcessedContent.replace(
+    /\\\(([\s\S]*?)\\\)/g,
+    (_, equation) => `$${equation}$`,
+  );
+  return inlineProcessedContent;
+};
 
 const NonMemoizedMarkdown = ({ children }: { children: string }) => {
   const components: Partial<Components> = {
@@ -16,7 +33,6 @@ const NonMemoizedMarkdown = ({ children }: { children: string }) => {
       );
     },
     code: ({ node, className, children, ...props }) => {
-      console.log('className', className);
       const match = /language-(\w+)/.exec(className || '');
       if (!match) {
         return (
@@ -47,6 +63,26 @@ const NonMemoizedMarkdown = ({ children }: { children: string }) => {
       );
     },
   };
+
+  // Check if the content contains LaTeX patterns
+  const containsLaTeX = /\\\[([\s\S]*?)\\\]|\\\(([\s\S]*?)\\\)/.test(
+    children ?? '',
+  );
+
+  // Modify the content to render LaTeX equations if LaTeX patterns are found
+  const processedData = preprocessLaTeX(children ?? '');
+
+  if (containsLaTeX) {
+    return (
+      <ReactMarkdown
+        rehypePlugins={[rehypeKatex]}
+        remarkPlugins={[remarkGfm, remarkMath]}
+        components={components}
+      >
+        {processedData}
+      </ReactMarkdown>
+    );
+  }
 
   return (
     <ReactMarkdown remarkPlugins={[remarkGfm]} components={components}>
