@@ -32,7 +32,7 @@ export const textDocumentHandler = createDocumentHandler<'text'>({
         },
         { role: 'user', content: document.content ?? '' },
       ],
-      experimental_providerMetadata: {
+      providerOptions: {
         openai: {
           prediction: {
             type: 'content',
