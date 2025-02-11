@@ -5,9 +5,10 @@ const nextConfig: NextConfig = {
   eslint: {
     // By default, Next.js will run ESLint for all files
     // in the pages/, app/, components/, lib/, and src/ directories
-    dirs: ['app', 'components', 'hooks', 'lib'],
+    dirs: ['app', 'blocks', 'components', 'hooks', 'lib'],
   },
   experimental: {
+    newDevOverlay: true,
     ppr: true,
   },
   logging: {
