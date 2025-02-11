@@ -15,11 +15,14 @@ const openai = createOpenAI({
 const customOpenAI = customProvider({
   languageModels: {
     // alias model with custom settings:
-    'gpt-4o-mini-structured': openai('gpt-4o-mini', {
-      structuredOutputs: true,
-    }),
+    'small-model': openai('gpt-4o-mini-2024-07-18'),
+    'large-model': openai('gpt-4o-2024-08-06'),
+    'title-model': openai('gpt-4o-mini-2024-07-18'),
   },
-  fallbackProvider: openai,
+  imageModels: {
+    'small-model': openai.image('dall-e-2'),
+    'large-model': openai.image('dall-e-3'),
+  },
 });
 
 export const registry = createProviderRegistry({
