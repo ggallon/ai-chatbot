@@ -27,7 +27,7 @@ type AllowedTools =
   | 'requestSuggestions'
   | 'getWeather';
 
-const artifactssTools: AllowedTools[] = [
+const artifactsTools: AllowedTools[] = [
   'createDocument',
   'updateDocument',
   'requestSuggestions',
@@ -35,7 +35,7 @@ const artifactssTools: AllowedTools[] = [
 
 const weatherTools: AllowedTools[] = ['getWeather'];
 
-const allTools: AllowedTools[] = [...artifactssTools, ...weatherTools];
+const allTools: AllowedTools[] = [...artifactsTools, ...weatherTools];
 
 export async function POST(request: Request) {
   const session = await auth();
