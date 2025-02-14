@@ -1,16 +1,15 @@
 import { memo } from 'react';
 import { toast } from 'sonner';
 
-import { useBlock } from '@/hooks/use-block';
+import { useArtifact } from '@/hooks/use-artifact';
 
 import { FileIcon, LoaderIcon, MessageIcon, PencilEditIcon } from './icons';
 
 import type { DocumentKind } from '@/lib/db/schema';
 
-const getActionText = (
-  type: 'create' | 'update' | 'request-suggestions',
-  tense: 'present' | 'past',
-) => {
+type ActionTypes = 'create' | 'update' | 'request-suggestions';
+
+const getActionText = (type: ActionTypes, tense: 'present' | 'past') => {
   switch (type) {
     case 'create':
       return tense === 'present' ? 'Creating' : 'Created';
@@ -26,7 +25,7 @@ const getActionText = (
 };
 
 interface DocumentToolResultProps {
-  type: 'create' | 'update' | 'request-suggestions';
+  type: ActionTypes;
   result: { id: string; title: string; kind: DocumentKind };
   isReadonly: boolean;
 }
@@ -36,7 +35,7 @@ function PureDocumentToolResult({
   result,
   isReadonly,
 }: DocumentToolResultProps) {
-  const { setBlock } = useBlock();
+  const { setArtifact } = useArtifact();
 
   return (
     <button
@@ -59,7 +58,7 @@ function PureDocumentToolResult({
           height: rect.height,
         };
 
-        setBlock({
+        setArtifact({
           documentId: result.id,
           kind: result.kind,
           content: '',
@@ -89,7 +88,7 @@ function PureDocumentToolResult({
 export const DocumentToolResult = memo(PureDocumentToolResult, () => true);
 
 interface DocumentToolCallProps {
-  type: 'create' | 'update' | 'request-suggestions';
+  type: ActionTypes;
   args: { title: string };
   isReadonly: boolean;
 }
@@ -99,7 +98,7 @@ function PureDocumentToolCall({
   args,
   isReadonly,
 }: DocumentToolCallProps) {
-  const { setBlock } = useBlock();
+  const { setArtifact } = useArtifact();
 
   return (
     <button
@@ -122,8 +121,8 @@ function PureDocumentToolCall({
           height: rect.height,
         };
 
-        setBlock((currentBlock) => ({
-          ...currentBlock,
+        setArtifact((currentArtifact) => ({
+          ...currentArtifact,
           isVisible: true,
           boundingBox,
         }));

@@ -284,7 +284,7 @@ const ReadingLevelSelector = ({
   );
 };
 
-const toolsByBlockKind: Record<
+const toolsByArtifactKind: Record<
   DocumentKind,
   Array<{
     type:
@@ -337,7 +337,7 @@ export const Tools = ({
   append,
   isAnimating,
   setIsToolbarVisible,
-  blockKind,
+  artifactKind,
 }: {
   isToolbarVisible: boolean;
   selectedTool: string | null;
@@ -348,9 +348,9 @@ export const Tools = ({
   ) => Promise<string | null | undefined>;
   isAnimating: boolean;
   setIsToolbarVisible: Dispatch<SetStateAction<boolean>>;
-  blockKind: DocumentKind;
+  artifactKind: DocumentKind;
 }) => {
-  const [primaryTool, ...secondaryTools] = toolsByBlockKind[blockKind];
+  const [primaryTool, ...secondaryTools] = toolsByArtifactKind[artifactKind];
 
   return (
     <motion.div
@@ -397,7 +397,7 @@ const PureToolbar = ({
   isLoading,
   stop,
   setMessages,
-  blockKind,
+  artifactKind,
 }: {
   isToolbarVisible: boolean;
   setIsToolbarVisible: Dispatch<SetStateAction<boolean>>;
@@ -408,7 +408,7 @@ const PureToolbar = ({
   ) => Promise<string | null | undefined>;
   stop: () => void;
   setMessages: Dispatch<SetStateAction<Message[]>>;
-  blockKind: DocumentKind;
+  artifactKind: DocumentKind;
 }) => {
   const toolbarRef = useRef<HTMLDivElement>(null);
   const timeoutRef = useRef<NodeJS.Timeout>(null);
@@ -453,7 +453,7 @@ const PureToolbar = ({
     }
   }, [isLoading, setIsToolbarVisible]);
 
-  if (toolsByBlockKind[blockKind].length === 0) {
+  if (toolsByArtifactKind[artifactKind].length === 0) {
     return null;
   }
 
@@ -475,7 +475,7 @@ const PureToolbar = ({
               : {
                   opacity: 1,
                   y: 0,
-                  height: toolsByBlockKind[blockKind].length * 50,
+                  height: toolsByArtifactKind[artifactKind].length * 50,
                   transition: { delay: 0 },
                   scale: 1,
                 }
@@ -532,7 +532,7 @@ const PureToolbar = ({
             selectedTool={selectedTool}
             setIsToolbarVisible={setIsToolbarVisible}
             setSelectedTool={setSelectedTool}
-            blockKind={blockKind}
+            artifactKind={artifactKind}
           />
         )}
       </motion.div>
@@ -543,7 +543,7 @@ const PureToolbar = ({
 export const Toolbar = memo(PureToolbar, (prevProps, nextProps) => {
   if (prevProps.isLoading !== nextProps.isLoading) return false;
   if (prevProps.isToolbarVisible !== nextProps.isToolbarVisible) return false;
-  if (prevProps.blockKind !== nextProps.blockKind) return false;
+  if (prevProps.artifactKind !== nextProps.artifactKind) return false;
 
   return true;
 });

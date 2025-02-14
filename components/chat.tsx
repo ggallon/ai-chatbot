@@ -4,12 +4,12 @@ import { useChat } from '@ai-sdk/react';
 import { useMemo, useState } from 'react';
 import useSWR, { useSWRConfig } from 'swr';
 
-import { Block } from '@/components/block';
+import { Artifact } from '@/components/artifact';
 import { ChatHeader } from '@/components/chat-header';
 import { Messages } from '@/components/messages';
 import { MultimodalInput } from '@/components/multimodal-input';
 
-import { useBlockSelector } from '@/hooks/use-block';
+import { useArtifactSelector } from '@/hooks/use-artifact';
 import { fetcher } from '@/lib/utils/fetcher';
 import { generateUUID } from '@/lib/utils/uuid';
 
@@ -65,7 +65,7 @@ export function Chat({
   );
 
   const [attachments, setAttachments] = useState<Array<Attachment>>([]);
-  const isBlockVisible = useBlockSelector((state) => state.isVisible);
+  const isArtifactVisible = useArtifactSelector((state) => state.isVisible);
 
   return (
     <>
@@ -85,7 +85,7 @@ export function Chat({
           setMessages={setMessages}
           reload={reload}
           isReadonly={isReadonly}
-          isBlockVisible={isBlockVisible}
+          isArtifactVisible={isArtifactVisible}
         />
 
         <form className="flex mx-auto px-4 bg-background pb-4 md:pb-6 gap-2 w-full md:max-w-3xl">
@@ -107,7 +107,7 @@ export function Chat({
         </form>
       </div>
 
-      <Block
+      <Artifact
         chatId={id}
         input={input}
         setInput={setInput}

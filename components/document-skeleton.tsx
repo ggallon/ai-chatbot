@@ -3,11 +3,11 @@
 import type { DocumentKind } from '@/lib/db/schema';
 
 export const DocumentSkeleton = ({
-  blockKind,
+  artifactKind,
 }: {
-  blockKind: DocumentKind;
+  artifactKind: DocumentKind;
 }) => {
-  return blockKind === 'image' ? (
+  return artifactKind === 'image' ? (
     <div className="flex flex-col gap-4 w-full justify-center items-center h-[calc(100dvh-60px)]">
       <div className="animate-pulse rounded-lg bg-muted-foreground/20 size-96" />
     </div>

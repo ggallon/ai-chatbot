@@ -1,9 +1,9 @@
 import OrderedMap from 'orderedmap';
 import {
+  DOMParser,
   Schema,
   type Node as ProsemirrorNode,
   type MarkSpec,
-  DOMParser,
 } from 'prosemirror-model';
 import { schema } from 'prosemirror-schema-basic';
 import { addListNodes } from 'prosemirror-schema-list';

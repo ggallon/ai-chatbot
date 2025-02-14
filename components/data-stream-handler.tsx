@@ -4,7 +4,7 @@ import { useChat } from '@ai-sdk/react';
 import { useEffect, useRef, useState } from 'react';
 import { useSWRConfig } from 'swr';
 
-import { initialBlockData, useBlock } from '@/hooks/use-block';
+import { initialArtifactData, useArtifact } from '@/hooks/use-artifact';
 
 import type { Chat, DocumentKind, Suggestion } from '@/lib/db/schema';
 
@@ -31,7 +31,7 @@ type DataStreamDelta =
 
 export function DataStreamHandler({ id }: { id: Chat['id'] }) {
   const { data: dataStream } = useChat({ id });
-  const { setBlock } = useBlock();
+  const { setArtifact } = useArtifact();
   const lastProcessedIndex = useRef(-1);
   const [optimisticSuggestions, setOptimisticSuggestions] = useState<
     Array<Suggestion>
@@ -53,62 +53,62 @@ export function DataStreamHandler({ id }: { id: Chat['id'] }) {
     lastProcessedIndex.current = dataStream.length - 1;
 
     (newDeltas as DataStreamDelta[]).forEach((delta: DataStreamDelta) => {
-      setBlock((draftBlock) => {
-        if (!draftBlock) {
-          return { ...initialBlockData, status: 'streaming' };
+      setArtifact((draftArtifact) => {
+        if (!draftArtifact) {
+          return { ...initialArtifactData, status: 'streaming' };
         }
 
         switch (delta.type) {
           case 'id':
             return {
-              ...draftBlock,
+              ...draftArtifact,
               documentId: delta.content,
               status: 'streaming',
             };
 
           case 'title':
             return {
-              ...draftBlock,
+              ...draftArtifact,
               title: delta.content,
               status: 'streaming',
             };
 
           case 'kind':
             return {
-              ...draftBlock,
+              ...draftArtifact,
               kind: delta.content,
               status: 'streaming',
             };
 
           case 'text-delta':
             return {
-              ...draftBlock,
-              content: draftBlock.content + delta.content,
+              ...draftArtifact,
+              content: draftArtifact.content + delta.content,
               isVisible:
-                draftBlock.status === 'streaming' &&
-                draftBlock.content.length > 400 &&
-                draftBlock.content.length < 450
+                draftArtifact.status === 'streaming' &&
+                draftArtifact.content.length > 400 &&
+                draftArtifact.content.length < 450
                   ? true
-                  : draftBlock.isVisible,
+                  : draftArtifact.isVisible,
               status: 'streaming',
             };
 
           case 'code-delta':
             return {
-              ...draftBlock,
+              ...draftArtifact,
               content: delta.content,
               isVisible:
-                draftBlock.status === 'streaming' &&
-                draftBlock.content.length > 300 &&
-                draftBlock.content.length < 310
+                draftArtifact.status === 'streaming' &&
+                draftArtifact.content.length > 300 &&
+                draftArtifact.content.length < 310
                   ? true
-                  : draftBlock.isVisible,
+                  : draftArtifact.isVisible,
               status: 'streaming',
             };
 
           case 'image-delta':
             return {
-              ...draftBlock,
+              ...draftArtifact,
               content: delta.content,
               isVisible: true,
               status: 'streaming',
@@ -122,27 +122,27 @@ export function DataStreamHandler({ id }: { id: Chat['id'] }) {
               ]);
             }, 0);
 
-            return draftBlock;
+            return draftArtifact;
 
           case 'clear':
             return {
-              ...draftBlock,
+              ...draftArtifact,
               content: '',
               status: 'streaming',
             };
 
           case 'finish':
             return {
-              ...draftBlock,
+              ...draftArtifact,
               status: 'idle',
             };
 
           default:
-            return draftBlock;
+            return draftArtifact;
         }
       });
     });
-  }, [dataStream, setBlock]);
+  }, [dataStream, setArtifact]);
 
   return null;
 }

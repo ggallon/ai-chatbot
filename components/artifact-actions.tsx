@@ -7,23 +7,23 @@ import { Button } from './ui/button';
 import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip';
 import { CopyIcon, ClockRewind, RedoIcon, UndoIcon } from './icons';
 
-import type { UIBlock } from './block';
+import type { UIArtifact } from './artifact';
 
-interface BlockActionsProps {
-  block: UIBlock;
+interface ArtifactActionsProps {
+  artifact: UIArtifact;
   handleVersionChange: (type: 'next' | 'prev' | 'toggle' | 'latest') => void;
   currentVersionIndex: number;
   isCurrentVersion: boolean;
   mode: 'read-only' | 'edit' | 'diff';
 }
 
-function PureBlockActions({
-  block,
+function PureArtifactActions({
+  artifact,
   handleVersionChange,
   currentVersionIndex,
   isCurrentVersion,
   mode,
-}: BlockActionsProps) {
+}: ArtifactActionsProps) {
   const { copyTextToClipboard, copyImageToClipboard } =
     useMultimodalCopyToClipboard();
 
@@ -42,7 +42,9 @@ function PureBlockActions({
             onClick={() => {
               handleVersionChange('toggle');
             }}
-            disabled={block.status === 'streaming' || currentVersionIndex === 0}
+            disabled={
+              artifact.status === 'streaming' || currentVersionIndex === 0
+            }
           >
             <ClockRewind size={18} />
           </Button>
@@ -57,7 +59,9 @@ function PureBlockActions({
             onClick={() => {
               handleVersionChange('prev');
             }}
-            disabled={currentVersionIndex === 0 || block.status === 'streaming'}
+            disabled={
+              currentVersionIndex === 0 || artifact.status === 'streaming'
+            }
           >
             <UndoIcon size={18} />
           </Button>
@@ -72,7 +76,7 @@ function PureBlockActions({
             onClick={() => {
               handleVersionChange('next');
             }}
-            disabled={isCurrentVersion || block.status === 'streaming'}
+            disabled={isCurrentVersion || artifact.status === 'streaming'}
           >
             <RedoIcon size={18} />
           </Button>
@@ -85,15 +89,15 @@ function PureBlockActions({
             variant="outline"
             className="p-2 h-fit dark:hover:bg-zinc-700"
             onClick={() => {
-              if (block.kind === 'image') {
-                copyImageToClipboard(block.content);
+              if (artifact.kind === 'image') {
+                copyImageToClipboard(artifact.content);
               } else {
-                copyTextToClipboard(block.content);
+                copyTextToClipboard(artifact.content);
               }
 
               toast.success('Copied to clipboard!');
             }}
-            disabled={block.status === 'streaming'}
+            disabled={artifact.status === 'streaming'}
           >
             <CopyIcon size={18} />
           </Button>
@@ -104,11 +108,15 @@ function PureBlockActions({
   );
 }
 
-export const BlockActions = memo(PureBlockActions, (prevProps, nextProps) => {
-  if (prevProps.block.status !== nextProps.block.status) return false;
-  if (prevProps.currentVersionIndex !== nextProps.currentVersionIndex)
-    return false;
-  if (prevProps.isCurrentVersion !== nextProps.isCurrentVersion) return false;
+export const ArtifactActions = memo(
+  PureArtifactActions,
+  (prevProps, nextProps) => {
+    if (prevProps.artifact.status !== nextProps.artifact.status) return false;
+    if (prevProps.currentVersionIndex !== nextProps.currentVersionIndex)
+      return false;
+    if (prevProps.isCurrentVersion !== nextProps.isCurrentVersion) return false;
+    if (prevProps.artifact.content !== nextProps.artifact.content) return false;
 
-  return true;
-});
+    return true;
+  },
+);

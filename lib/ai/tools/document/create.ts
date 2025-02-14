@@ -1,8 +1,8 @@
 import { tool, type DataStreamWriter } from 'ai';
 import { z } from 'zod';
 
-import { imageDocumentHandler } from '@/blocks/image/server';
-import { textDocumentHandler } from '@/blocks/text/server';
+import { imageDocumentHandler } from '@/artifacts/image/server';
+import { textDocumentHandler } from '@/artifacts/text/server';
 import { documentkindEnum } from '@/lib/db/schema';
 import { generateUUID } from '@/lib/utils/uuid';
 

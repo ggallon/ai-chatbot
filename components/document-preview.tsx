@@ -12,7 +12,7 @@ import {
 } from 'react';
 import useSWR from 'swr';
 
-import { useBlock } from '@/hooks/use-block';
+import { useArtifact } from '@/hooks/use-artifact';
 import { cn } from '@/lib/utils/cn';
 import { fetcher } from '@/lib/utils/fetcher';
 
@@ -23,7 +23,7 @@ import { FileIcon, FullscreenIcon, ImageIcon, LoaderIcon } from './icons';
 import { ImageEditor } from './image-editor';
 
 import type { Document, DocumentKind } from '@/lib/db/schema';
-import type { UIBlock } from './block';
+import type { UIArtifact } from './artifact';
 
 interface DocumentPreviewProps {
   isReadonly: boolean;
@@ -36,7 +36,7 @@ export function DocumentPreview({
   result,
   args,
 }: DocumentPreviewProps) {
-  const { block, setBlock } = useBlock();
+  const { artifact, setArtifact } = useArtifact();
 
   const { data: documents, isLoading: isDocumentsFetching } = useSWR<
     Array<Document>
@@ -47,9 +47,9 @@ export function DocumentPreview({
 
   useEffect(() => {
     const boundingBox = hitboxRef.current?.getBoundingClientRect();
-    if (block.documentId && boundingBox) {
-      setBlock((block) => ({
-        ...block,
+    if (artifact.documentId && boundingBox) {
+      setArtifact((artifact) => ({
+        ...artifact,
         boundingBox: {
           left: boundingBox.x,
           top: boundingBox.y,
@@ -58,9 +58,9 @@ export function DocumentPreview({
         },
       }));
     }
-  }, [block.documentId, setBlock]);
+  }, [artifact.documentId, setArtifact]);
 
-  if (block.isVisible) {
+  if (artifact.isVisible) {
     if (result) {
       return (
         <DocumentToolResult
@@ -83,42 +83,42 @@ export function DocumentPreview({
   }
 
   if (isDocumentsFetching) {
-    return <LoadingSkeleton blockKind={result.kind ?? args.kind} />;
+    return <LoadingSkeleton artifactKind={result.kind ?? args.kind} />;
   }
 
   const document: Document | null = previewDocument
     ? previewDocument
-    : block.status === 'streaming'
+    : artifact.status === 'streaming'
       ? {
-          title: block.title,
-          kind: block.kind,
-          content: block.content,
-          id: block.documentId,
+          title: artifact.title,
+          kind: artifact.kind,
+          content: artifact.content,
+          id: artifact.documentId,
           createdAt: new Date(),
           userId: 'noop',
         }
       : null;
 
-  if (!document) return <LoadingSkeleton blockKind={block.kind} />;
+  if (!document) return <LoadingSkeleton artifactKind={artifact.kind} />;
 
   return (
     <div className="relative w-full cursor-pointer">
       <HitboxLayer
         hitboxRef={hitboxRef as RefObject<HTMLDivElement>}
         result={result}
-        setBlock={setBlock}
+        setArtifact={setArtifact}
       />
       <DocumentHeader
         title={document.title}
         kind={document.kind}
-        isStreaming={block.status === 'streaming'}
+        isStreaming={artifact.status === 'streaming'}
       />
       <DocumentContent document={document} />
     </div>
   );
 }
 
-const LoadingSkeleton = ({ blockKind }: { blockKind: DocumentKind }) => (
+const LoadingSkeleton = ({ artifactKind }: { artifactKind: DocumentKind }) => (
   <div className="w-full">
     <div className="p-4 border rounded-t-2xl flex flex-row gap-2 items-center justify-between dark:bg-muted h-[57px] dark:border-zinc-700 border-b-0">
       <div className="flex flex-row items-center gap-3">
@@ -131,7 +131,7 @@ const LoadingSkeleton = ({ blockKind }: { blockKind: DocumentKind }) => (
         <FullscreenIcon />
       </div>
     </div>
-    {blockKind === 'image' ? (
+    {artifactKind === 'image' ? (
       <div className="overflow-y-scroll border rounded-b-2xl bg-muted border-t-0 dark:border-zinc-700">
         <div className="animate-pulse h-[257px] bg-muted-foreground/20 w-full" />
       </div>
@@ -146,21 +146,23 @@ const LoadingSkeleton = ({ blockKind }: { blockKind: DocumentKind }) => (
 const PureHitboxLayer = ({
   hitboxRef,
   result,
-  setBlock,
+  setArtifact,
 }: {
   hitboxRef: React.RefObject<HTMLDivElement>;
   result: any;
-  setBlock: (updaterFn: UIBlock | ((currentBlock: UIBlock) => UIBlock)) => void;
+  setArtifact: (
+    updaterFn: UIArtifact | ((currentArtifact: UIArtifact) => UIArtifact),
+  ) => void;
 }) => {
   const handleClick = useCallback(
     (event: MouseEvent<HTMLElement>) => {
       const boundingBox = event.currentTarget.getBoundingClientRect();
 
-      setBlock((block) =>
-        block.status === 'streaming'
-          ? { ...block, isVisible: true }
+      setArtifact((artifact) =>
+        artifact.status === 'streaming'
+          ? { ...artifact, isVisible: true }
           : {
-              ...block,
+              ...artifact,
               title: result.title,
               documentId: result.id,
               kind: result.kind,
@@ -174,7 +176,7 @@ const PureHitboxLayer = ({
             },
       );
     },
-    [setBlock, result],
+    [setArtifact, result],
   );
 
   return (
@@ -236,7 +238,7 @@ const DocumentHeader = memo(PureDocumentHeader, (prevProps, nextProps) => {
 });
 
 const DocumentContent = ({ document }: { document: Document }) => {
-  const { block } = useBlock();
+  const { artifact } = useArtifact();
 
   const containerClassName = cn(
     'h-[257px] overflow-y-scroll border rounded-b-2xl dark:bg-muted border-t-0 dark:border-zinc-700',
@@ -250,7 +252,7 @@ const DocumentContent = ({ document }: { document: Document }) => {
     content: document.content ?? '',
     isCurrentVersion: true,
     currentVersionIndex: 0,
-    status: block.status,
+    status: artifact.status,
     onSaveContent: () => {},
     suggestions: [],
   };
@@ -265,7 +267,7 @@ const DocumentContent = ({ document }: { document: Document }) => {
           content={document.content ?? ''}
           isCurrentVersion={true}
           currentVersionIndex={0}
-          status={block.status}
+          status={artifact.status}
           isInline={true}
         />
       ) : null}

@@ -20,7 +20,7 @@ interface MessagesProps {
     chatRequestOptions?: ChatRequestOptions,
   ) => Promise<string | null | undefined>;
   isReadonly: boolean;
-  isBlockVisible: boolean;
+  isArtifactVisible: boolean;
 }
 
 function PureMessages({
@@ -72,7 +72,7 @@ function PureMessages({
 }
 
 export const Messages = memo(PureMessages, (prevProps, nextProps) => {
-  if (prevProps.isBlockVisible && nextProps.isBlockVisible) return true;
+  if (prevProps.isArtifactVisible && nextProps.isArtifactVisible) return true;
   if (prevProps.isLoading !== nextProps.isLoading) return false;
   if (prevProps.isLoading && nextProps.isLoading) return false;
   if (prevProps.messages.length !== nextProps.messages.length) return false;

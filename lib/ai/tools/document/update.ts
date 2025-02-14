@@ -1,8 +1,8 @@
 import { tool, type DataStreamWriter } from 'ai';
 import { z } from 'zod';
 
-import { imageDocumentHandler } from '@/blocks/image/server';
-import { textDocumentHandler } from '@/blocks/text/server';
+import { imageDocumentHandler } from '@/artifacts/image/server';
+import { textDocumentHandler } from '@/artifacts/text/server';
 import { getDocumentById } from '@/lib/db/queries/document';
 
 import type { Model } from '@/lib/ai/models';
