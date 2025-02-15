@@ -90,43 +90,6 @@ const PurePreviewMessage = ({
                 </div>
               )}
 
-            {message.content && mode === 'view' && (
-              <div className="flex flex-row gap-2 items-start">
-                <div className="flex flex-col prose dark:prose-invert max-w-none prose-p:mb-2 prose-ol:my-0">
-                  <Markdown>{message.content as string}</Markdown>
-                </div>
-                {message.role === 'user' && !isReadonly && (
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Button
-                        variant="ghost"
-                        className="px-2 h-fit rounded-full text-muted-foreground opacity-0 group-hover/message:opacity-100"
-                        onClick={() => {
-                          toggleEditMode();
-                        }}
-                      >
-                        <PencilEditIcon />
-                      </Button>
-                    </TooltipTrigger>
-                    <TooltipContent>Edit message</TooltipContent>
-                  </Tooltip>
-                )}
-              </div>
-            )}
-
-            {message.content && mode === 'edit' && (
-              <div className="flex flex-row gap-2 items-start">
-                <MessageEditor
-                  key={message.id}
-                  message={message}
-                  setMode={setMode}
-                  setMessages={setMessages}
-                  reload={reload}
-                />
-                <div className="size-8" />
-              </div>
-            )}
-
             {message.parts &&
               message.parts.map((part) => {
                 if (part.type === 'tool-invocation') {
@@ -176,6 +139,43 @@ const PurePreviewMessage = ({
                 }
                 return null;
               })}
+
+            {message.content && mode === 'view' && (
+              <div className="flex flex-row gap-2 items-start">
+                <div className="flex flex-col prose dark:prose-invert max-w-none prose-p:mb-2 prose-ol:my-0">
+                  <Markdown>{message.content as string}</Markdown>
+                </div>
+                {message.role === 'user' && !isReadonly && (
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button
+                        variant="ghost"
+                        className="px-2 h-fit rounded-full text-muted-foreground opacity-0 group-hover/message:opacity-100"
+                        onClick={() => {
+                          toggleEditMode();
+                        }}
+                      >
+                        <PencilEditIcon />
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>Edit message</TooltipContent>
+                  </Tooltip>
+                )}
+              </div>
+            )}
+
+            {message.content && mode === 'edit' && (
+              <div className="flex flex-row gap-2 items-start">
+                <MessageEditor
+                  key={message.id}
+                  message={message}
+                  setMode={setMode}
+                  setMessages={setMessages}
+                  reload={reload}
+                />
+                <div className="size-8" />
+              </div>
+            )}
 
             {!isReadonly && (
               <MessageActions

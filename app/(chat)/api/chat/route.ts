@@ -1,8 +1,8 @@
 import {
-  convertToCoreMessages,
+  appendResponseMessages,
   createDataStreamResponse,
   streamText,
-  type Message,
+  type UIMessage,
 } from 'ai';
 
 import { auth } from '@/app/(auth)/auth';
@@ -15,7 +15,7 @@ import { getWeather } from '@/lib/ai/tools/get-weather';
 import { createDocument } from '@/lib/ai/tools/document/create';
 import { requestSuggestions } from '@/lib/ai/tools/document/suggestions';
 import { updateDocument } from '@/lib/ai/tools/document/update';
-import { getLastUserMessage, sanitizeResponseMessages } from '@/lib/ai/utils';
+import { convertToDBMessages, getLastUserMessage } from '@/lib/ai/utils';
 import { getChatById, saveChat } from '@/lib/db/queries/chat';
 import { saveMessages } from '@/lib/db/queries/message';
 import { generateUUID } from '@/lib/utils/uuid';
@@ -33,7 +33,7 @@ export async function POST(request: Request) {
     id,
     messages,
     modelId,
-  }: { id: string; messages: Array<Message>; modelId: string } =
+  }: { id: string; messages: Array<UIMessage>; modelId: string } =
     await request.json();
 
   const model = models.find((model) => model.id === modelId);
@@ -59,19 +59,6 @@ export async function POST(request: Request) {
       createdAt: new Date(),
     });
   }
-
-  await saveMessages({
-    messages: [
-      {
-        ...lastUserMessage,
-        content: convertToCoreMessages([lastUserMessage])[0].content,
-        chatId: id,
-        createdAt: lastUserMessage.createdAt
-          ? new Date(lastUserMessage.createdAt)
-          : new Date(),
-      },
-    ],
-  });
 
   return createDataStreamResponse({
     execute: (dataStream) => {
@@ -102,24 +89,22 @@ export async function POST(request: Request) {
         },
         onFinish: async ({ response }) => {
           try {
-            const responseMessagesWithoutIncompleteToolCalls =
-              sanitizeResponseMessages(response.messages);
+            const responseMessages = appendResponseMessages({
+              messages: [messages[messages.length - 1]],
+              responseMessages: response.messages,
+            });
 
             await saveMessages({
-              messages: responseMessagesWithoutIncompleteToolCalls.map(
-                (message) => {
-                  return {
-                    id: message.id,
-                    chatId: id,
-                    role: message.role,
-                    content: message.content,
-                    createdAt: new Date(),
-                  };
-                },
-              ),
+              messages: convertToDBMessages({
+                chatId: id,
+                responseMessages,
+              }),
             });
           } catch (error) {
-            console.error('Failed to save chat');
+            console.error(
+              'Failed to save chat:',
+              error instanceof Error ? error.message : String(error),
+            );
           }
         },
         experimental_telemetry: {
