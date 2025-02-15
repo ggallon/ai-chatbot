@@ -1,6 +1,11 @@
 import type { CoreUserMessage, Message, UIMessage } from 'ai';
 import type { Message as DBMessage } from '@/lib/db/schema';
 
+/**
+ * Convert the Message[] from AI SDK to the database Message[] for insert query.
+ *
+ * @returns — A new DBMessage[].
+ */
 export function convertToDBMessages({
   chatId,
   responseMessages,
