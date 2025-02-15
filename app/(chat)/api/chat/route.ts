@@ -10,6 +10,7 @@ import { generateTitleFromUserMessage } from '@/app/(chat)/actions';
 import { customModel } from '@/lib/ai';
 import { models } from '@/lib/ai/models';
 import { systemPrompt } from '@/lib/ai/prompts';
+import { allowedTools } from '@/lib/ai/tools';
 import { getWeather } from '@/lib/ai/tools/get-weather';
 import { createDocument } from '@/lib/ai/tools/document/create';
 import { requestSuggestions } from '@/lib/ai/tools/document/suggestions';
@@ -20,22 +21,6 @@ import { saveMessages } from '@/lib/db/queries/message';
 import { generateUUID } from '@/lib/utils/uuid';
 
 export const maxDuration = 60;
-
-type AllowedTools =
-  | 'createDocument'
-  | 'updateDocument'
-  | 'requestSuggestions'
-  | 'getWeather';
-
-const artifactsTools: AllowedTools[] = [
-  'createDocument',
-  'updateDocument',
-  'requestSuggestions',
-];
-
-const weatherTools: AllowedTools[] = ['getWeather'];
-
-const allTools: AllowedTools[] = [...artifactsTools, ...weatherTools];
 
 export async function POST(request: Request) {
   const session = await auth();
@@ -95,7 +80,7 @@ export async function POST(request: Request) {
         system: systemPrompt,
         messages,
         maxSteps: 5,
-        experimental_activeTools: allTools,
+        experimental_activeTools: allowedTools,
         experimental_generateMessageId: generateUUID,
         tools: {
           getWeather,
