@@ -48,8 +48,10 @@ export function Chat({
     experimental_throttle: 100,
     sendExtraMessageFields: true, // send id and createdAt for each message
     generateId: generateUUID,
-    onFinish: () => {
-      mutate('/api/history');
+    onFinish: (_, { finishReason }) => {
+      if (messages.length === 0 && finishReason === 'stop') {
+        mutate('/api/history');
+      }
     },
   });
 
