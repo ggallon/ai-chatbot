@@ -8,33 +8,28 @@ export function convertToDBMessages({
   chatId: string;
   responseMessages: Array<Message>;
 }): Array<DBMessage> {
-  return responseMessages.map((message) => {
-    const annotations = message.annotations ?? [];
-    const experimental_attachments = message.experimental_attachments ?? [];
-
-    return {
-      chatId,
-      id: message.id,
-      role: message.role,
-      content: [
-        ...(message.parts ?? [
-          {
-            type: 'text' as const,
-            text: message.content,
-          },
-        ]),
-        ...annotations.map((annotation) => ({
-          type: 'annotation' as const,
-          annotation,
-        })),
-        ...experimental_attachments.map((attachment) => ({
-          type: 'image' as const,
-          attachment,
-        })),
-      ],
-      createdAt: message.createdAt ? new Date(message.createdAt) : new Date(),
-    };
-  });
+  return responseMessages.map((message) => ({
+    chatId,
+    id: message.id,
+    role: message.role,
+    content: [
+      ...(message.parts ?? [
+        {
+          type: 'text' as const,
+          text: message.content,
+        },
+      ]),
+      ...(message.annotations?.map((annotation) => ({
+        type: 'annotation' as const,
+        annotation,
+      })) ?? []),
+      ...(message.experimental_attachments?.map((attachment) => ({
+        type: 'file' as const,
+        attachment,
+      })) ?? []),
+    ],
+    createdAt: message.createdAt ? new Date(message.createdAt) : new Date(),
+  }));
 }
 
 export function convertToUIMessages(
@@ -44,6 +39,7 @@ export function convertToUIMessages(
     let textContent = '';
     const annotations: UIMessage['annotations'] = [];
     const experimental_attachments: UIMessage['experimental_attachments'] = [];
+    // TODO remove deprecated toolInvocations usage
     const toolInvocations: UIMessage['toolInvocations'] = [];
     const parts: UIMessage['parts'] = [];
 
@@ -60,7 +56,7 @@ export function convertToUIMessages(
             textContent += content.text;
             parts.push(content);
             break;
-          case 'image':
+          case 'file':
             experimental_attachments.push(content.attachment);
             break;
           case 'annotation':

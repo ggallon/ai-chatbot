@@ -74,7 +74,7 @@ type AnnotationBDPart = {
 };
 
 type AttachmentBDPart = {
-  type: 'image';
+  type: 'file';
 
   /**
    * The image attachment.
