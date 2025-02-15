@@ -18,7 +18,7 @@ export async function getMessagesByChatId({ id }: { id: Chat['id'] }) {
   }
 }
 
-export async function getMessageById({ id }: { id: Message['id'] }) {
+export async function getMessageById({ id }: { id: DBMessage['id'] }) {
   try {
     return await db.query.message.findFirst({
       where: eq(message.id, id),
