@@ -19,6 +19,16 @@ import {
   type AnyPgColumn,
 } from 'drizzle-orm/pg-core';
 
+import type {
+  Attachment,
+  JSONValue,
+  Message as AIMessage,
+  ReasoningUIPart,
+  SourceUIPart,
+  TextUIPart,
+  ToolInvocationUIPart,
+} from '@ai-sdk/ui-utils';
+
 // custom lower function
 export function lower(email: AnyPgColumn): SQL {
   return sql`lower(${email})`;
@@ -54,13 +64,40 @@ export const chat = pgTable('Chat', {
 export type Chat = InferSelectModel<typeof chat>;
 export type InsertChat = InferInsertModel<typeof chat>;
 
+type AnnotationBDPart = {
+  type: 'annotation';
+
+  /**
+   * The annotation content.
+   */
+  annotation: JSONValue;
+};
+
+type AttachmentBDPart = {
+  type: 'image';
+
+  /**
+   * The image attachment.
+   */
+  attachment: Attachment;
+};
+
+type MessageContent = Array<
+  | TextUIPart
+  | ReasoningUIPart
+  | SourceUIPart
+  | ToolInvocationUIPart
+  | AnnotationBDPart
+  | AttachmentBDPart
+>;
+
 export const message = pgTable('Message', {
   id: uuid('id').primaryKey().defaultRandom(),
   chatId: uuid('chatId')
     .notNull()
     .references(() => chat.id, { onDelete: 'cascade' }),
-  role: varchar('role').notNull(),
-  content: json('content').notNull(),
+  role: varchar('role').$type<AIMessage['role']>().notNull(),
+  content: json('content').$type<MessageContent>().notNull(),
   createdAt: timestamp('createdAt').notNull(),
 });
 
