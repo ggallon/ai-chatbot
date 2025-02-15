@@ -3,7 +3,7 @@ import 'server-only';
 import { and, asc, eq, gte } from 'drizzle-orm';
 
 import { db } from '@/lib/db/neon';
-import { message, type Chat, type Message } from '@/lib/db/schema';
+import { message, type Chat, type Message as DBMessage } from '@/lib/db/schema';
 
 export async function getMessagesByChatId({ id }: { id: Chat['id'] }) {
   try {
@@ -50,7 +50,11 @@ export async function deleteMessagesByChatIdAfterTimestamp({
   }
 }
 
-export async function saveMessages({ messages }: { messages: Array<Message> }) {
+export async function saveMessages({
+  messages,
+}: {
+  messages: Array<DBMessage>;
+}) {
   try {
     return await db.insert(message).values(messages);
   } catch (error) {
