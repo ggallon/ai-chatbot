@@ -5,27 +5,30 @@ import { useArtifact } from '@/hooks/use-artifact';
 
 import { FileIcon, LoaderIcon, MessageIcon, PencilEditIcon } from './icons';
 
+import type { DocumentTools } from '@/lib/ai/tools';
 import type { DocumentKind } from '@/lib/db/schema';
 
-type ActionTypes = 'create' | 'update' | 'request-suggestions';
-
-const getActionText = (type: ActionTypes, tense: 'present' | 'past') => {
-  switch (type) {
-    case 'create':
-      return tense === 'present' ? 'Creating' : 'Created';
-    case 'update':
-      return tense === 'present' ? 'Updating' : 'Updated';
-    case 'request-suggestions':
-      return tense === 'present'
-        ? 'Adding suggestions'
-        : 'Added suggestions to';
-    default:
-      return null;
-  }
+const actionIconMap: Record<DocumentTools, React.JSX.Element> = {
+  createDocument: <FileIcon />,
+  updateDocument: <PencilEditIcon />,
+  requestSuggestions: <MessageIcon />,
 };
 
+const actionTextMap: Record<DocumentTools, { present: string; past: string }> =
+  {
+    createDocument: { present: 'Creating', past: 'Created' },
+    updateDocument: { present: 'Updating', past: 'Updated' },
+    requestSuggestions: {
+      present: 'Adding suggestions',
+      past: 'Added suggestions to',
+    },
+  };
+
+const getActionText = (type: DocumentTools, tense: 'present' | 'past') =>
+  actionTextMap[type]?.[tense] ?? null;
+
 interface DocumentToolResultProps {
-  type: ActionTypes;
+  type: DocumentTools;
   result: { id: string; title: string; kind: DocumentKind };
   isReadonly: boolean;
 }
@@ -70,13 +73,7 @@ function PureDocumentToolResult({
       }}
     >
       <div className="text-muted-foreground mt-1">
-        {type === 'create' ? (
-          <FileIcon />
-        ) : type === 'update' ? (
-          <PencilEditIcon />
-        ) : type === 'request-suggestions' ? (
-          <MessageIcon />
-        ) : null}
+        {actionIconMap[type] ?? null}
       </div>
       <div className="text-left">
         {`${getActionText(type, 'past')} "${result.title}"`}
@@ -88,7 +85,7 @@ function PureDocumentToolResult({
 export const DocumentToolResult = memo(PureDocumentToolResult, () => true);
 
 interface DocumentToolCallProps {
-  type: ActionTypes;
+  type: DocumentTools;
   args: { title: string };
   isReadonly: boolean;
 }
@@ -129,15 +126,7 @@ function PureDocumentToolCall({
       }}
     >
       <div className="flex flex-row gap-3 items-start">
-        <div className="text-zinc-500 mt-1">
-          {type === 'create' ? (
-            <FileIcon />
-          ) : type === 'update' ? (
-            <PencilEditIcon />
-          ) : type === 'request-suggestions' ? (
-            <MessageIcon />
-          ) : null}
-        </div>
+        <div className="text-zinc-500 mt-1">{actionIconMap[type] ?? null}</div>
 
         <div className="text-left">
           {`${getActionText(type, 'present')} ${args.title ? `"${args.title}"` : ''}`}

@@ -4,7 +4,7 @@ import cx from 'classnames';
 import equal from 'fast-deep-equal';
 import { AnimatePresence, motion } from 'motion/react';
 import Image from 'next/image';
-import { memo, useState } from 'react';
+import { memo, useCallback, useState } from 'react';
 
 import { cn } from '@/lib/utils/cn';
 import { DocumentToolCall, DocumentToolResult } from './document';
@@ -18,6 +18,7 @@ import { Button } from './ui/button';
 import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip';
 
 import type { ChatRequestOptions, Message } from 'ai';
+import { isAllowedTool } from '@/lib/ai/tools';
 import type { Vote } from '@/lib/db/schema';
 
 const PurePreviewMessage = ({
@@ -42,6 +43,7 @@ const PurePreviewMessage = ({
   isReadonly: boolean;
 }) => {
   const [mode, setMode] = useState<'view' | 'edit'>('view');
+  const toggleEditMode = useCallback(() => setMode('edit'), []);
 
   return (
     <AnimatePresence>
@@ -100,7 +102,7 @@ const PurePreviewMessage = ({
                         variant="ghost"
                         className="px-2 h-fit rounded-full text-muted-foreground opacity-0 group-hover/message:opacity-100"
                         onClick={() => {
-                          setMode('edit');
+                          toggleEditMode();
                         }}
                       >
                         <PencilEditIcon />
@@ -125,75 +127,55 @@ const PurePreviewMessage = ({
               </div>
             )}
 
-            {message.toolInvocations && message.toolInvocations.length > 0 && (
-              <div className="flex flex-col gap-4">
-                {message.toolInvocations.map((toolInvocation) => {
-                  const { toolName, toolCallId, state, args } = toolInvocation;
+            {message.parts &&
+              message.parts.map((part) => {
+                if (part.type === 'tool-invocation') {
+                  const toolName = part.toolInvocation.toolName;
 
-                  if (state === 'result') {
-                    const { result } = toolInvocation;
-
-                    return (
-                      <div key={toolCallId}>
-                        {toolName === 'getWeather' ? (
-                          <Weather weatherAtLocation={result} />
-                        ) : toolName === 'createDocument' ? (
-                          <DocumentToolResult
-                            type="create"
-                            result={result}
-                            isReadonly={isReadonly}
-                          />
-                        ) : toolName === 'updateDocument' ? (
-                          <DocumentToolResult
-                            type="update"
-                            result={result}
-                            isReadonly={isReadonly}
-                          />
-                        ) : toolName === 'requestSuggestions' ? (
-                          <DocumentToolResult
-                            type="request-suggestions"
-                            result={result}
-                            isReadonly={isReadonly}
-                          />
-                        ) : (
-                          <pre>{JSON.stringify(result, null, 2)}</pre>
-                        )}
-                      </div>
-                    );
+                  if (isAllowedTool(toolName)) {
+                    if (part.toolInvocation.state === 'result') {
+                      return (
+                        <div
+                          key={part.toolInvocation.toolCallId}
+                          className="flex flex-col gap-4"
+                        >
+                          {toolName === 'getWeather' ? (
+                            <Weather
+                              weatherAtLocation={part.toolInvocation.result}
+                            />
+                          ) : (
+                            <DocumentToolResult
+                              type={toolName}
+                              result={part.toolInvocation.result}
+                              isReadonly={isReadonly}
+                            />
+                          )}
+                        </div>
+                      );
+                    } else {
+                      return (
+                        <div
+                          key={part.toolInvocation.toolCallId}
+                          className="flex flex-col gap-4"
+                        >
+                          {toolName === 'getWeather' ? (
+                            <div className="skeleton">
+                              <Weather />
+                            </div>
+                          ) : (
+                            <DocumentToolCall
+                              type={toolName}
+                              args={part.toolInvocation.args}
+                              isReadonly={isReadonly}
+                            />
+                          )}
+                        </div>
+                      );
+                    }
                   }
-                  return (
-                    <div
-                      key={toolCallId}
-                      className={cx({
-                        skeleton: ['getWeather'].includes(toolName),
-                      })}
-                    >
-                      {toolName === 'getWeather' ? (
-                        <Weather />
-                      ) : toolName === 'createDocument' ? (
-                        <DocumentToolCall
-                          type="create"
-                          args={args}
-                          isReadonly={isReadonly}
-                        />
-                      ) : toolName === 'updateDocument' ? (
-                        <DocumentToolCall
-                          type="update"
-                          args={args}
-                          isReadonly={isReadonly}
-                        />
-                      ) : toolName === 'requestSuggestions' ? (
-                        <DocumentToolCall
-                          type="request-suggestions"
-                          args={args}
-                          isReadonly={isReadonly}
-                        />
-                      ) : null}
-                    </div>
-                  );
-                })}
-              </div>
-            )}
+                }
+                return null;
+              })}
 
             {!isReadonly && (
               <MessageActions
@@ -216,13 +198,7 @@ export const PreviewMessage = memo(
   (prevProps, nextProps) => {
     if (prevProps.isLoading !== nextProps.isLoading) return false;
     if (prevProps.message.content !== nextProps.message.content) return false;
-    if (
-      !equal(
-        prevProps.message.toolInvocations,
-        nextProps.message.toolInvocations,
-      )
-    )
-      return false;
+    if (!equal(prevProps.message.parts, nextProps.message.parts)) return false;
     if (!equal(prevProps.vote, nextProps.vote)) return false;
 
     return true;
