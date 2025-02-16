@@ -64,7 +64,7 @@ export function DocumentPreview({
     if (result) {
       return (
         <DocumentToolResult
-          type="create"
+          type="createDocument"
           result={{ id: result.id, title: result.title, kind: result.kind }}
           isReadonly={isReadonly}
         />
@@ -74,7 +74,7 @@ export function DocumentPreview({
     if (args) {
       return (
         <DocumentToolCall
-          type="create"
+          type="createDocument"
           args={{ title: args.title }}
           isReadonly={isReadonly}
         />
