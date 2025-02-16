@@ -10,13 +10,13 @@ import type { Model } from '@/lib/ai/models';
 import type { Suggestion } from '@/lib/db/schema';
 
 export interface ExtendedOptions {
-  modelApiIdentifier: Model['apiIdentifier'];
+  modelIdentifier: Model['id'];
   dataStream: DataStreamWriter;
   userId: string;
 }
 
 export const requestSuggestions = ({
-  modelApiIdentifier,
+  modelIdentifier,
   dataStream,
   userId,
 }: ExtendedOptions) =>
@@ -36,7 +36,7 @@ export const requestSuggestions = ({
       }
 
       const { elementStream } = streamObject({
-        model: customModel(modelApiIdentifier),
+        model: customModel(modelIdentifier),
         system:
           'You are a help writing assistant. Given a piece of writing, please offer suggestions to improve the piece of writing and describe the change. It is very important for the edits to contain full sentences instead of just words. Max 5 suggestions.',
         prompt: document.content,

@@ -9,13 +9,13 @@ import { generateUUID } from '@/lib/utils/uuid';
 import type { Model } from '@/lib/ai/models';
 
 export interface ExtendedOptions {
-  modelApiIdentifier: Model['apiIdentifier'];
+  modelIdentifier: Model['id'];
   dataStream: DataStreamWriter;
   userId: string;
 }
 
 export const createDocument = ({
-  modelApiIdentifier,
+  modelIdentifier,
   dataStream,
   userId,
 }: ExtendedOptions) =>
@@ -39,7 +39,7 @@ export const createDocument = ({
           await imageDocumentHandler.onCreateDocument({
             id,
             title,
-            modelApiIdentifier: 'openai:large-model',
+            modelIdentifier: 'openai:large-model',
             dataStream,
             userId,
           });
@@ -48,7 +48,7 @@ export const createDocument = ({
           await textDocumentHandler.onCreateDocument({
             id,
             title,
-            modelApiIdentifier,
+            modelIdentifier,
             dataStream,
             userId,
           });

@@ -63,7 +63,7 @@ export async function POST(request: Request) {
   return createDataStreamResponse({
     execute: (dataStream) => {
       const result = streamText({
-        model: customModel(model.apiIdentifier),
+        model: customModel(model.id),
         system: systemPrompt,
         messages,
         maxSteps: 5,
@@ -72,17 +72,17 @@ export async function POST(request: Request) {
         tools: {
           getWeather,
           createDocument: createDocument({
-            modelApiIdentifier: model.apiIdentifier,
+            modelIdentifier: model.id,
             dataStream,
             userId,
           }),
           updateDocument: updateDocument({
-            modelApiIdentifier: model.apiIdentifier,
+            modelIdentifier: model.id,
             dataStream,
             userId,
           }),
           requestSuggestions: requestSuggestions({
-            modelApiIdentifier: model.apiIdentifier,
+            modelIdentifier: model.id,
             dataStream,
             userId,
           }),

@@ -7,7 +7,7 @@ import type { Document, DocumentKind } from '@/lib/db/schema';
 interface CreateDocumentCallbackProps {
   id: string;
   title: string;
-  modelApiIdentifier: Model['apiIdentifier'];
+  modelIdentifier: Model['id'];
   dataStream: DataStreamWriter;
   userId: string;
 }
@@ -15,7 +15,7 @@ interface CreateDocumentCallbackProps {
 interface UpdateDocumentCallbackProps {
   document: Document;
   description: string;
-  modelApiIdentifier: Model['apiIdentifier'];
+  modelIdentifier: Model['id'];
   dataStream: DataStreamWriter;
   userId: string;
 }
@@ -37,7 +37,7 @@ export function createDocumentHandler<T extends DocumentKind>(config: {
       const draftContent = await config.onCreateDocument({
         id: args.id,
         title: args.title,
-        modelApiIdentifier: args.modelApiIdentifier,
+        modelIdentifier: args.modelIdentifier,
         dataStream: args.dataStream,
         userId: args.userId,
       });
@@ -55,7 +55,7 @@ export function createDocumentHandler<T extends DocumentKind>(config: {
       const draftContent = await config.onUpdateDocument({
         description: args.description,
         document: args.document,
-        modelApiIdentifier: args.modelApiIdentifier,
+        modelIdentifier: args.modelIdentifier,
         dataStream: args.dataStream,
         userId: args.userId,
       });

@@ -6,9 +6,9 @@ import { generateDraftText } from '@/lib/ai/tools/generateDratf';
 
 export const textDocumentHandler = createDocumentHandler<'text'>({
   kind: 'text',
-  onCreateDocument: async ({ title, modelApiIdentifier, dataStream }) => {
+  onCreateDocument: async ({ title, modelIdentifier, dataStream }) => {
     const { fullStream } = streamText({
-      model: customModel(modelApiIdentifier),
+      model: customModel(modelIdentifier),
       system:
         'Write about the given topic. Markdown is supported. Use headings wherever appropriate.',
       prompt: title,
@@ -19,11 +19,11 @@ export const textDocumentHandler = createDocumentHandler<'text'>({
   onUpdateDocument: async ({
     description,
     document,
-    modelApiIdentifier,
+    modelIdentifier,
     dataStream,
   }) => {
     const { fullStream } = streamText({
-      model: customModel(modelApiIdentifier),
+      model: customModel(modelIdentifier),
       messages: [
         {
           role: 'user',

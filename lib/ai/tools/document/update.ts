@@ -8,13 +8,13 @@ import { getDocumentById } from '@/lib/db/queries/document';
 import type { Model } from '@/lib/ai/models';
 
 export interface ExtendedOptions {
-  modelApiIdentifier: Model['apiIdentifier'];
+  modelIdentifier: Model['id'];
   dataStream: DataStreamWriter;
   userId: string;
 }
 
 export const updateDocument = ({
-  modelApiIdentifier,
+  modelIdentifier,
   dataStream,
   userId,
 }: ExtendedOptions) =>
@@ -41,7 +41,7 @@ export const updateDocument = ({
           await imageDocumentHandler.onUpdateDocument({
             document,
             description,
-            modelApiIdentifier: 'openai:large-model',
+            modelIdentifier: 'openai:large-model',
             dataStream,
             userId,
           });
@@ -50,7 +50,7 @@ export const updateDocument = ({
           textDocumentHandler.onUpdateDocument({
             document,
             description,
-            modelApiIdentifier,
+            modelIdentifier,
             dataStream,
             userId,
           });

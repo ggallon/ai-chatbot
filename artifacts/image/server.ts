@@ -5,9 +5,9 @@ import { createDocumentHandler } from '@/lib/ai/tools/create-document-handler';
 
 export const imageDocumentHandler = createDocumentHandler<'image'>({
   kind: 'image',
-  onCreateDocument: async ({ title, modelApiIdentifier, dataStream }) => {
+  onCreateDocument: async ({ title, modelIdentifier, dataStream }) => {
     const { image } = await generateImage({
-      model: registry.imageModel(modelApiIdentifier),
+      model: registry.imageModel(modelIdentifier),
       prompt: title,
       size: '1024x1024',
       n: 1,
@@ -20,9 +20,9 @@ export const imageDocumentHandler = createDocumentHandler<'image'>({
 
     return image.base64;
   },
-  onUpdateDocument: async ({ description, modelApiIdentifier, dataStream }) => {
+  onUpdateDocument: async ({ description, modelIdentifier, dataStream }) => {
     const { image } = await generateImage({
-      model: registry.imageModel(modelApiIdentifier),
+      model: registry.imageModel(modelIdentifier),
       prompt: description,
       size: '1024x1024',
       n: 1,
