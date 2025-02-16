@@ -9,13 +9,13 @@ export interface Model {
 
 export const models: Array<Model> = [
   {
-    id: 'openai:gpt-4o-mini',
+    id: 'openai:small-model',
     label: 'GPT 4o mini',
     apiIdentifier: 'openai:small-model',
     description: 'Small model for fast, lightweight tasks',
   },
   {
-    id: 'openai:gpt-4o',
+    id: 'openai:large-model',
     label: 'GPT 4o',
     apiIdentifier: 'openai:large-model',
     description: 'For complex, multi-step tasks',
