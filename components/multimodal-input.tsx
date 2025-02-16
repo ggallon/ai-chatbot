@@ -16,6 +16,7 @@ import { toast } from 'sonner';
 import { useLocalStorage, useWindowSize } from 'usehooks-ts';
 
 import { sanitizeUIMessages } from '@/lib/ai/utils';
+import { AllowedFileTypes } from '@/lib/db/validations/file';
 
 import { ArrowUpIcon, PaperclipIcon, StopIcon } from './icons';
 import { PreviewAttachment } from './preview-attachment';
@@ -30,9 +31,10 @@ import type {
   Message,
 } from 'ai';
 
-interface PutBlobResult {
+interface UploadResult {
   url: string;
   downloadUrl: string;
+  name: string;
   pathname: string;
   contentType: string;
   contentDisposition: string;
@@ -161,14 +163,9 @@ function PureMultimodalInput({
       });
 
       if (response.ok) {
-        const data: PutBlobResult = await response.json();
-        const { url, pathname, contentType } = data;
-
-        return {
-          url,
-          name: pathname,
-          contentType: contentType,
-        };
+        const data: UploadResult = await response.json();
+        const { url, name, contentType } = data;
+        return { url, name, contentType };
       }
       const { error } = await response.json();
       toast.error(error);
@@ -234,7 +231,7 @@ function PureMultimodalInput({
         className="fixed -top-4 -left-4 size-0.5 opacity-0 pointer-events-none"
         ref={fileInputRef}
         multiple
-        accept="image/jpeg,image/png,image/webp"
+        accept={AllowedFileTypes.join(',')}
         onChange={handleFileChange}
         tabIndex={-1}
       />

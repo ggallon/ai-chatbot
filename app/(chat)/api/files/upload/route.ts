@@ -39,7 +39,7 @@ export async function POST(request: Request) {
         access: 'public',
       });
 
-      return NextResponse.json(data);
+      return NextResponse.json({ ...data, name: file.name });
     } catch (error) {
       return NextResponse.json({ error: 'Upload failed' }, { status: 500 });
     }
