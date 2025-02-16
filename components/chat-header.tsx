@@ -50,7 +50,7 @@ function PureChatHeader({
               }}
             >
               <PlusIcon />
-              <span className="md:sr-only">New Chat</span>
+              <span className="sr-only md:not-sr-only">New Chat</span>
             </Button>
           </TooltipTrigger>
           <TooltipContent>New Chat</TooltipContent>
@@ -68,7 +68,7 @@ function PureChatHeader({
         <VisibilitySelector
           chatId={chatId}
           selectedVisibilityType={selectedVisibilityType}
-          className="order-1 md:order-3"
+          className="order-1 md:order-3 md:ml-auto"
         />
       )}
     </header>
