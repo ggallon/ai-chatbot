@@ -32,15 +32,15 @@ export function Chat({
   const { mutate } = useSWRConfig();
 
   const {
-    messages,
-    setMessages,
-    handleSubmit,
-    input,
-    setInput,
     append,
-    isLoading,
-    stop,
+    handleSubmit,
+    messages,
+    input,
     reload,
+    setInput,
+    setMessages,
+    status,
+    stop,
   } = useChat({
     id,
     body: { modelId: selectedModelId },
@@ -55,6 +55,7 @@ export function Chat({
     },
   });
 
+  const isLoading = status === 'submitted' || status === 'streaming';
   const initialMessagesLength = initialMessages.length;
   const messagesLength = messages.length;
   const isLoadVotes = useMemo(
