@@ -90,55 +90,54 @@ const PurePreviewMessage = ({
                 </div>
               )}
 
-            {message.parts &&
-              message.parts.map((part) => {
-                if (part.type === 'tool-invocation') {
-                  const toolName = part.toolInvocation.toolName;
+            {message.parts?.map((part) => {
+              if (part.type === 'tool-invocation') {
+                const toolName = part.toolInvocation.toolName;
 
-                  if (isAllowedTool(toolName)) {
-                    if (part.toolInvocation.state === 'result') {
-                      return (
-                        <div
-                          key={part.toolInvocation.toolCallId}
-                          className="flex flex-col gap-4"
-                        >
-                          {toolName === 'getWeather' ? (
-                            <Weather
-                              weatherAtLocation={part.toolInvocation.result}
-                            />
-                          ) : (
-                            <DocumentToolResult
-                              type={toolName}
-                              result={part.toolInvocation.result}
-                              isReadonly={isReadonly}
-                            />
-                          )}
-                        </div>
-                      );
-                    } else {
-                      return (
-                        <div
-                          key={part.toolInvocation.toolCallId}
-                          className="flex flex-col gap-4"
-                        >
-                          {toolName === 'getWeather' ? (
-                            <div className="skeleton">
-                              <Weather />
-                            </div>
-                          ) : (
-                            <DocumentToolCall
-                              type={toolName}
-                              args={part.toolInvocation.args}
-                              isReadonly={isReadonly}
-                            />
-                          )}
-                        </div>
-                      );
-                    }
+                if (isAllowedTool(toolName)) {
+                  if (part.toolInvocation.state === 'result') {
+                    return (
+                      <div
+                        key={part.toolInvocation.toolCallId}
+                        className="flex flex-col gap-4"
+                      >
+                        {toolName === 'getWeather' ? (
+                          <Weather
+                            weatherAtLocation={part.toolInvocation.result}
+                          />
+                        ) : (
+                          <DocumentToolResult
+                            type={toolName}
+                            result={part.toolInvocation.result}
+                            isReadonly={isReadonly}
+                          />
+                        )}
+                      </div>
+                    );
+                  } else {
+                    return (
+                      <div
+                        key={part.toolInvocation.toolCallId}
+                        className="flex flex-col gap-4"
+                      >
+                        {toolName === 'getWeather' ? (
+                          <div className="skeleton">
+                            <Weather />
+                          </div>
+                        ) : (
+                          <DocumentToolCall
+                            type={toolName}
+                            args={part.toolInvocation.args}
+                            isReadonly={isReadonly}
+                          />
+                        )}
+                      </div>
+                    );
                   }
                 }
-                return null;
-              })}
+              }
+              return null;
+            })}
 
             {message.content && mode === 'view' && (
               <div className="flex flex-row gap-2 items-start">
