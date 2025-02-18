@@ -93,8 +93,10 @@ function PureArtifact({
   isReadonly: boolean;
 }) {
   const { artifact, setArtifact } = useArtifact();
+  const [mode, setMode] = useState<'edit' | 'diff'>('edit');
+  const [document, setDocument] = useState<Document | null>(null);
+  const [currentVersionIndex, setCurrentVersionIndex] = useState(-1);
   const { open: isSidebarOpen } = useSidebar();
-
   const {
     data: documents,
     isLoading: isDocumentsFetching,
@@ -105,9 +107,11 @@ function PureArtifact({
       : null,
     fetcher,
   );
-
   const { data: suggestions } = useSWR<Array<Suggestion>>(
-    documents && artifact && artifact.status !== 'streaming'
+    documents &&
+      artifact &&
+      artifact.kind !== 'image' &&
+      artifact.status === 'idle'
       ? `/api/suggestions?documentId=${artifact.documentId}`
       : null,
     fetcher,
@@ -115,10 +119,6 @@ function PureArtifact({
       dedupingInterval: 5000,
     },
   );
-
-  const [mode, setMode] = useState<'edit' | 'diff'>('edit');
-  const [document, setDocument] = useState<Document | null>(null);
-  const [currentVersionIndex, setCurrentVersionIndex] = useState(-1);
 
   useEffect(() => {
     if (documents && documents.length > 0) {
