@@ -30,7 +30,6 @@ export function Chat({
   isReadonly: boolean;
 }) {
   const { mutate } = useSWRConfig();
-
   const {
     append,
     handleSubmit,
@@ -56,6 +55,7 @@ export function Chat({
   });
 
   const isLoading = status === 'submitted' || status === 'streaming';
+
   const initialMessagesLength = initialMessages.length;
   const messagesLength = messages.length;
   const isLoadVotes = useMemo(

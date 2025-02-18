@@ -27,14 +27,13 @@ export type MessageEditorProps = {
 
 export function MessageEditor({
   message,
-  setMode,
   setMessages,
+  setMode,
   reload,
 }: MessageEditorProps) {
-  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-
-  const [draftContent, setDraftContent] = useState<string>(message.content);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const [draftContent, setDraftContent] = useState(message.content);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     if (textareaRef.current) {
