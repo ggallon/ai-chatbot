@@ -181,7 +181,8 @@ const PurePreviewMessage = ({
               <MessageActions
                 key={message.id}
                 chatId={chatId}
-                message={message}
+                messageId={message.id}
+                messageContent={message.content}
                 vote={vote}
               />
             )}

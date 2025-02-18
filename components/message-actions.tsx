@@ -18,18 +18,17 @@ import type { Vote } from '@/lib/db/schema';
 
 function PureMessageActions({
   chatId,
-  message,
+  messageId,
+  messageContent,
   vote,
 }: {
   chatId: string;
-  message: Message;
+  messageId: Message['id'];
+  messageContent: Message['content'];
   vote: Vote | undefined;
 }) {
   const { mutate } = useSWRConfig();
   const [_, copyToClipboard] = useCopyToClipboard();
-
-  if (message.toolInvocations && message.toolInvocations.length > 0)
-    return null;
 
   return (
     <TooltipProvider delayDuration={0}>
@@ -40,7 +39,7 @@ function PureMessageActions({
               className="py-1 px-2 h-fit text-muted-foreground"
               variant="outline"
               onClick={async () => {
-                await copyToClipboard(message.content as string);
+                await copyToClipboard(messageContent as string);
                 toast.success('Copied to clipboard!');
               }}
             >
@@ -61,7 +60,7 @@ function PureMessageActions({
                   method: 'PATCH',
                   body: JSON.stringify({
                     chatId,
-                    messageId: message.id,
+                    messageId,
                     type: 'up',
                   }),
                 });
@@ -75,14 +74,14 @@ function PureMessageActions({
                         if (!currentVotes) return [];
 
                         const votesWithoutCurrent = currentVotes.filter(
-                          (vote) => vote.messageId !== message.id,
+                          (vote) => vote.messageId !== messageId,
                         );
 
                         return [
                           ...votesWithoutCurrent,
                           {
                             chatId,
-                            messageId: message.id,
+                            messageId,
                             isUpvoted: true,
                           },
                         ];
@@ -113,7 +112,7 @@ function PureMessageActions({
                   method: 'PATCH',
                   body: JSON.stringify({
                     chatId,
-                    messageId: message.id,
+                    messageId,
                     type: 'down',
                   }),
                 });
@@ -127,14 +126,14 @@ function PureMessageActions({
                         if (!currentVotes) return [];
 
                         const votesWithoutCurrent = currentVotes.filter(
-                          (vote) => vote.messageId !== message.id,
+                          (vote) => vote.messageId !== messageId,
                         );
 
                         return [
                           ...votesWithoutCurrent,
                           {
                             chatId,
-                            messageId: message.id,
+                            messageId,
                             isUpvoted: false,
                           },
                         ];
@@ -161,7 +160,7 @@ function PureMessageActions({
 export const MessageActions = memo(
   PureMessageActions,
   (prevProps, nextProps) => {
-    if (prevProps.message.content !== nextProps.message.content) return false;
+    if (prevProps.messageContent !== nextProps.messageContent) return false;
     if (!equal(prevProps.vote, nextProps.vote)) return false;
 
     return true;
