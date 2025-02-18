@@ -20,18 +20,14 @@ function PureMessageActions({
   chatId,
   message,
   vote,
-  isLoading,
 }: {
   chatId: string;
   message: Message;
   vote: Vote | undefined;
-  isLoading: boolean;
 }) {
   const { mutate } = useSWRConfig();
   const [_, copyToClipboard] = useCopyToClipboard();
 
-  if (isLoading) return null;
-  if (message.role === 'user') return null;
   if (message.toolInvocations && message.toolInvocations.length > 0)
     return null;
 
@@ -165,8 +161,8 @@ function PureMessageActions({
 export const MessageActions = memo(
   PureMessageActions,
   (prevProps, nextProps) => {
+    if (prevProps.message.content !== nextProps.message.content) return false;
     if (!equal(prevProps.vote, nextProps.vote)) return false;
-    if (prevProps.isLoading !== nextProps.isLoading) return false;
 
     return true;
   },

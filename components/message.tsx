@@ -63,9 +63,7 @@ const PurePreviewMessage = ({
           )}
         >
           <div className="size-7 flex items-center rounded-full justify-center ring-1 shrink-0 ring-border">
-            {message.role === 'assistant' ? (
-              <SparklesIcon size={12} />
-            ) : (
+            {message.role === 'user' ? (
               <Image
                 src="https://avatar.vercel.sh/user_email"
                 alt="user_email"
@@ -74,6 +72,8 @@ const PurePreviewMessage = ({
                 className="rounded-full"
                 unoptimized={true}
               />
+            ) : (
+              <SparklesIcon size={12} />
             )}
           </div>
 
@@ -90,54 +90,55 @@ const PurePreviewMessage = ({
                 </div>
               )}
 
-            {message.parts?.map((part) => {
-              if (part.type === 'tool-invocation') {
-                const toolName = part.toolInvocation.toolName;
+            {message.role === 'assistant' &&
+              message.parts?.map((part) => {
+                if (part.type === 'tool-invocation') {
+                  const toolName = part.toolInvocation.toolName;
 
-                if (isAllowedTool(toolName)) {
-                  if (part.toolInvocation.state === 'result') {
-                    return (
-                      <div
-                        key={part.toolInvocation.toolCallId}
-                        className="flex flex-col gap-4"
-                      >
-                        {toolName === 'getWeather' ? (
-                          <Weather
-                            weatherAtLocation={part.toolInvocation.result}
-                          />
-                        ) : (
-                          <DocumentToolResult
-                            type={toolName}
-                            result={part.toolInvocation.result}
-                            isReadonly={isReadonly}
-                          />
-                        )}
-                      </div>
-                    );
-                  } else {
-                    return (
-                      <div
-                        key={part.toolInvocation.toolCallId}
-                        className="flex flex-col gap-4"
-                      >
-                        {toolName === 'getWeather' ? (
-                          <div className="skeleton">
-                            <Weather />
-                          </div>
-                        ) : (
-                          <DocumentToolCall
-                            type={toolName}
-                            args={part.toolInvocation.args}
-                            isReadonly={isReadonly}
-                          />
-                        )}
-                      </div>
-                    );
+                  if (isAllowedTool(toolName)) {
+                    if (part.toolInvocation.state === 'result') {
+                      return (
+                        <div
+                          key={part.toolInvocation.toolCallId}
+                          className="flex flex-col gap-4"
+                        >
+                          {toolName === 'getWeather' ? (
+                            <Weather
+                              weatherAtLocation={part.toolInvocation.result}
+                            />
+                          ) : (
+                            <DocumentToolResult
+                              type={toolName}
+                              result={part.toolInvocation.result}
+                              isReadonly={isReadonly}
+                            />
+                          )}
+                        </div>
+                      );
+                    } else {
+                      return (
+                        <div
+                          key={part.toolInvocation.toolCallId}
+                          className="flex flex-col gap-4"
+                        >
+                          {toolName === 'getWeather' ? (
+                            <div className="skeleton">
+                              <Weather />
+                            </div>
+                          ) : (
+                            <DocumentToolCall
+                              type={toolName}
+                              args={part.toolInvocation.args}
+                              isReadonly={isReadonly}
+                            />
+                          )}
+                        </div>
+                      );
+                    }
                   }
                 }
-              }
-              return null;
-            })}
+                return null;
+              })}
 
             {message.content && mode === 'view' && (
               <div className="flex flex-row gap-2 items-start">
@@ -163,26 +164,25 @@ const PurePreviewMessage = ({
               </div>
             )}
 
-            {message.content && mode === 'edit' && (
+            {!isReadonly && message.role === 'user' && mode === 'edit' && (
               <div className="flex flex-row gap-2 items-start">
                 <MessageEditor
                   key={message.id}
                   message={message}
-                  setMode={setMode}
                   setMessages={setMessages}
+                  setMode={setMode}
                   reload={reload}
                 />
                 <div className="size-8" />
               </div>
             )}
 
-            {!isReadonly && (
+            {!isReadonly && message.role === 'assistant' && !isLoading && (
               <MessageActions
-                key={`action-${message.id}`}
+                key={message.id}
                 chatId={chatId}
                 message={message}
                 vote={vote}
-                isLoading={isLoading}
               />
             )}
           </div>
