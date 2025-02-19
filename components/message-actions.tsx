@@ -1,5 +1,5 @@
 import equal from 'fast-deep-equal';
-import { memo } from 'react';
+import { memo, useCallback } from 'react';
 import { toast } from 'sonner';
 import { useSWRConfig } from 'swr';
 import { useCopyToClipboard } from 'usehooks-ts';
@@ -27,8 +27,46 @@ function PureMessageActions({
   messageContent: Message['content'];
   vote: Vote | undefined;
 }) {
-  const { mutate } = useSWRConfig();
   const [_, copyToClipboard] = useCopyToClipboard();
+  const { mutate } = useSWRConfig();
+
+  const setVote = useCallback(
+    (type: 'down' | 'up') =>
+      fetch('/api/vote', {
+        method: 'PATCH',
+        body: JSON.stringify({
+          chatId,
+          messageId,
+          type,
+        }),
+      }),
+    [chatId, messageId],
+  );
+
+  const mutateVote = useCallback(
+    (isUpvoted: boolean) =>
+      mutate<Array<Vote>>(
+        `/api/vote?chatId=${chatId}`,
+        (currentVotes) => {
+          if (!currentVotes) return [];
+
+          const votesWithoutCurrent = currentVotes.filter(
+            (vote) => vote.messageId !== messageId,
+          );
+
+          return [
+            ...votesWithoutCurrent,
+            {
+              chatId,
+              messageId,
+              isUpvoted,
+            },
+          ];
+        },
+        { revalidate: false },
+      ),
+    [chatId, messageId, mutate],
+  );
 
   return (
     <TooltipProvider delayDuration={0}>
@@ -39,7 +77,7 @@ function PureMessageActions({
               className="py-1 px-2 h-fit text-muted-foreground"
               variant="outline"
               onClick={async () => {
-                await copyToClipboard(messageContent as string);
+                await copyToClipboard(messageContent);
                 toast.success('Copied to clipboard!');
               }}
             >
@@ -56,39 +94,10 @@ function PureMessageActions({
               disabled={vote?.isUpvoted}
               variant="outline"
               onClick={async () => {
-                const upvote = fetch('/api/vote', {
-                  method: 'PATCH',
-                  body: JSON.stringify({
-                    chatId,
-                    messageId,
-                    type: 'up',
-                  }),
-                });
-
-                toast.promise(upvote, {
+                toast.promise(setVote('up'), {
                   loading: 'Upvoting Response...',
                   success: () => {
-                    mutate<Array<Vote>>(
-                      `/api/vote?chatId=${chatId}`,
-                      (currentVotes) => {
-                        if (!currentVotes) return [];
-
-                        const votesWithoutCurrent = currentVotes.filter(
-                          (vote) => vote.messageId !== messageId,
-                        );
-
-                        return [
-                          ...votesWithoutCurrent,
-                          {
-                            chatId,
-                            messageId,
-                            isUpvoted: true,
-                          },
-                        ];
-                      },
-                      { revalidate: false },
-                    );
-
+                    mutateVote(true);
                     return 'Upvoted Response!';
                   },
                   error: 'Failed to upvote response.',
@@ -108,39 +117,10 @@ function PureMessageActions({
               variant="outline"
               disabled={vote && !vote.isUpvoted}
               onClick={async () => {
-                const downvote = fetch('/api/vote', {
-                  method: 'PATCH',
-                  body: JSON.stringify({
-                    chatId,
-                    messageId,
-                    type: 'down',
-                  }),
-                });
-
-                toast.promise(downvote, {
+                toast.promise(setVote('down'), {
                   loading: 'Downvoting Response...',
                   success: () => {
-                    mutate<Array<Vote>>(
-                      `/api/vote?chatId=${chatId}`,
-                      (currentVotes) => {
-                        if (!currentVotes) return [];
-
-                        const votesWithoutCurrent = currentVotes.filter(
-                          (vote) => vote.messageId !== messageId,
-                        );
-
-                        return [
-                          ...votesWithoutCurrent,
-                          {
-                            chatId,
-                            messageId,
-                            isUpvoted: false,
-                          },
-                        ];
-                      },
-                      { revalidate: false },
-                    );
-
+                    mutateVote(false);
                     return 'Downvoted Response!';
                   },
                   error: 'Failed to downvote response.',
