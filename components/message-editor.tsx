@@ -4,6 +4,7 @@ import {
   useEffect,
   useRef,
   useState,
+  type ChangeEvent,
   type Dispatch,
   type SetStateAction,
 } from 'react';
@@ -16,10 +17,10 @@ import type { ChatRequestOptions, Message } from 'ai';
 
 export type MessageEditorProps = {
   message: Message;
-  setMode: Dispatch<SetStateAction<'view' | 'edit'>>;
   setMessages: (
     messages: Message[] | ((messages: Message[]) => Message[]),
   ) => void;
+  setMode: Dispatch<SetStateAction<'view' | 'edit'>>;
   reload: (
     chatRequestOptions?: ChatRequestOptions,
   ) => Promise<string | null | undefined>;
@@ -35,12 +36,6 @@ export function MessageEditor({
   const [draftContent, setDraftContent] = useState(message.content);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  useEffect(() => {
-    if (textareaRef.current) {
-      adjustHeight();
-    }
-  }, []);
-
   const adjustHeight = () => {
     if (textareaRef.current) {
       textareaRef.current.style.height = 'auto';
@@ -48,10 +43,16 @@ export function MessageEditor({
     }
   };
 
-  const handleInput = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleInput = (event: ChangeEvent<HTMLTextAreaElement>) => {
     setDraftContent(event.target.value);
     adjustHeight();
   };
+
+  useEffect(() => {
+    if (textareaRef.current) {
+      adjustHeight();
+    }
+  }, []);
 
   return (
     <div className="flex flex-col gap-2 w-full">
@@ -79,9 +80,7 @@ export function MessageEditor({
           onClick={async () => {
             setIsSubmitting(true);
 
-            await deleteTrailingMessages({
-              id: message.id,
-            });
+            await deleteTrailingMessages({ id: message.id });
 
             setMessages((messages) => {
               const index = messages.findIndex((m) => m.id === message.id);
