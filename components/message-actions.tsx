@@ -13,7 +13,7 @@ import {
   TooltipTrigger,
 } from './ui/tooltip';
 
-import type { Message } from 'ai';
+import type { UIMessage } from 'ai';
 import type { Vote } from '@/lib/db/schema';
 
 function PureMessageActions({
@@ -23,8 +23,8 @@ function PureMessageActions({
   vote,
 }: {
   chatId: string;
-  messageId: Message['id'];
-  messageContent: Message['content'];
+  messageId: UIMessage['id'];
+  messageContent: UIMessage['content'];
   vote: Vote | undefined;
 }) {
   const [_, copyToClipboard] = useCopyToClipboard();

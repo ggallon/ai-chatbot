@@ -28,12 +28,8 @@ import { MultimodalInput } from './multimodal-input';
 import { Toolbar } from './toolbar';
 import { VersionFooter } from './version-footer';
 
-import type {
-  Attachment,
-  ChatRequestOptions,
-  CreateMessage,
-  Message,
-} from 'ai';
+import type { UseChatHelpers } from '@ai-sdk/react';
+import type { Attachment, UIMessage } from 'ai';
 import type { Document, DocumentKind, Suggestion, Vote } from '@/lib/db/schema';
 
 export interface UIArtifact {
@@ -68,28 +64,18 @@ function PureArtifact({
   isReadonly,
 }: {
   chatId: string;
-  input: string;
-  setInput: (input: string) => void;
+  input: UseChatHelpers['input'];
+  setInput: UseChatHelpers['setInput'];
   isLoading: boolean;
-  stop: () => void;
+  stop: UseChatHelpers['stop'];
   attachments: Array<Attachment>;
   setAttachments: Dispatch<SetStateAction<Array<Attachment>>>;
-  messages: Array<Message>;
-  setMessages: Dispatch<SetStateAction<Array<Message>>>;
+  messages: Array<UIMessage>;
+  setMessages: UseChatHelpers['setMessages'];
   votes: Array<Vote> | undefined;
-  append: (
-    message: Message | CreateMessage,
-    chatRequestOptions?: ChatRequestOptions,
-  ) => Promise<string | null | undefined>;
-  handleSubmit: (
-    event?: {
-      preventDefault?: () => void;
-    },
-    chatRequestOptions?: ChatRequestOptions,
-  ) => void;
-  reload: (
-    chatRequestOptions?: ChatRequestOptions,
-  ) => Promise<string | null | undefined>;
+  append: UseChatHelpers['append'];
+  handleSubmit: UseChatHelpers['handleSubmit'];
+  reload: UseChatHelpers['reload'];
   isReadonly: boolean;
 }) {
   const { artifact, setArtifact } = useArtifact();

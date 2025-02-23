@@ -5,14 +5,11 @@ import { memo } from 'react';
 
 import { Button } from './ui/button';
 
-import type { ChatRequestOptions, CreateMessage, Message } from 'ai';
+import type { UseChatHelpers } from '@ai-sdk/react';
 
 interface SuggestedActionsProps {
   chatId: string;
-  append: (
-    message: Message | CreateMessage,
-    chatRequestOptions?: ChatRequestOptions,
-  ) => Promise<string | null | undefined>;
+  append: UseChatHelpers['append'];
 }
 
 function PureSuggestedActions({ chatId, append }: SuggestedActionsProps) {

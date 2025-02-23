@@ -24,12 +24,8 @@ import { Button } from './ui/button';
 import { Textarea } from './ui/textarea';
 import { SuggestedActions } from './suggested-actions';
 
-import type {
-  Attachment,
-  ChatRequestOptions,
-  CreateMessage,
-  Message,
-} from 'ai';
+import type { UseChatHelpers } from '@ai-sdk/react';
+import type { Attachment, UIMessage } from 'ai';
 
 interface UploadResult {
   url: string;
@@ -55,24 +51,16 @@ function PureMultimodalInput({
   className,
 }: {
   chatId: string;
-  input: string;
-  setInput: (value: string) => void;
+  input: UseChatHelpers['input'];
+  setInput: UseChatHelpers['setInput'];
   isLoading: boolean;
-  stop: () => void;
+  stop: UseChatHelpers['stop'];
   attachments: Array<Attachment>;
   setAttachments: Dispatch<SetStateAction<Array<Attachment>>>;
-  messages: Array<Message>;
-  setMessages: Dispatch<SetStateAction<Array<Message>>>;
-  append: (
-    message: Message | CreateMessage,
-    chatRequestOptions?: ChatRequestOptions,
-  ) => Promise<string | null | undefined>;
-  handleSubmit: (
-    event?: {
-      preventDefault?: () => void;
-    },
-    chatRequestOptions?: ChatRequestOptions,
-  ) => void;
+  messages: Array<UIMessage>;
+  setMessages: UseChatHelpers['setMessages'];
+  append: UseChatHelpers['append'];
+  handleSubmit: UseChatHelpers['handleSubmit'];
   className?: string;
 }) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -322,11 +310,11 @@ function PureAttachmentsButton({
 const AttachmentsButton = memo(PureAttachmentsButton);
 
 function PureStopButton({
-  stop,
   setMessages,
+  stop,
 }: {
-  stop: () => void;
-  setMessages: Dispatch<SetStateAction<Array<Message>>>;
+  setMessages: UseChatHelpers['setMessages'];
+  stop: UseChatHelpers['stop'];
 }) {
   return (
     <Button

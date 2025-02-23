@@ -13,7 +13,7 @@ import { useArtifactSelector } from '@/hooks/use-artifact';
 import { fetcher } from '@/lib/utils/fetcher';
 import { generateUUID } from '@/lib/utils/uuid';
 
-import type { Attachment, Message } from 'ai';
+import type { Attachment, UIMessage } from 'ai';
 import type { ChatVisibility, Vote } from '@/lib/db/schema';
 
 export function Chat({
@@ -24,7 +24,7 @@ export function Chat({
   isReadonly,
 }: {
   id: string;
-  initialMessages: Array<Message>;
+  initialMessages: Array<UIMessage>;
   selectedModelId: string;
   selectedVisibilityType: ChatVisibility;
   isReadonly: boolean;

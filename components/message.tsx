@@ -6,6 +6,7 @@ import { AnimatePresence, motion } from 'motion/react';
 import Image from 'next/image';
 import { memo, useCallback, useState } from 'react';
 
+import { isAllowedTool } from '@/lib/ai/tools';
 import { cn } from '@/lib/utils/cn';
 import { DocumentToolCall, DocumentToolResult } from './document';
 import { PencilEditIcon, SparklesIcon } from './icons';
@@ -17,8 +18,8 @@ import { Weather } from './weather';
 import { Button } from './ui/button';
 import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip';
 
-import type { ChatRequestOptions, Message } from 'ai';
-import { isAllowedTool } from '@/lib/ai/tools';
+import type { UseChatHelpers } from '@ai-sdk/react';
+import type { UIMessage } from 'ai';
 import type { Vote } from '@/lib/db/schema';
 
 const PurePreviewMessage = ({
@@ -31,15 +32,11 @@ const PurePreviewMessage = ({
   isReadonly,
 }: {
   chatId: string;
-  message: Message;
+  message: UIMessage;
   vote: Vote | undefined;
   isLoading: boolean;
-  setMessages: (
-    messages: Message[] | ((messages: Message[]) => Message[]),
-  ) => void;
-  reload: (
-    chatRequestOptions?: ChatRequestOptions,
-  ) => Promise<string | null | undefined>;
+  setMessages: UseChatHelpers['setMessages'];
+  reload: UseChatHelpers['reload'];
   isReadonly: boolean;
 }) => {
   const [mode, setMode] = useState<'view' | 'edit'>('view');

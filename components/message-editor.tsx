@@ -13,17 +13,14 @@ import { deleteTrailingMessages } from '@/app/(chat)/actions';
 import { Button } from './ui/button';
 import { Textarea } from './ui/textarea';
 
-import type { ChatRequestOptions, Message } from 'ai';
+import type { UseChatHelpers } from '@ai-sdk/react';
+import type { UIMessage } from 'ai';
 
 export type MessageEditorProps = {
-  message: Message;
-  setMessages: (
-    messages: Message[] | ((messages: Message[]) => Message[]),
-  ) => void;
+  message: UIMessage;
+  setMessages: UseChatHelpers['setMessages'];
   setMode: Dispatch<SetStateAction<'view' | 'edit'>>;
-  reload: (
-    chatRequestOptions?: ChatRequestOptions,
-  ) => Promise<string | null | undefined>;
+  reload: UseChatHelpers['reload'];
 };
 
 export function MessageEditor({

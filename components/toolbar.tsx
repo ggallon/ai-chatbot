@@ -36,6 +36,7 @@ import {
   SummarizeIcon,
 } from './icons';
 
+import type { UseChatHelpers } from '@ai-sdk/react';
 import type { ChatRequestOptions, CreateMessage, Message } from 'ai';
 import type { DocumentKind } from '@/lib/db/schema';
 
@@ -54,10 +55,7 @@ type ToolProps = {
   isToolbarVisible?: boolean;
   setIsToolbarVisible?: Dispatch<SetStateAction<boolean>>;
   isAnimating: boolean;
-  append: (
-    message: Message | CreateMessage,
-    chatRequestOptions?: ChatRequestOptions,
-  ) => Promise<string | null | undefined>;
+  append: UseChatHelpers['append'];
 };
 
 const Tool = ({
