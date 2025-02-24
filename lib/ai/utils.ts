@@ -2,9 +2,9 @@ import type { CoreUserMessage, Message, UIMessage } from 'ai';
 import type { Message as DBMessage } from '@/lib/db/schema';
 
 /**
- * Convert the Message[] from AI SDK to the database Message[] for insert query.
+ * Convert AI SDK messages to database messages.
  *
- * @returns — A new DBMessage[].
+ * @returns A new array of DBMessage.
  */
 export function convertToDBMessages({
   chatId,
@@ -24,14 +24,21 @@ export function convertToDBMessages({
           text: message.content,
         },
       ]),
-      ...(message.annotations?.map((annotation) => ({
-        type: 'annotation' as const,
-        annotation,
-      })) ?? []),
-      ...(message.experimental_attachments?.map((attachment) => ({
-        type: 'file' as const,
-        attachment,
-      })) ?? []),
+      ...(message.annotations && message.annotations?.length > 0
+        ? [
+            {
+              type: 'annotation' as const,
+              data: message.annotations,
+            },
+          ]
+        : []),
+      ...(message.experimental_attachments?.map((attachment) => {
+        if (attachment.contentType?.startsWith('image/')) {
+          return { type: 'image' as const, data: attachment };
+        } else {
+          return { type: 'file' as const, data: attachment };
+        }
+      }) ?? []),
     ],
     createdAt: message.createdAt ? new Date(message.createdAt) : new Date(),
   }));
@@ -61,11 +68,12 @@ export function convertToUIMessages(
             textContent += content.text;
             parts.push(content);
             break;
-          case 'file':
-            experimental_attachments.push(content.attachment);
-            break;
           case 'annotation':
-            annotations.push(content.annotation);
+            annotations.push(content.data);
+            break;
+          case 'file':
+          case 'image':
+            experimental_attachments.push(content.data);
             break;
           case 'tool-invocation':
             toolInvocations.push(content.toolInvocation);
@@ -86,8 +94,8 @@ export function convertToUIMessages(
       content: textContent,
       annotations,
       experimental_attachments,
-      toolInvocations,
       parts,
+      toolInvocations,
     });
 
     return chatMessages;

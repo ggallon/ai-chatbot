@@ -70,19 +70,19 @@ type AnnotationBDPart = {
   /**
    * The annotation content.
    */
-  annotation: JSONValue;
+  data: JSONValue;
 };
 
 type AttachmentBDPart = {
-  type: 'file';
+  type: 'file' | 'image';
 
   /**
-   * The image attachment.
+   * The data attachment.
    */
-  attachment: Attachment;
+  data: Attachment;
 };
 
-type MessageContent = Array<
+export type MessageContent = Array<
   | TextUIPart
   | ReasoningUIPart
   | SourceUIPart
