@@ -8,7 +8,6 @@ const nextConfig: NextConfig = {
     dirs: ['app', 'artifacts', 'components', 'hooks', 'lib'],
   },
   experimental: {
-    newDevOverlay: true,
     ppr: true,
   },
   logging: {
