@@ -1,16 +1,28 @@
-import react from '@vitejs/plugin-react';
-import { defineConfig } from 'vitest/config';
+import { coverageConfigDefaults, defineConfig } from 'vitest/config';
 import tsconfigPaths from 'vite-tsconfig-paths';
 
 export default defineConfig({
-  plugins: [tsconfigPaths(), react()],
+  plugins: [tsconfigPaths()],
   test: {
-    environment: 'jsdom',
+    environment: 'node',
     globals: true,
-    include: ['**/*.test.ts{,x}'],
-    exclude: ['**/node_modules/**'],
+    include: ['**/*.test.ts'],
     typecheck: {
       enabled: true,
+    },
+    coverage: {
+      exclude: [
+        '.github/**',
+        '.next/**',
+        '.vercel/**',
+        'components/**',
+        'patches/**',
+        'public/**',
+        'type/**',
+        ...coverageConfigDefaults.exclude,
+      ],
+      extension: ['.ts'],
+      reporter: ['text', 'html'],
     },
   },
 });
