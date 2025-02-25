@@ -69,7 +69,7 @@ export function convertToUIMessages(
             parts.push(content);
             break;
           case 'annotation':
-            annotations.push(content.data);
+            annotations.push(...content.data);
             break;
           case 'file':
           case 'image':
@@ -92,10 +92,10 @@ export function convertToUIMessages(
       role: message.role,
       createdAt: message.createdAt,
       content: textContent,
-      annotations,
-      experimental_attachments,
       parts,
-      toolInvocations,
+      ...(annotations.length > 0 && { annotations }),
+      ...(experimental_attachments.length > 0 && { experimental_attachments }),
+      ...(toolInvocations.length > 0 && { toolInvocations }),
     });
 
     return chatMessages;

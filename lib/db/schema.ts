@@ -70,7 +70,7 @@ type AnnotationBDPart = {
   /**
    * The annotation content.
    */
-  data: JSONValue;
+  data: JSONValue[];
 };
 
 type AttachmentBDPart = {
