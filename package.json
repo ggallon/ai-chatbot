@@ -8,8 +8,7 @@
     "start": "next start",
     "test:node": "vitest --config vitest.node.config.ts --run",
     "test:ui": "vitest --config vitest.ui.react.config.ts --run",
-    "lint": "next lint && biome lint",
-    "lint:fix": "next lint --fix && biome lint --write --unsafe",
+    "lint": "next lint",
     "format": "prettier --ignore-unknown --write .",
     "format:check": "prettier --ignore-unknown --check .",
     "typecheck": "pnpm tsc --noEmit",
@@ -78,7 +77,6 @@
     "zod": "3.24.2"
   },
   "devDependencies": {
-    "@biomejs/biome": "1.9.4",
     "@eslint/eslintrc": "3.3.0",
     "@tailwindcss/typography": "0.5.16",
     "@testing-library/dom": "10.4.0",

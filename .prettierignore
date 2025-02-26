@@ -1,0 +1,10 @@
+.next
+.turbo
+.vercel
+components/ui
+coverage
+hooks/use-mobile.tsx
+lib/db/migrations
+lib/editor/react-renderer.tsx
+public
+pnpm-lock.yaml
