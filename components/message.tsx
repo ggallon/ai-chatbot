@@ -45,21 +45,21 @@ const PurePreviewMessage = ({
   return (
     <AnimatePresence>
       <motion.div
-        className="w-full mx-auto max-w-3xl px-4 group/message"
+        className="group/message mx-auto w-full max-w-3xl px-4"
         initial={{ y: 5, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         data-role={message.role}
       >
         <div
           className={cn(
-            'flex gap-4 w-full group-data-[role=user]/message:max-w-2xl',
+            'flex w-full gap-4 group-data-[role=user]/message:max-w-2xl',
             {
               'w-full': mode === 'edit',
               'group-data-[role=user]/message:w-fit': mode !== 'edit',
             },
           )}
         >
-          <div className="size-7 flex items-center rounded-full justify-center ring-1 shrink-0 ring-border">
+          <div className="flex size-7 shrink-0 items-center justify-center rounded-full ring-1 ring-border">
             {message.role === 'user' ? (
               <Image
                 src="https://avatar.vercel.sh/user_email"
@@ -74,7 +74,7 @@ const PurePreviewMessage = ({
             )}
           </div>
 
-          <div className="flex flex-col gap-2 w-full">
+          <div className="flex w-full flex-col gap-2">
             {message.experimental_attachments &&
               message.experimental_attachments.length > 0 && (
                 <div className="flex flex-row justify-start gap-2">
@@ -138,8 +138,8 @@ const PurePreviewMessage = ({
               })}
 
             {message.content && mode === 'view' && (
-              <div className="flex flex-row gap-2 items-start">
-                <div className="flex flex-col prose dark:prose-invert max-w-none prose-p:mb-2 prose-ol:my-0">
+              <div className="flex flex-row items-start gap-2">
+                <div className="prose flex max-w-none flex-col dark:prose-invert prose-p:mb-2 prose-ol:my-0">
                   <Markdown>{message.content as string}</Markdown>
                 </div>
                 {message.role === 'user' && !isReadonly && (
@@ -147,7 +147,7 @@ const PurePreviewMessage = ({
                     <TooltipTrigger asChild>
                       <Button
                         variant="ghost"
-                        className="px-2 h-fit rounded-full text-muted-foreground opacity-0 group-hover/message:opacity-100"
+                        className="h-fit rounded-full px-2 text-muted-foreground opacity-0 group-hover/message:opacity-100"
                         onClick={() => {
                           toggleEditMode();
                         }}
@@ -162,7 +162,7 @@ const PurePreviewMessage = ({
             )}
 
             {!isReadonly && message.role === 'user' && mode === 'edit' && (
-              <div className="flex flex-row gap-2 items-start">
+              <div className="flex flex-row items-start gap-2">
                 <MessageEditor
                   key={message.id}
                   message={message}
@@ -205,24 +205,24 @@ export const PreviewMessage = memo(
 export const ThinkingMessage = () => {
   return (
     <motion.div
-      className="w-full mx-auto max-w-3xl px-4 group/message "
+      className="group/message mx-auto w-full max-w-3xl px-4"
       initial={{ y: 5, opacity: 0 }}
       animate={{ y: 0, opacity: 1, transition: { delay: 1 } }}
       data-role="assistant"
     >
       <div
         className={cx(
-          'flex gap-4 group-data-[role=user]/message:px-3 w-full group-data-[role=user]/message:w-fit group-data-[role=user]/message:ml-auto group-data-[role=user]/message:max-w-2xl group-data-[role=user]/message:py-2 rounded-xl',
+          'flex w-full gap-4 rounded-xl group-data-[role=user]/message:ml-auto group-data-[role=user]/message:w-fit group-data-[role=user]/message:max-w-2xl group-data-[role=user]/message:px-3 group-data-[role=user]/message:py-2',
           {
             'group-data-[role=user]/message:bg-muted': true,
           },
         )}
       >
-        <div className="size-8 flex items-center rounded-full justify-center ring-1 shrink-0 ring-border">
+        <div className="flex size-8 shrink-0 items-center justify-center rounded-full ring-1 ring-border">
           <SparklesIcon size={14} />
         </div>
 
-        <div className="flex flex-col gap-2 w-full">
+        <div className="flex w-full flex-col gap-2">
           <div className="flex flex-col gap-4 text-muted-foreground">
             Thinking...
           </div>

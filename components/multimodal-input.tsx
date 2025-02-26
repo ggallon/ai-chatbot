@@ -207,7 +207,7 @@ function PureMultimodalInput({
   );
 
   return (
-    <div className="relative w-full flex flex-col gap-4">
+    <div className="relative flex w-full flex-col gap-4">
       {messages.length === 0 &&
         attachments.length === 0 &&
         uploadQueue.length === 0 && (
@@ -216,7 +216,7 @@ function PureMultimodalInput({
 
       <input
         type="file"
-        className="fixed -top-4 -left-4 size-0.5 opacity-0 pointer-events-none"
+        className="pointer-events-none fixed -left-4 -top-4 size-0.5 opacity-0"
         ref={fileInputRef}
         multiple
         accept={AllowedFileTypes.join(',')}
@@ -225,7 +225,7 @@ function PureMultimodalInput({
       />
 
       {(attachments.length > 0 || uploadQueue.length > 0) && (
-        <div className="flex flex-row gap-2 overflow-x-scroll items-end">
+        <div className="flex flex-row items-end gap-2 overflow-x-scroll">
           {attachments.map((attachment) => (
             <PreviewAttachment key={attachment.url} attachment={attachment} />
           ))}
@@ -250,7 +250,7 @@ function PureMultimodalInput({
         value={input}
         onChange={handleInput}
         className={cx(
-          'min-h-[24px] max-h-[75vh] overflow-y-auto resize-none rounded-xl !text-base bg-muted',
+          'max-h-[75vh] min-h-[24px] resize-none overflow-y-auto rounded-xl bg-muted !text-base',
           className,
         )}
         rows={3}
@@ -294,7 +294,7 @@ function PureAttachmentsButton({
 }) {
   return (
     <Button
-      className="rounded-full p-1.5 h-fit absolute bottom-2 right-11 m-0.5 dark:border-zinc-700"
+      className="absolute bottom-2 right-11 m-0.5 h-fit rounded-full p-1.5 dark:border-zinc-700"
       onClick={(event) => {
         event.preventDefault();
         fileInputRef.current?.click();
@@ -318,7 +318,7 @@ function PureStopButton({
 }) {
   return (
     <Button
-      className="rounded-full p-1.5 h-fit absolute bottom-2 right-2 m-0.5 border dark:border-zinc-600"
+      className="absolute bottom-2 right-2 m-0.5 h-fit rounded-full border p-1.5 dark:border-zinc-600"
       onClick={(event) => {
         event.preventDefault();
         stop();
@@ -344,7 +344,7 @@ function PureSendButton({
   const isDisabled = input.length === 0 || uploadQueue.length > 0;
   return (
     <Button
-      className="rounded-full p-1.5 h-fit absolute bottom-2 right-2 m-0.5 border dark:border-zinc-600"
+      className="absolute bottom-2 right-2 m-0.5 h-fit rounded-full border p-1.5 dark:border-zinc-600"
       onClick={(event) => {
         event.preventDefault();
         submitForm();

@@ -209,7 +209,7 @@ export function Weather({
   return (
     <div
       className={cx(
-        'flex flex-col gap-4 rounded-2xl p-4 skeleton-bg max-w-[500px]',
+        'skeleton-bg flex max-w-[500px] flex-col gap-4 rounded-2xl p-4',
         {
           'bg-blue-400': isDay,
         },
@@ -218,21 +218,21 @@ export function Weather({
         },
       )}
     >
-      <div className="flex flex-row justify-between items-center">
-        <div className="flex flex-col text-blue-50 items-start">
+      <div className="flex flex-row items-center justify-between">
+        <div className="flex flex-col items-start text-blue-50">
           <div className="flex items-center text-base">
             <p className="text-base font-semibold">{weatherAtLocation.city}</p>
-            <Navigation className="size-3 ml-1.5" />
+            <Navigation className="ml-1.5 size-3" />
           </div>
           <p className="text-4xl font-medium">
             {n(weatherAtLocation.current.temperature_2m)}°
           </p>
         </div>
 
-        <div className="flex flex-col text-blue-50 items-end gap-2">
+        <div className="flex flex-col items-end gap-2 text-blue-50">
           <div
             className={cx(
-              'size-6 rounded-full skeleton-div',
+              'skeleton-div size-6 rounded-full',
               {
                 'bg-yellow-300': isDay,
               },
@@ -251,12 +251,12 @@ export function Weather({
       <div className="flex flex-row justify-between">
         {displayTimes.map((time, index) => (
           <div key={time} className="flex flex-col items-center gap-1">
-            <div className="text-blue-100 text-xs font-medium">
+            <div className="text-xs font-medium text-blue-100">
               {format(new Date(time), "HH 'h'")}
             </div>
             <div
               className={cx(
-                'size-6 rounded-full skeleton-div',
+                'skeleton-div size-6 rounded-full',
                 {
                   'bg-yellow-300': isDay,
                 },
@@ -265,7 +265,7 @@ export function Weather({
                 },
               )}
             />
-            <div className="text-blue-50 text-sm font-bold">
+            <div className="text-sm font-bold text-blue-50">
               {n(displayTemperatures[index])}°
             </div>
           </div>

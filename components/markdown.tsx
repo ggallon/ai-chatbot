@@ -25,7 +25,7 @@ const NonMemoizedMarkdown = ({ children }: { children: string }) => {
     pre: ({ node, className, children, ...props }) => {
       return (
         <pre
-          className="overflow-x-scroll bg-gray-100 dark:bg-zinc-800 my-0"
+          className="my-0 overflow-x-scroll bg-gray-100 dark:bg-zinc-800"
           {...props}
         >
           {children}
@@ -37,7 +37,7 @@ const NonMemoizedMarkdown = ({ children }: { children: string }) => {
       if (!match) {
         return (
           <code
-            className="rounded-md text-foreground bg-gray-100 dark:bg-zinc-800 px-1 py-[0.15rem] font-mono text-xs font-normal before:hidden after:hidden"
+            className="rounded-md bg-gray-100 px-1 py-[0.15rem] font-mono text-xs font-normal text-foreground before:hidden after:hidden dark:bg-zinc-800"
             {...props}
           >
             {children}

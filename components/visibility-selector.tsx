@@ -72,7 +72,7 @@ export function VisibilitySelector({
       >
         <Button
           variant="outline"
-          className="hidden md:flex md:px-2 md:h-[34px]"
+          className="hidden md:flex md:h-[34px] md:px-2"
         >
           {selectedVisibility?.icon}
           {selectedVisibility?.label}
@@ -88,10 +88,10 @@ export function VisibilitySelector({
               setVisibilityType(visibility.id);
               setOpen(false);
             }}
-            className="gap-4 group/item flex flex-row justify-between items-center"
+            className="group/item flex flex-row items-center justify-between gap-4"
             data-active={visibility.id === visibilityType}
           >
-            <div className="flex flex-col gap-1 items-start">
+            <div className="flex flex-col items-start gap-1">
               {visibility.label}
               {visibility.description && (
                 <div className="text-xs text-muted-foreground">
@@ -99,7 +99,7 @@ export function VisibilitySelector({
                 </div>
               )}
             </div>
-            <div className="text-primary dark:text-primary-foreground opacity-0 group-data-[active=true]/item:opacity-100">
+            <div className="text-primary opacity-0 group-data-[active=true]/item:opacity-100 dark:text-primary-foreground">
               <CheckCircleFillIcon />
             </div>
           </DropdownMenuItem>

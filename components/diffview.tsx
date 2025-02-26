@@ -97,6 +97,6 @@ export const DiffView = ({ oldContent, newContent }: DiffEditorProps) => {
   }, [oldContent, newContent]);
 
   return (
-    <div className="prose dark:prose-invert diff-editor" ref={editorRef} />
+    <div className="diff-editor prose dark:prose-invert" ref={editorRef} />
   );
 };

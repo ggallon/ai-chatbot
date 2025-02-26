@@ -27,15 +27,15 @@ export function AppSidebar({ user }: { user?: User }) {
     <Sidebar className="group-data-[side=left]:border-r-0">
       <SidebarHeader>
         <SidebarMenu>
-          <div className="flex flex-row justify-between items-center">
+          <div className="flex flex-row items-center justify-between">
             <Link
               href="/"
               onClick={() => {
                 setOpenMobile(false);
               }}
-              className="flex flex-row gap-3 items-center"
+              className="flex flex-row items-center gap-3"
             >
-              <span className="text-lg font-semibold px-2 hover:bg-muted rounded-md cursor-pointer">
+              <span className="cursor-pointer rounded-md px-2 text-lg font-semibold hover:bg-muted">
                 Chatbot
               </span>
             </Link>
@@ -44,7 +44,7 @@ export function AppSidebar({ user }: { user?: User }) {
                 <Button
                   variant="ghost"
                   type="button"
-                  className="p-2 h-fit"
+                  className="h-fit p-2"
                   onClick={() => {
                     setOpenMobile(false);
                     router.push('/');
