@@ -29,7 +29,7 @@ export function AuthForm({
         <Input
           id="email"
           name="email"
-          className="text-md bg-muted md:text-sm"
+          className="bg-muted text-base md:text-sm"
           type="email"
           placeholder="user@acme.com"
           autoComplete="email"
@@ -50,7 +50,7 @@ export function AuthForm({
         <Input
           id="password"
           name="password"
-          className="text-md bg-muted md:text-sm"
+          className="bg-muted text-base md:text-sm"
           type="password"
           required
         />
