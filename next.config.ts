@@ -8,7 +8,7 @@ const nextConfig: NextConfig = {
     dirs: ['app', 'artifacts', 'components', 'hooks', 'lib'],
   },
   experimental: {
-    ppr: true,
+    ppr: 'incremental',
   },
   logging: {
     fetches: {
