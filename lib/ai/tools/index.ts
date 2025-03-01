@@ -1,29 +1,22 @@
-export type DocumentTools =
-  | 'createDocument'
-  | 'updateDocument'
-  | 'requestSuggestions';
-
-const documentTools: DocumentTools[] = [
+const documentTools = [
   'createDocument',
   'updateDocument',
   'requestSuggestions',
-];
+] as const;
 
-type GenerateImageTools = 'generateImage';
+export type DocumentTools = (typeof documentTools)[number];
 
-const generateImageTools: GenerateImageTools[] = ['generateImage'];
+const generateImageTools = ['generateImage'] as const;
 
-type WeatherTools = 'getWeather';
+const weatherTools = ['getWeather'] as const;
 
-const weatherTools: WeatherTools[] = ['getWeather'];
-
-type AllowedTools = DocumentTools | WeatherTools | GenerateImageTools;
-
-export const allowedTools: AllowedTools[] = [
+export const allowedTools = [
   ...generateImageTools,
   ...weatherTools,
   ...documentTools,
 ];
+
+type AllowedTools = (typeof allowedTools)[number];
 
 export const isAllowedTool = (tool: string): tool is AllowedTools => {
   return allowedTools.includes(tool as AllowedTools);
