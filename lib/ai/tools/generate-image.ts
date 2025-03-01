@@ -8,14 +8,14 @@ import type { Model } from '@/lib/ai/models';
 
 const mimeTypeSignatures = [
   { mimeType: 'image/gif' as const, bytes: [0x47, 0x49, 0x46] },
-  { mimeType: 'image/png' as const, bytes: [0x89, 0x50, 0x4e, 0x47] },
   { mimeType: 'image/jpeg' as const, bytes: [0xff, 0xd8] },
+  { mimeType: 'image/png' as const, bytes: [0x89, 0x50, 0x4e, 0x47] },
   { mimeType: 'image/webp' as const, bytes: [0x52, 0x49, 0x46, 0x46] },
 ];
 
-function detectImageMimeType(
-  image: Uint8Array,
-): 'image/jpeg' | 'image/png' | 'image/gif' | 'image/webp' | undefined {
+export type ImageMimeTypes = (typeof mimeTypeSignatures)[number]['mimeType'];
+
+function detectImageMimeType(image: Uint8Array): ImageMimeTypes | undefined {
   for (const { bytes, mimeType } of mimeTypeSignatures) {
     if (
       image.length >= bytes.length &&
