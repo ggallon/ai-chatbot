@@ -16,7 +16,7 @@ import { toast } from 'sonner';
 import { useLocalStorage, useWindowSize } from 'usehooks-ts';
 
 import { sanitizeUIMessages } from '@/lib/ai/utils';
-import { AllowedFileTypes } from '@/lib/db/validations/file';
+import { ALLOWED_IMAGE_MIME_TYPES } from '@/lib/db/validations/file';
 
 import { ArrowUpIcon, PaperclipIcon, StopIcon } from './icons';
 import { PreviewAttachment } from './preview-attachment';
@@ -219,7 +219,7 @@ function PureMultimodalInput({
         className="pointer-events-none fixed -left-4 -top-4 size-0.5 opacity-0"
         ref={fileInputRef}
         multiple
-        accept={AllowedFileTypes.join(',')}
+        accept={ALLOWED_IMAGE_MIME_TYPES.join(',')}
         onChange={handleFileChange}
         tabIndex={-1}
       />

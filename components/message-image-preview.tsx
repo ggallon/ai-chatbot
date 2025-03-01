@@ -4,13 +4,13 @@ import Zoom from 'react-medium-image-zoom';
 import 'react-medium-image-zoom/dist/styles.css';
 
 import type { UIMessage } from 'ai';
-import type { ImageMimeTypes } from '@/lib/ai/tools/generate-image';
+import type { AllowedImageMimeTypes } from '@/lib/db/validations/file';
 
 export interface MessageImagePrewiewProps {
   role: UIMessage['role'];
   url: string;
   name: string;
-  contentType?: ImageMimeTypes;
+  contentType?: AllowedImageMimeTypes;
 }
 
 export const MessageImagePrewiew = memo(function MessageImagePrewiew({

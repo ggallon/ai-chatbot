@@ -8,6 +8,10 @@ import { memo, useCallback, useState } from 'react';
 
 import { isAllowedTool } from '@/lib/ai/tools';
 import { cn } from '@/lib/utils/cn';
+import {
+  ALLOWED_IMAGE_MIME_TYPES,
+  type AllowedImageMimeTypes,
+} from '@/lib/db/validations/file';
 import { DocumentToolCall, DocumentToolResult } from './document';
 import { PencilEditIcon, SparklesIcon } from './icons';
 import { Markdown } from './markdown';
@@ -86,7 +90,10 @@ const PurePreviewMessage = ({
                     (attachment, _, arr) => {
                       if (
                         arr.length === 1 &&
-                        attachment.contentType?.startsWith('image/')
+                        attachment.contentType &&
+                        ALLOWED_IMAGE_MIME_TYPES.includes(
+                          attachment.contentType as AllowedImageMimeTypes,
+                        )
                       ) {
                         return (
                           <MessageImagePrewiew

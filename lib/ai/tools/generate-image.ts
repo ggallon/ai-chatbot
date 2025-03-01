@@ -3,30 +3,9 @@ import { experimental_generateImage, tool, type UIMessage } from 'ai';
 import { z } from 'zod';
 
 import { registry } from '@/lib/ai/setup-registry';
+import { detectImageMimeType } from '@/lib/utils/detect-image-mime-type';
 
 import type { Model } from '@/lib/ai/models';
-
-const mimeTypeSignatures = [
-  { mimeType: 'image/gif' as const, bytes: [0x47, 0x49, 0x46] },
-  { mimeType: 'image/jpeg' as const, bytes: [0xff, 0xd8] },
-  { mimeType: 'image/png' as const, bytes: [0x89, 0x50, 0x4e, 0x47] },
-  { mimeType: 'image/webp' as const, bytes: [0x52, 0x49, 0x46, 0x46] },
-];
-
-export type ImageMimeTypes = (typeof mimeTypeSignatures)[number]['mimeType'];
-
-function detectImageMimeType(image: Uint8Array): ImageMimeTypes | undefined {
-  for (const { bytes, mimeType } of mimeTypeSignatures) {
-    if (
-      image.length >= bytes.length &&
-      bytes.every((byte, index) => image[index] === byte)
-    ) {
-      return mimeType;
-    }
-  }
-
-  return undefined;
-}
 
 export interface ExtendedOptions {
   messageId: UIMessage['id'];
