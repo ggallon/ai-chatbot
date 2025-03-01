@@ -25,7 +25,7 @@ const eslintConfig = [
     },
     settings: {
       tailwindcss: {
-        callees: ['classnames', 'clsx', 'cn'],
+        callees: ['classnames', 'clsx', 'cn', 'cx'],
         config: 'tailwind.config.ts',
         removeDuplicates: true,
         whitelist: ['diff-editor'],
