@@ -1,4 +1,4 @@
-import type { CoreUserMessage, Message, UIMessage } from 'ai';
+import type { Message, UIMessage } from 'ai';
 import type { Message as DBMessage } from '@/lib/db/schema';
 
 /**
@@ -131,16 +131,6 @@ export function sanitizeUIMessages(messages: Array<Message>): Array<Message> {
       message.content.length > 0 ||
       (message.toolInvocations && message.toolInvocations.length > 0),
   );
-}
-
-export function getLastUserMessageText(
-  lastMessage: Message,
-): CoreUserMessage['content'] | undefined {
-  if (lastMessage?.role !== 'user') {
-    return undefined;
-  }
-
-  return lastMessage.content;
 }
 
 export function getLastUserMessage(messages: Array<Message>) {
