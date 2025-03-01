@@ -1,5 +1,5 @@
 import cn from 'classnames';
-import { memo, useState } from 'react';
+import { memo } from 'react';
 
 import type { UIMessage } from 'ai';
 import type { ImageMimeTypes } from '@/lib/ai/tools/generate-image';
@@ -16,24 +16,6 @@ export const MessageImagePrewiew = memo(function MessageImagePrewiew({
   url,
   name,
 }: MessageImagePrewiewProps) {
-  const [fetchingImage, setFetchingImage] = useState(false);
-
-  function downloadImage() {
-    setFetchingImage(true);
-    fetch(`${url}?download=1`)
-      .then((response) => response.blob())
-      .then((blob) => {
-        const a = document.createElement('a');
-        a.href = URL.createObjectURL(blob);
-        a.setAttribute('style', 'display: none');
-        a.download = name;
-        document.body.appendChild(a);
-        a.click();
-        setFetchingImage(false);
-      })
-      .catch((err) => console.log(err));
-  }
-
   return (
     <div
       className={cn(
