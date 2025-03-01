@@ -11,6 +11,7 @@ import { customModel } from '@/lib/ai';
 import { models } from '@/lib/ai/models';
 import { systemPrompt } from '@/lib/ai/prompts';
 import { allowedTools } from '@/lib/ai/tools';
+import { generateImage } from '@/lib/ai/tools/generate-image';
 import { getWeather } from '@/lib/ai/tools/get-weather';
 import { createDocument } from '@/lib/ai/tools/document/create';
 import { requestSuggestions } from '@/lib/ai/tools/document/suggestions';
@@ -70,6 +71,11 @@ export async function POST(request: Request) {
         experimental_activeTools: allowedTools,
         experimental_generateMessageId: generateUUID,
         tools: {
+          generateImage: generateImage({
+            messageId: id,
+            modelIdentifier: model.id,
+            userId,
+          }),
           getWeather,
           createDocument: createDocument({
             modelIdentifier: model.id,
@@ -103,6 +109,7 @@ export async function POST(request: Request) {
           } catch (error) {
             console.error(
               'Failed to save chat:',
+              'Failed to save chat: ',
               error instanceof Error ? error.message : String(error),
             );
           }

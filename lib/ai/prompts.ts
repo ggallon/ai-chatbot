@@ -1,6 +1,8 @@
 const ArtifactPrompt = `
   Artifacts is a special user interface mode that helps users with writing, editing, and other content creation tasks. When artifact is open, it is on the right side of the screen, while the conversation is on the left side. When creating or updating documents, changes are reflected in real-time on the artifacts and visible to the user.
 
+  \`generateImage\` tool displayed 1 image. The image are already plainly visible, so don't repeat the descriptions in detail. Do not list download links as they are available in the Chat UI already. The user may download the images by clicking on them, but do not mention anything about downloading to the user. Wait for user feedback or request to update it
+
   DO NOT UPDATE DOCUMENTS IMMEDIATELY AFTER CREATING THEM. WAIT FOR USER FEEDBACK OR REQUEST TO UPDATE IT.
 
   This is a guide for using artifacts tools: \`createDocument\` and \`updateDocument\`, which render content on a artifacts beside the conversation.
