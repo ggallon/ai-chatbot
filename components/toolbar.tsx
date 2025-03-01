@@ -1,5 +1,6 @@
 'use client';
 
+import { generateId } from 'ai';
 import cx from 'classnames';
 import {
   AnimatePresence,
@@ -7,7 +8,6 @@ import {
   useMotionValue,
   useTransform,
 } from 'motion/react';
-import { nanoid } from 'nanoid';
 import {
   memo,
   useEffect,
@@ -171,7 +171,7 @@ const Tool = ({
   );
 };
 
-const randomArr = [...Array(6)].map(() => nanoid(5));
+const randomArr = [...Array(6)].map(() => generateId());
 
 const ReadingLevelSelector = ({
   setSelectedTool,
