@@ -24,7 +24,7 @@ export const generateImage = ({
       prompt: z.string().describe('The prompt to generate the image from'),
     }),
     execute: async ({ prompt }) => {
-      const { image } = await experimental_generateImage({
+      const { image, responses } = await experimental_generateImage({
         model: registry.imageModel(modelIdentifier),
         n: 1,
         prompt,
@@ -41,9 +41,17 @@ export const generateImage = ({
           contentType,
         },
       );
+
       return {
-        image: { name, contentType, url: data.url },
-        prompt,
+        name,
+        contentType,
+        url: data.url,
+        metadata: {
+          modelId: responses[0].modelId,
+          processingMs: responses[0].headers
+            ? responses[0].headers['openai-processing-ms']
+            : 0,
+        },
       };
     },
   });

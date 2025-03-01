@@ -137,10 +137,10 @@ const PurePreviewMessage = ({
                           ) : toolName === 'generateImage' ? (
                             <MessageImagePrewiew
                               role={message.role}
-                              url={part.toolInvocation.result.image.url}
-                              name={part.toolInvocation.result.image.name}
+                              url={part.toolInvocation.result.url}
+                              name={part.toolInvocation.result.name}
                               contentType={
-                                part.toolInvocation.result.image.contentType
+                                part.toolInvocation.result.contentType
                               }
                             />
                           ) : (
