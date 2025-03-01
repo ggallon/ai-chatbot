@@ -6,12 +6,12 @@ import {
 } from 'ai';
 
 import { auth } from '@/app/(auth)/auth';
-import { generateTitleFromUserMessage } from '@/app/(chat)/actions';
 import { customModel } from '@/lib/ai';
 import { models } from '@/lib/ai/models';
 import { systemPrompt } from '@/lib/ai/prompts';
 import { allowedTools } from '@/lib/ai/tools';
 import { generateImage } from '@/lib/ai/tools/generate-image';
+import { generateTitleFromUserMessage } from '@/lib/ai/tools/generate-title-chat';
 import { getWeather } from '@/lib/ai/tools/get-weather';
 import { createDocument } from '@/lib/ai/tools/document/create';
 import { requestSuggestions } from '@/lib/ai/tools/document/suggestions';
@@ -50,7 +50,7 @@ export async function POST(request: Request) {
   const chat = await getChatById({ id });
   if (!chat) {
     const title = await generateTitleFromUserMessage({
-      message: lastUserMessage.content,
+      message: lastUserMessage,
     });
     await saveChat({
       id,

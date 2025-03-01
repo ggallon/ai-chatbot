@@ -133,7 +133,7 @@ export function sanitizeUIMessages(messages: Array<Message>): Array<Message> {
   );
 }
 
-export function getLastUserMessage(messages: Array<Message>) {
+export function getLastUserMessage(messages: Array<UIMessage>) {
   const userMessages = messages.filter((message) => message.role === 'user');
   return userMessages.at(-1);
 }
