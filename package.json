@@ -65,6 +65,7 @@
     "react": "19.1.0-canary-22e39ea7-20250225",
     "react-dom": "19.1.0-canary-22e39ea7-20250225",
     "react-markdown": "10.0.0",
+    "react-medium-image-zoom": "5.2.14",
     "rehype-katex": "7.0.1",
     "remark-gfm": "4.0.1",
     "remark-math": "6.0.0",
