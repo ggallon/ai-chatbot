@@ -1,14 +1,19 @@
-name: Lint
+name: Test (node)
+
 on:
   push:
     branches: [next]
   pull_request:
     branches: [next]
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  build:
-    name: Run Lint
-    runs-on: ubuntu-22.04
+  test:
+    name: 'Test - node'
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         node-version: [22]
@@ -16,21 +21,20 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install pnpm
+      - name: Setup pnpm
         uses: pnpm/action-setup@v4
         with:
-          version: 9
+          version: 9.15.x
           run_install: false
 
-      - name: Install Node.js ${{ matrix.node-version }}
+      - name: Use Node.js v${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'pnpm'
 
       - name: Install dependencies
-        shell: bash
         run: pnpm install --frozen-lockfile
 
-      - run: pnpm format:check
-      - run: pnpm lint
+      - name: Run node tests
+        run: pnpm run test:node
