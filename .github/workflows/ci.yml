@@ -1,4 +1,4 @@
-name: Test (node)
+name: CI
 
 on:
   push:
@@ -12,7 +12,7 @@ concurrency:
 
 jobs:
   test:
-    name: 'Test - node'
+    name: 'Test Node'
     runs-on: ubuntu-latest
     strategy:
       matrix:
