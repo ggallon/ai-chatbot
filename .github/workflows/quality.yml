@@ -44,4 +44,6 @@ jobs:
         run: pnpm run build
 
       - name: Run TypeScript type check
+        env:
+          POSTGRES_URL: ${{ secrets.POSTGRES_URL }}
         run: pnpm run typecheck
