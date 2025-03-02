@@ -41,9 +41,4 @@ jobs:
       - uses: ./.github/actions/setup
 
       - name: Run TypeScript type check
-        run: pnpm run build
-
-      - name: Run TypeScript type check
-        env:
-          POSTGRES_URL: ${{ secrets.POSTGRES_URL }}
         run: pnpm run typecheck
