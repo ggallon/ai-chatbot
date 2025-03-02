@@ -1,4 +1,5 @@
 import { notFound } from 'next/navigation';
+import { cache } from 'react';
 
 import { Chat } from '@/components/chat';
 import { DEFAULT_MODEL_NAME } from '@/lib/ai/models';
@@ -8,11 +9,15 @@ import { getMessagesByChatId } from '@/lib/db/queries/message';
 
 const MAX_TITLE_LENGTH = 50;
 
+const getPublicChatById = cache(async (id: string) => {
+  return await getChatById({ id, visibility: 'public' });
+});
+
 export async function generateMetadata(props: {
   params: Promise<{ id: string }>;
 }) {
   const params = await props.params;
-  const chat = await getChatById({ id: params.id, visibility: 'public' });
+  const chat = await getPublicChatById(params.id);
 
   if (!chat) {
     notFound();
@@ -28,7 +33,7 @@ export async function generateMetadata(props: {
 
 export default async function Page(props: { params: Promise<{ id: string }> }) {
   const params = await props.params;
-  const chat = await getChatById({ id: params.id, visibility: 'public' });
+  const chat = await getPublicChatById(params.id);
   if (!chat) {
     notFound();
   }
