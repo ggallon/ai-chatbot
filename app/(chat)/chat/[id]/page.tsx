@@ -1,4 +1,5 @@
 import { notFound } from 'next/navigation';
+import { cache } from 'react';
 
 import { auth } from '@/app/(auth)/auth';
 import { Chat } from '@/components/chat';
@@ -7,6 +8,28 @@ import { convertToUIMessages } from '@/lib/ai/utils';
 import { getSelectedModelId } from '@/lib/utils/get-selected-model-id';
 import { getChatById } from '@/lib/db/queries/chat';
 import { getMessagesByChatId } from '@/lib/db/queries/message';
+import { getFormatedChatTitle } from '@/lib/utils/get-formated-chat-title';
+
+const getCacheChatById = cache(async (id: string) => {
+  return await getChatById({ id });
+});
+
+export async function generateMetadata(props: {
+  params: Promise<{ id: string }>;
+}) {
+  const params = await props.params;
+  const chat = await getCacheChatById(params.id);
+
+  if (!chat) {
+    notFound();
+  }
+
+  return {
+    title: getFormatedChatTitle({
+      title: chat.title,
+    }),
+  };
+}
 
 export default async function Page(props: { params: Promise<{ id: string }> }) {
   const [session, selectedModelId, params] = await Promise.all([
@@ -19,7 +42,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
     notFound();
   }
 
-  const chat = await getChatById({ id: params.id });
+  const chat = await getCacheChatById(params.id);
   if (!chat) {
     notFound();
   }
