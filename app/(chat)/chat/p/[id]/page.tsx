@@ -6,8 +6,7 @@ import { DEFAULT_MODEL_NAME } from '@/lib/ai/models';
 import { convertToUIMessages } from '@/lib/ai/utils';
 import { getChatById } from '@/lib/db/queries/chat';
 import { getMessagesByChatId } from '@/lib/db/queries/message';
-
-const MAX_TITLE_LENGTH = 50;
+import { getFormatedChatTitle } from '@/lib/utils/get-formated-chat-title';
 
 const getPublicChatById = cache(async (id: string) => {
   return await getChatById({ id, visibility: 'public' });
@@ -24,10 +23,9 @@ export async function generateMetadata(props: {
   }
 
   return {
-    title:
-      chat.title.length <= MAX_TITLE_LENGTH
-        ? chat.title
-        : `${chat.title.toString().slice(0, MAX_TITLE_LENGTH)}...`,
+    title: getFormatedChatTitle({
+      title: chat.title,
+    }),
   };
 }
 
