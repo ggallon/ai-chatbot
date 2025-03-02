@@ -6,6 +6,8 @@ import { convertToUIMessages } from '@/lib/ai/utils';
 import { getChatById } from '@/lib/db/queries/chat';
 import { getMessagesByChatId } from '@/lib/db/queries/message';
 
+const MAX_TITLE_LENGTH = 50;
+
 export async function generateMetadata(props: {
   params: Promise<{ id: string }>;
 }) {
@@ -18,9 +20,9 @@ export async function generateMetadata(props: {
 
   return {
     title:
-      chat.title.length <= 57
+      chat.title.length <= MAX_TITLE_LENGTH
         ? chat.title
-        : `${chat.title.toString().slice(0, 57)}...`,
+        : `${chat.title.toString().slice(0, MAX_TITLE_LENGTH)}...`,
   };
 }
 
