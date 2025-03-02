@@ -6,6 +6,10 @@ on:
   pull_request:
     branches: [next]
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   prettier:
     name: 'Prettier'
@@ -39,9 +43,6 @@ jobs:
         uses: actions/checkout@v4
 
       - uses: ./.github/actions/setup
-
-      - name: Run TypeScript type check
-        run: pnpm run build
 
       - name: Run TypeScript type check
         run: pnpm run typecheck
