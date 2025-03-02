@@ -29,6 +29,8 @@ export function Chat({
   selectedVisibilityType: ChatVisibility;
   isReadonly: boolean;
 }) {
+  const [attachments, setAttachments] = useState<Array<Attachment>>([]);
+  const isArtifactVisible = useArtifactSelector((state) => state.isVisible);
   const { mutate } = useSWRConfig();
   const {
     append,
@@ -55,20 +57,16 @@ export function Chat({
   });
 
   const isLoading = status === 'submitted' || status === 'streaming';
-
-  const initialMessagesLength = initialMessages.length;
   const messagesLength = messages.length;
   const isLoadVotes = useMemo(
-    () => !!isReadonly || initialMessagesLength >= 2 || messagesLength >= 2,
-    [isReadonly, initialMessagesLength, messagesLength],
+    () => !isReadonly && !isLoading && messagesLength >= 2,
+    [isLoading, isReadonly, messagesLength],
   );
+
   const { data: votes } = useSWR<Array<Vote>>(
     isLoadVotes ? `/api/vote?chatId=${id}` : null,
     fetcher,
   );
-
-  const [attachments, setAttachments] = useState<Array<Attachment>>([]);
-  const isArtifactVisible = useArtifactSelector((state) => state.isVisible);
 
   return (
     <>
