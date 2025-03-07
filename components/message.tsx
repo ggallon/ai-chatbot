@@ -185,8 +185,8 @@ const PurePreviewMessage = ({
 
             {message.content && mode === 'view' && (
               <div className="flex flex-row items-start gap-2">
-                <div className="prose flex max-w-none flex-col dark:prose-invert prose-p:mb-2 prose-ol:my-0">
-                  <Markdown>{message.content as string}</Markdown>
+                <div className="prose flex flex-col dark:prose-invert prose-p:mb-2 prose-ol:my-0">
+                  <Markdown>{message.content}</Markdown>
                 </div>
                 {message.role === 'user' && !isReadonly && (
                   <Tooltip>
