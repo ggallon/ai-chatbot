@@ -1,6 +1,7 @@
 import { formatDistance } from 'date-fns';
 import equal from 'fast-deep-equal';
 import { AnimatePresence, motion } from 'motion/react';
+import dynamic from 'next/dynamic';
 import {
   memo,
   useCallback,
@@ -21,12 +22,24 @@ import { ArtifactActions } from './artifact-actions';
 import { ArtifactCloseButton } from './artifact-close-button';
 import { ArtifactMessages } from './artifact-messages';
 import { DocumentSkeleton } from './document-skeleton';
-import { DiffView } from './diffview';
-import { Editor } from './editor';
-import { ImageEditor } from './image-editor';
 import { MultimodalInput } from './multimodal-input';
-import { Toolbar } from './toolbar';
-import { VersionFooter } from './version-footer';
+
+const DiffView = dynamic(() =>
+  import('./diffview').then((mod) => mod.DiffView),
+);
+const Editor = dynamic(() => import('./editor').then((mod) => mod.Editor));
+const ImageEditor = dynamic(() =>
+  import('./image-editor').then((mod) => mod.ImageEditor),
+);
+const Toolbar = dynamic(() => import('./toolbar').then((mod) => mod.Toolbar), {
+  ssr: false,
+});
+const VersionFooter = dynamic(
+  () => import('./version-footer').then((mod) => mod.VersionFooter),
+  {
+    ssr: false,
+  },
+);
 
 import type { UseChatHelpers } from '@ai-sdk/react';
 import type { Attachment, UIMessage } from 'ai';

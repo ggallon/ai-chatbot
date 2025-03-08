@@ -7,11 +7,14 @@ const withBundleAnalyzer = bundleAnalyzer({
 });
 
 const nextConfig: NextConfig = {
-  /* config options here */
   eslint: {
     // By default, Next.js will run ESLint for all files
     // in the pages/, app/, components/, lib/, and src/ directories
     dirs: ['app', 'artifacts', 'components', 'hooks', 'lib', 'types'],
+    ignoreDuringBuilds: process.env.ANALYZE === 'true',
+  },
+  typescript: {
+    ignoreBuildErrors: process.env.ANALYZE === 'true',
   },
   experimental: {
     ppr: 'incremental',
