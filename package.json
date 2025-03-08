@@ -12,6 +12,7 @@
     "format": "prettier --ignore-unknown --write .",
     "format:check": "prettier --ignore-unknown --check .",
     "typecheck": "pnpm tsc --noEmit",
+    "analyze": "ANALYZE=true next build",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "npx tsx lib/db/migrate.ts",
     "db:studio": "drizzle-kit studio",
@@ -80,6 +81,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "3.3.0",
+    "@next/bundle-analyzer": "15.2.2-canary.4",
     "@tailwindcss/typography": "0.5.16",
     "@testing-library/dom": "10.4.0",
     "@testing-library/jest-dom": "6.6.3",
