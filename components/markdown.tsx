@@ -77,7 +77,7 @@ export const Markdown = memo(function Markdown({
   children: string;
 }) {
   // Check if the content contains LaTeX patterns
-  const containsLaTeX = /\\\[([\s\S]*?)\\\]|\\\(([\s\S]*?)\\\)/.test(content);
+  const containsLaTeX = /\\\[([\s\S]*?)\\\]|\\\(([\s\S]*?)\\\)/.test(children);
   if (containsLaTeX) {
     return (
       <ReactMarkdown
