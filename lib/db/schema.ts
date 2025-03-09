@@ -37,9 +37,9 @@ export function lower(email: AnyPgColumn): SQL {
 export const user = pgTable(
   'User',
   {
-    id: uuid('id').primaryKey().defaultRandom(),
+    id: uuid().primaryKey().defaultRandom(),
     email: varchar('email', { length: 64 }).notNull(),
-    image: text('image'),
+    image: text(),
     password: varchar('password', { length: 64 }).notNull(),
   },
   (table) => [uniqueIndex('User_emailUniqueIndex').on(lower(table.email))],
@@ -52,10 +52,10 @@ export const chatVisibilityEnum = pgEnum('visibility', ['public', 'private']);
 export type ChatVisibility = (typeof chatVisibilityEnum.enumValues)[number];
 
 export const chat = pgTable('Chat', {
-  id: uuid('id').primaryKey().defaultRandom(),
-  createdAt: timestamp('createdAt').notNull(),
-  title: text('title').notNull(),
-  userId: uuid('userId')
+  id: uuid().primaryKey().defaultRandom(),
+  createdAt: timestamp().notNull(),
+  title: text().notNull(),
+  userId: uuid()
     .notNull()
     .references(() => user.id, { onDelete: 'cascade' }),
   visibility: chatVisibilityEnum().notNull(),
@@ -92,13 +92,13 @@ export type MessageContent = Array<
 >;
 
 export const message = pgTable('Message', {
-  id: uuid('id').primaryKey().defaultRandom(),
-  chatId: uuid('chatId')
+  id: uuid().primaryKey().defaultRandom(),
+  chatId: uuid()
     .notNull()
     .references(() => chat.id, { onDelete: 'cascade' }),
-  role: varchar('role').$type<AIMessage['role']>().notNull(),
-  content: json('content').$type<MessageContent>().notNull(),
-  createdAt: timestamp('createdAt').notNull(),
+  role: varchar().$type<AIMessage['role']>().notNull(),
+  content: json().$type<MessageContent>().notNull(),
+  createdAt: timestamp().notNull(),
 });
 
 export type Message = InferSelectModel<typeof message>;
@@ -106,11 +106,11 @@ export type Message = InferSelectModel<typeof message>;
 export const vote = pgTable(
   'Vote',
   {
-    chatId: uuid('chatId').notNull(),
-    messageId: uuid('messageId')
+    chatId: uuid().notNull(),
+    messageId: uuid()
       .notNull()
       .references(() => message.id, { onDelete: 'cascade' }),
-    isUpvoted: boolean('isUpvoted').notNull(),
+    isUpvoted: boolean().notNull(),
   },
   (table) => [
     primaryKey({
@@ -131,14 +131,14 @@ export type DocumentKind = (typeof documentkindEnum.enumValues)[number];
 export const document = pgTable(
   'Document',
   {
-    id: uuid('id').notNull().defaultRandom(),
-    kind: documentkindEnum('kind').notNull(),
-    createdAt: timestamp('createdAt').notNull(),
-    userId: uuid('userId')
+    id: uuid().notNull().defaultRandom(),
+    kind: documentkindEnum().notNull(),
+    createdAt: timestamp().notNull(),
+    userId: uuid()
       .notNull()
       .references(() => user.id, { onDelete: 'cascade' }),
-    title: text('title').notNull(),
-    content: text('content'),
+    title: text().notNull(),
+    content: text(),
   },
   (table) => [
     primaryKey({
@@ -153,17 +153,17 @@ export type InsertDocument = InferInsertModel<typeof document>;
 export const suggestion = pgTable(
   'Suggestion',
   {
-    id: uuid('id').primaryKey().defaultRandom(),
-    documentId: uuid('documentId').notNull(),
-    documentCreatedAt: timestamp('documentCreatedAt').notNull(),
-    originalText: text('originalText').notNull(),
-    suggestedText: text('suggestedText').notNull(),
-    description: text('description'),
-    isResolved: boolean('isResolved').notNull().default(false),
-    userId: uuid('userId')
+    id: uuid().primaryKey().defaultRandom(),
+    documentId: uuid().notNull(),
+    documentCreatedAt: timestamp().notNull(),
+    originalText: text().notNull(),
+    suggestedText: text().notNull(),
+    description: text(),
+    isResolved: boolean().notNull().default(false),
+    userId: uuid()
       .notNull()
       .references(() => user.id),
-    createdAt: timestamp('createdAt').notNull(),
+    createdAt: timestamp().notNull(),
   },
   (table) => [
     foreignKey({
