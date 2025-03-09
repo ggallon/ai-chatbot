@@ -1,6 +1,6 @@
 import { auth } from '@/app/(auth)/auth';
 import {
-  getVotesByChatId,
+  getVotesByChatIdAndUser,
   voteMessage,
   type VoteMessage,
 } from '@/lib/db/queries/vote';
@@ -17,7 +17,10 @@ export async function GET(request: Request) {
     return new Response('chatId is required', { status: 400 });
   }
 
-  const votes = await getVotesByChatId({ chatId });
+  const votes = await getVotesByChatIdAndUser({
+    chatId,
+    userId: session.user.id,
+  });
 
   return Response.json(votes, { status: 200 });
 }

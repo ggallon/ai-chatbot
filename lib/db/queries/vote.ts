@@ -1,9 +1,9 @@
 import 'server-only';
 
-import { eq } from 'drizzle-orm';
+import { and, eq } from 'drizzle-orm';
 
 import { db } from '@/lib/db/neon';
-import { vote, type Chat, type Vote } from '@/lib/db/schema';
+import { chat, vote, type Chat, type Vote, type User } from '@/lib/db/schema';
 
 export type VoteMessage = Omit<Vote, 'isUpvoted'> & {
   type: 'up' | 'down';
@@ -25,13 +25,23 @@ export async function voteMessage({ chatId, messageId, type }: VoteMessage) {
   }
 }
 
-export async function getVotesByChatId({
+export async function getVotesByChatIdAndUser({
   chatId,
+  userId,
 }: {
   chatId: Chat['id'];
+  userId: User['id'];
 }): Promise<Array<Vote>> {
   try {
-    return await db.select().from(vote).where(eq(vote.chatId, chatId));
+    return await db
+      .select({
+        chatId: vote.chatId,
+        messageId: vote.messageId,
+        isUpvoted: vote.isUpvoted,
+      })
+      .from(vote)
+      .innerJoin(chat, eq(vote.chatId, chat.id))
+      .where(and(eq(chat.id, chatId), eq(chat.userId, userId)));
   } catch (error) {
     console.error('Failed to get votes by chat id from database', error);
     throw error;
