@@ -1,4 +1,4 @@
-// biome-ignore lint/correctness/noUnusedImports: used for declared module
+// eslint-disable-next-line @typescript-eslint/no-unused-vars -- used for declared module
 import { JWT } from 'next-auth/jwt';
 
 declare module 'next-auth/jwt' {
