@@ -1,13 +1,15 @@
 import { createOpenAI } from '@ai-sdk/openai';
-
 import {
   experimental_createProviderRegistry as createProviderRegistry,
   customProvider,
 } from 'ai';
 
+import { env } from '@/env/server';
+
 const openai = createOpenAI({
-  organization: process.env.OPENAI_ORG,
-  project: process.env.OPENAI_PROJECT,
+  apiKey: env.OPENAI_API_KEY,
+  organization: env.OPENAI_ORG,
+  project: env.OPENAI_PROJECT,
   compatibility: 'strict',
 });
 

@@ -1,6 +1,8 @@
 import { tool } from 'ai';
 import { z } from 'zod';
 
+import { env } from '@/env/server';
+
 export const getWeather = tool({
   description: 'Get the weather in a location',
   parameters: z.object({
@@ -20,7 +22,7 @@ export const getWeather = tool({
     const addState = state !== 'none' ? `${state},` : '';
     const query = `q=${city},${addState}${country}&limit=1`;
     const getLocation = await fetch(
-      `https://api.openweathermap.org/geo/1.0/direct?${query}&appid=${process.env.OPEN_WEATHER_API_KEY}`,
+      `https://api.openweathermap.org/geo/1.0/direct?${query}&appid=${env.OPEN_WEATHER_API_KEY}`,
       { signal: abortSignal },
     );
 
