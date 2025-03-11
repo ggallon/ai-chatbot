@@ -13,7 +13,6 @@ import { login, type AuthActionState } from '../actions';
 export default function Page() {
   const router = useRouter();
   const [email, setEmail] = useState('');
-  const [isSubmit, setSubmit] = useState('');
   const [isSuccessful, setIsSuccessful] = useState(false);
   const [state, formAction] = useActionState<AuthActionState, FormData>(login, {
     status: 'idle',
@@ -28,11 +27,10 @@ export default function Page() {
       setIsSuccessful(true);
       router.refresh();
     }
-  }, [isSubmit, router, state.status]);
+  }, [router, state.status]);
 
   const handleSubmit = (formData: FormData) => {
     setEmail(formData.get('email') as string);
-    setSubmit(new Date().toUTCString());
     formAction(formData);
   };
 
