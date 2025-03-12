@@ -17,7 +17,6 @@ export async function generateMetadata(props: {
 }) {
   const params = await props.params;
   const chat = await getPublicChatById(params.id);
-
   if (!chat) {
     notFound();
   }
