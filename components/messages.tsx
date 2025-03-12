@@ -1,7 +1,8 @@
 import equal from 'fast-deep-equal';
 import { memo } from 'react';
 
-import { PreviewMessage, ThinkingMessage } from './message';
+import { PreviewMessage } from './message';
+import { ThinkingMessage } from './message-thinking';
 import { Overview } from './overview';
 import { useScrollToBottom } from './use-scroll-to-bottom';
 
