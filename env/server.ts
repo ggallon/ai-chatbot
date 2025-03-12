@@ -10,6 +10,8 @@ export const env = createEnv({
     OPENAI_ORG: z.string().startsWith('org-').min(28),
     OPENAI_PROJECT: z.string().startsWith('proj_').min(28),
     OPEN_WEATHER_API_KEY: z.string().min(32),
+    UPSTASH_REDIS_REST_URL: z.string().url(),
+    UPSTASH_REDIS_REST_TOKEN: z.string().min(58),
   },
   experimental__runtimeEnv: process.env,
   skipValidation: process.env.NODE_ENV !== 'production',

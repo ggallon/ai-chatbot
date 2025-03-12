@@ -1,3 +1,6 @@
+import { ipAddress } from '@vercel/functions';
+import { Ratelimit } from '@upstash/ratelimit';
+import { Redis } from '@upstash/redis';
 import {
   appendResponseMessages,
   createDataStreamResponse,
@@ -23,7 +26,26 @@ import { generateUUID } from '@/lib/utils/uuid';
 
 export const maxDuration = 60;
 
+// Create a new ratelimiter, that allows 10 requests per 10 seconds
+const ratelimit = new Ratelimit({
+  redis: Redis.fromEnv(),
+  limiter: Ratelimit.slidingWindow(5, '10 s'),
+  analytics: true,
+  timeout: 2000, // 2 second
+  prefix: 'ai/chat',
+});
+
 export async function POST(request: Request) {
+  const userIp = ipAddress(request);
+  if (!userIp) {
+    return new Response(`I'm a teapot`, { status: 418 });
+  }
+
+  const { success } = await ratelimit.limit(userIp);
+  if (!success) {
+    return new Response('Unable to process at this time', { status: 429 });
+  }
+
   const session = await auth();
   if (!session?.user?.id) {
     return new Response('Unauthorized', { status: 401 });
