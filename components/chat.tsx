@@ -2,6 +2,7 @@
 
 import { useChat } from '@ai-sdk/react';
 import { useMemo, useState } from 'react';
+import { toast } from 'sonner';
 import useSWR, { useSWRConfig } from 'swr';
 
 import { Artifact } from '@/components/artifact';
@@ -49,6 +50,9 @@ export function Chat({
     experimental_throttle: 100,
     sendExtraMessageFields: true, // send id and createdAt for each message
     generateId: generateUUID,
+    onError: () => {
+      toast.error('An error occured, please try again!');
+    },
     onFinish: (_, { finishReason }) => {
       if (messages.length === 0 && finishReason === 'stop') {
         mutate('/api/history');
