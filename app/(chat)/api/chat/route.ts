@@ -1,6 +1,6 @@
-import { ipAddress } from '@vercel/functions';
 import { Ratelimit } from '@upstash/ratelimit';
 import { Redis } from '@upstash/redis';
+import { after } from 'next/server';
 import {
   appendResponseMessages,
   createDataStreamResponse,
@@ -36,21 +36,21 @@ const ratelimit = new Ratelimit({
 });
 
 export async function POST(request: Request) {
-  const userIp = ipAddress(request);
-  if (!userIp) {
-    return new Response(`I'm a teapot`, { status: 418 });
-  }
-
-  const { success } = await ratelimit.limit(userIp);
-  if (!success) {
-    return new Response('Unable to process at this time', { status: 429 });
-  }
-
   const session = await auth();
   if (!session?.user?.id) {
     return new Response('Unauthorized', { status: 401 });
   }
+
   const userId = session.user.id;
+
+  const { pending, success } = await ratelimit.limit(userId);
+  after(async () => {
+    await pending;
+  });
+
+  if (!success) {
+    return new Response('Unable to process at this time', { status: 429 });
+  }
 
   const {
     id,
@@ -131,7 +131,6 @@ export async function POST(request: Request) {
           } catch (error) {
             console.error(
               'Failed to save chat:',
-              'Failed to save chat: ',
               error instanceof Error ? error.message : String(error),
             );
           }
