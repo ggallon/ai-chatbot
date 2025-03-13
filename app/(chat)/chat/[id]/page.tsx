@@ -1,4 +1,4 @@
-import { notFound } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 import { cache } from 'react';
 
 import { auth } from '@/app/(auth)/auth';
@@ -38,7 +38,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
   ]);
 
   if (!session?.user?.id) {
-    notFound();
+    redirect('/login');
   }
 
   const chat = await getCacheChatById(params.id);
