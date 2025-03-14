@@ -1,15 +1,10 @@
 import { put } from '@vercel/blob';
 import { NextResponse } from 'next/server';
 
-import { auth } from '@/app/(auth)/auth';
+import { withAuth } from '@/lib/api/with-auth';
 import { fileSchema } from '@/lib/db/validations/file';
 
-export async function POST(request: Request) {
-  const session = await auth();
-  if (!session?.user?.id) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  }
-
+export const POST = withAuth(async function POST(request) {
   if (request.body === null) {
     return NextResponse.json(
       { error: 'Request body is empty' },
@@ -35,9 +30,13 @@ export async function POST(request: Request) {
 
     try {
       const { file } = validatedFile.data;
-      const data = await put(`AIChat/${session.user.id}/${file.name}`, file, {
-        access: 'public',
-      });
+      const data = await put(
+        `AIChat/${request.auth.user.id}/${file.name}`,
+        file,
+        {
+          access: 'public',
+        },
+      );
 
       return NextResponse.json({ ...data, name: file.name });
     } catch (error) {
@@ -49,4 +48,4 @@ export async function POST(request: Request) {
       { status: 500 },
     );
   }
-}
+});

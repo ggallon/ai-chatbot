@@ -1,12 +1,7 @@
-import { auth } from '@/app/(auth)/auth';
+import { withAuth } from '@/lib/api/with-auth';
 import { getSuggestions } from '@/lib/db/queries/suggestion';
 
-export async function GET(request: Request) {
-  const session = await auth();
-  if (!session?.user?.id) {
-    return new Response('Unauthorized', { status: 401 });
-  }
-
+export const GET = withAuth(async function GET(request) {
   const { searchParams } = new URL(request.url);
   const documentId = searchParams.get('documentId');
   if (!documentId) {
@@ -15,8 +10,8 @@ export async function GET(request: Request) {
 
   const suggestions = await getSuggestions({
     documentId,
-    userId: session.user.id,
+    userId: request.auth.user.id,
   });
 
   return Response.json(suggestions, { status: 200 });
-}
+});

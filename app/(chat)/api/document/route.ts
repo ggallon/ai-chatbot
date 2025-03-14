@@ -1,4 +1,4 @@
-import { auth } from '@/app/(auth)/auth';
+import { withAuth } from '@/lib/api/with-auth';
 import {
   deleteDocumentsByIdAfterTimestamp,
   getDocumentsById,
@@ -7,12 +7,7 @@ import {
 
 import type { Document } from '@/lib/db/schema';
 
-export async function GET(request: Request) {
-  const session = await auth();
-  if (!session?.user?.id) {
-    return new Response('Unauthorized', { status: 401 });
-  }
-
+export const GET = withAuth(async function GET(request) {
   const { searchParams } = new URL(request.url);
   const id = searchParams.get('id');
   if (!id) {
@@ -25,19 +20,14 @@ export async function GET(request: Request) {
     return new Response('Not Found', { status: 404 });
   }
 
-  if (document.userId !== session.user.id) {
+  if (document.userId !== request.auth.user.id) {
     return new Response('Unauthorized', { status: 401 });
   }
 
   return Response.json(documents, { status: 200 });
-}
+});
 
-export async function POST(request: Request) {
-  const session = await auth();
-  if (!session?.user?.id) {
-    return new Response('Unauthorized', { status: 401 });
-  }
-
+export const POST = withAuth(async function POST(request) {
   const { searchParams } = new URL(request.url);
   const id = searchParams.get('id');
   if (!id) {
@@ -53,18 +43,13 @@ export async function POST(request: Request) {
     content,
     createdAt: new Date(),
     kind,
-    userId: session.user.id,
+    userId: request.auth.user.id,
   });
 
   return Response.json('Saved', { status: 200 });
-}
+});
 
-export async function PATCH(request: Request) {
-  const session = await auth();
-  if (!session?.user?.id) {
-    return new Response('Unauthorized', { status: 401 });
-  }
-
+export const PATCH = withAuth(async function PATCH(request) {
   const { searchParams } = new URL(request.url);
   const id = searchParams.get('id');
   if (!id) {
@@ -75,7 +60,7 @@ export async function PATCH(request: Request) {
 
   const documents = await getDocumentsById({ id });
   const [document] = documents;
-  if (document.userId !== session.user.id) {
+  if (document.userId !== request.auth.user.id) {
     return new Response('Unauthorized', { status: 401 });
   }
 
@@ -85,4 +70,4 @@ export async function PATCH(request: Request) {
   });
 
   return new Response('Deleted', { status: 200 });
-}
+});

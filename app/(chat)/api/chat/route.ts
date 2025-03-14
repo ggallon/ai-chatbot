@@ -8,8 +8,8 @@ import {
   type UIMessage,
 } from 'ai';
 
-import { auth } from '@/app/(auth)/auth';
 import { customModel } from '@/lib/ai';
+import { withAuth } from '@/lib/api/with-auth';
 import { models } from '@/lib/ai/models';
 import { systemPrompt } from '@/lib/ai/prompts';
 import { allowedTools } from '@/lib/ai/tools';
@@ -35,14 +35,8 @@ const ratelimit = new Ratelimit({
   prefix: 'ai/chat',
 });
 
-export async function POST(request: Request) {
-  const session = await auth();
-  if (!session?.user?.id) {
-    return new Response('Unauthorized', { status: 401 });
-  }
-
-  const userId = session.user.id;
-
+export const POST = withAuth(async function POST(request) {
+  const userId = request.auth.user.id;
   const { pending, success } = await ratelimit.limit(userId);
   after(async () => {
     await pending;
@@ -149,4 +143,4 @@ export async function POST(request: Request) {
       return error instanceof Error ? error.message : String(error);
     },
   });
-}
+});
