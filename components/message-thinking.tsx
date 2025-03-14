@@ -1,6 +1,5 @@
 'use client';
 
-import cx from 'classnames';
 import { motion } from 'motion/react';
 
 import { SparklesIcon } from './icons';

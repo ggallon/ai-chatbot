@@ -5,7 +5,6 @@ import { Chat } from '@/components/chat';
 import { DEFAULT_MODEL_NAME } from '@/lib/ai/models';
 import { convertToUIMessages } from '@/lib/ai/utils';
 import { getChatByIdWithMessages } from '@/lib/db/queries/chat';
-import { getMessagesByChatId } from '@/lib/db/queries/message';
 import { getFormatedChatTitle } from '@/lib/utils/get-formated-chat-title';
 
 const getPublicChatByIdWithMessages = cache(async ({ id }: { id: string }) => {

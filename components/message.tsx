@@ -1,6 +1,5 @@
 'use client';
 
-import cx from 'classnames';
 import equal from 'fast-deep-equal';
 import { AnimatePresence, motion } from 'motion/react';
 import Image from 'next/image';
