@@ -1,4 +1,5 @@
 import {
+  relations,
   sql,
   type InferInsertModel,
   type InferSelectModel,
@@ -175,3 +176,34 @@ export const suggestion = pgTable(
 );
 
 export type Suggestion = InferSelectModel<typeof suggestion>;
+
+export const userRelations = relations(user, ({ many }) => ({
+  chats: many(chat),
+}));
+
+export type UserWithChat = User & {
+  chats: Array<Chat>;
+};
+
+export const chatRelations = relations(chat, ({ one, many }) => ({
+  user: one(user, {
+    fields: [chat.userId],
+    references: [user.id],
+  }),
+  messages: many(message),
+}));
+
+export type ChatWithMessages = Chat & {
+  messages: Array<Message>;
+};
+
+export const messageRelations = relations(message, ({ one }) => ({
+  chat: one(chat, {
+    fields: [message.chatId],
+    references: [chat.id],
+  }),
+}));
+
+export type MessageWithChat = Message & {
+  chat: Chat;
+};

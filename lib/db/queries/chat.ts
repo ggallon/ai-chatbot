@@ -7,6 +7,7 @@ import {
   chat,
   type Chat,
   type ChatVisibility,
+  type ChatWithMessages,
   type InsertChat,
 } from '@/lib/db/schema';
 
@@ -25,6 +26,11 @@ export async function deleteChatById({
   }
 }
 
+const chatQueryFilter = (id: Chat['id'], visibility?: ChatVisibility) =>
+  visibility
+    ? and(eq(chat.id, id), eq(chat.visibility, visibility))
+    : eq(chat.id, id);
+
 export async function getChatById({
   id,
   visibility,
@@ -33,11 +39,31 @@ export async function getChatById({
   visibility?: ChatVisibility;
 }): Promise<Chat | undefined> {
   try {
-    const queryFilter = visibility
-      ? and(eq(chat.id, id), eq(chat.visibility, visibility))
-      : eq(chat.id, id);
-    const [selectedChat] = await db.select().from(chat).where(queryFilter);
-    return selectedChat;
+    return await db.query.chat.findFirst({
+      where: chatQueryFilter(id, visibility),
+    });
+  } catch (error) {
+    console.error('Failed to get chat by id from database');
+    throw error;
+  }
+}
+
+export async function getChatByIdWithMessages({
+  id,
+  visibility,
+}: {
+  id: Chat['id'];
+  visibility?: ChatVisibility;
+}): Promise<ChatWithMessages | undefined> {
+  try {
+    return await db.query.chat.findFirst({
+      where: chatQueryFilter(id, visibility),
+      with: {
+        messages: {
+          orderBy: (message, { asc }) => [asc(message.createdAt)],
+        },
+      },
+    });
   } catch (error) {
     console.error('Failed to get chat by id from database');
     throw error;
