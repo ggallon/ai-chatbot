@@ -1,3 +1,5 @@
+import defaultTheme from 'tailwindcss/defaultTheme';
+
 import type { Config } from 'tailwindcss';
 
 const config: Config = {
@@ -8,8 +10,8 @@ const config: Config = {
   ],
   theme: {
     fontFamily: {
-      sans: ['geist'],
-      mono: ['geist-mono'],
+      sans: ['var(--font-inter)', ...defaultTheme.fontFamily.sans],
+      mono: ['var(--font-geist-mono)', ...defaultTheme.fontFamily.mono],
     },
     extend: {
       borderRadius: {
