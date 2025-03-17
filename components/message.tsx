@@ -59,27 +59,18 @@ const PurePreviewMessage = ({
       >
         <div
           className={cn(
-            'flex w-full gap-4 group-data-[role=user]/message:max-w-2xl',
+            'flex gap-4 group-data-[role=assistant]/message:w-full group-data-[role=user]/message:max-w-2xl',
             {
-              'w-full': mode === 'edit',
-              'group-data-[role=user]/message:w-fit': mode !== 'edit',
+              'group-data-[role=user]/message:w-full': mode === 'edit',
+              'group-data-[role=user]/message:w-fit': mode === 'view',
             },
           )}
         >
-          <div className="flex size-7 shrink-0 items-center justify-center rounded-full ring-1 ring-border">
-            {message.role === 'user' ? (
-              <Image
-                src="https://avatar.vercel.sh/user_email"
-                alt="user_email"
-                width={20}
-                height={20}
-                className="rounded-full"
-                unoptimized={true}
-              />
-            ) : (
+          {message.role === 'assistant' && (
+            <div className="ring-border flex size-7 shrink-0 items-center justify-center rounded-full ring-1">
               <SparklesIcon size={12} />
-            )}
-          </div>
+            </div>
+          )}
 
           <div className="flex w-full flex-col gap-2">
             {message.experimental_attachments &&
