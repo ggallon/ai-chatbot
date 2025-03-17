@@ -1,10 +1,9 @@
 import { FlatCompat } from '@eslint/eslintrc';
 import eslintConfigPrettier from 'eslint-config-prettier';
 import eslintPluginImportX from 'eslint-plugin-import-x';
-import tailwind from 'eslint-plugin-tailwindcss';
+//import tailwind from 'eslint-plugin-tailwindcss';
 
 const compat = new FlatCompat({
-  // import.meta.dirname is available after Node.js v20.11.0
   baseDirectory: import.meta.dirname,
 });
 
@@ -14,7 +13,7 @@ const eslintConfig = [
   }),
   eslintPluginImportX.flatConfigs.recommended,
   eslintPluginImportX.flatConfigs.typescript,
-  ...tailwind.configs['flat/recommended'],
+  //...tailwind.configs['flat/recommended'],
   eslintConfigPrettier,
   {
     ignores: ['./components/ui/**'],
@@ -24,12 +23,14 @@ const eslintConfig = [
       '@typescript-eslint/no-unused-vars': 'warn',
     },
     settings: {
+      /* no compatibility with v4 yet
       tailwindcss: {
-        callees: ['classnames', 'clsx', 'cn', 'cx'],
+        callees: ['clsx', 'cn', 'cx'],
         config: 'tailwind.config.ts',
         removeDuplicates: true,
         whitelist: ['diff-editor'],
       },
+       */
     },
   },
 ];

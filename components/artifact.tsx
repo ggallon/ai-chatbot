@@ -256,7 +256,7 @@ function PureArtifact({
     <AnimatePresence>
       {artifact.isVisible && (
         <motion.div
-          className="fixed left-0 top-0 z-50 flex h-dvh w-dvw flex-row bg-transparent"
+          className="fixed top-0 left-0 z-50 flex h-dvh w-dvw flex-row bg-transparent"
           initial={{ opacity: 1 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0, transition: { delay: 0.4 } }}
@@ -301,7 +301,7 @@ function PureArtifact({
               <AnimatePresence>
                 {!isCurrentVersion && (
                   <motion.div
-                    className="absolute left-0 top-0 z-50 h-dvh w-[400px] bg-zinc-900/50"
+                    className="absolute top-0 left-0 z-50 h-dvh w-[400px] bg-zinc-900/50"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
@@ -342,7 +342,7 @@ function PureArtifact({
           )}
 
           <motion.div
-            className="fixed flex h-dvh flex-col overflow-y-scroll border-zinc-200 bg-background dark:border-zinc-700 dark:bg-muted md:border-l"
+            className="fixed flex h-dvh flex-col overflow-y-scroll border-zinc-200 bg-background md:border-l dark:border-zinc-700 dark:bg-muted"
             initial={
               isMobile
                 ? {
@@ -446,7 +446,7 @@ function PureArtifact({
 
             <div
               className={cn(
-                'h-full !max-w-full items-center overflow-y-scroll bg-background pb-40 dark:bg-muted',
+                'h-full max-w-full! items-center overflow-y-scroll bg-background pb-40 dark:bg-muted',
                 {
                   'px-2 py-2': artifact.kind === 'code',
                   'px-4 py-8 md:p-20': artifact.kind === 'text',

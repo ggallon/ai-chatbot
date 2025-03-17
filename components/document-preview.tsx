@@ -181,14 +181,14 @@ const PureHitboxLayer = ({
 
   return (
     <div
-      className="absolute left-0 top-0 z-10 size-full rounded-xl"
+      className="absolute top-0 left-0 z-10 size-full rounded-xl"
       ref={hitboxRef}
       onClick={handleClick}
       role="presentation"
       aria-hidden="true"
     >
       <div className="flex w-full items-center justify-end p-4">
-        <div className="absolute right-[9px] top-[13px] rounded-md p-2 hover:bg-zinc-100 hover:dark:bg-zinc-700">
+        <div className="absolute top-[13px] right-[9px] rounded-md p-2 hover:bg-zinc-100 dark:hover:bg-zinc-700">
           <FullscreenIcon />
         </div>
       </div>
@@ -210,7 +210,7 @@ const PureDocumentHeader = ({
   kind: DocumentKind;
   isStreaming: boolean;
 }) => (
-  <div className="flex flex-row items-start justify-between gap-2 rounded-t-2xl border border-b-0 p-4 dark:border-zinc-700 dark:bg-muted sm:items-center">
+  <div className="flex flex-row items-start justify-between gap-2 rounded-t-2xl border border-b-0 p-4 sm:items-center dark:border-zinc-700 dark:bg-muted">
     <div className="flex flex-row items-start gap-3 sm:items-center">
       <div className="text-muted-foreground">
         {isStreaming ? (
