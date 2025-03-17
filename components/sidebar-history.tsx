@@ -253,7 +253,7 @@ export function SidebarHistory({ user }: { user?: User }) {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={handleDelete}>
+            <AlertDialogAction onClick={handleDelete} variant="destructive">
               Continue
             </AlertDialogAction>
           </AlertDialogFooter>
