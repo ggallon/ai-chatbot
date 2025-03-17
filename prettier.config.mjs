@@ -7,8 +7,8 @@ const config = {
   trailingComma: 'all',
   bracketSpacing: true,
   endOfLine: 'lf',
-  tailwindConfig: './tailwind.config.ts',
-  tailwindFunctions: ['cn'],
+  tailwindStylesheet: './app/globals.css',
+  tailwindFunctions: ['classnames', 'clsx', 'cn', 'cx'],
   plugins: ['prettier-plugin-tailwindcss'],
 };
 

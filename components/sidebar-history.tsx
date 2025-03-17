@@ -99,7 +99,7 @@ export function SidebarHistory({ user }: { user?: User }) {
                 className="flex h-8 items-center gap-2 rounded-md px-2"
               >
                 <div
-                  className="h-4 max-w-[--skeleton-width] flex-1 rounded-md bg-sidebar-accent-foreground/10"
+                  className="h-4 max-w-(--skeleton-width) flex-1 rounded-md bg-sidebar-accent-foreground/10"
                   style={
                     {
                       '--skeleton-width': `${item}%`,
@@ -253,7 +253,7 @@ export function SidebarHistory({ user }: { user?: User }) {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={handleDelete}>
+            <AlertDialogAction onClick={handleDelete} variant="destructive">
               Continue
             </AlertDialogAction>
           </AlertDialogFooter>

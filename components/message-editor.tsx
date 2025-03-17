@@ -55,7 +55,7 @@ export function MessageEditor({
     <div className="flex w-full flex-col gap-2">
       <Textarea
         ref={textareaRef}
-        className="w-full resize-none overflow-hidden rounded-xl bg-transparent !text-base outline-none"
+        className="w-full resize-none overflow-hidden rounded-xl bg-transparent text-base! outline-hidden"
         value={draftContent}
         onChange={handleInput}
       />

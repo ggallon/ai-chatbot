@@ -131,7 +131,7 @@ const Tool = ({
       <TooltipTrigger asChild>
         <motion.div
           className={cx('rounded-full p-3', {
-            'bg-primary !text-primary-foreground': selectedTool === type,
+            'bg-primary text-primary-foreground!': selectedTool === type,
           })}
           onHoverStart={() => {
             setIsHovered(true);
@@ -458,7 +458,7 @@ const PureToolbar = ({
   return (
     <TooltipProvider delayDuration={0}>
       <motion.div
-        className="absolute bottom-6 right-6 flex cursor-pointer flex-col justify-end rounded-full border bg-background p-1.5 shadow-lg"
+        className="absolute right-6 bottom-6 flex cursor-pointer flex-col justify-end rounded-full border bg-background p-1.5 shadow-lg"
         initial={{ opacity: 0, y: -20, scale: 1 }}
         animate={
           isToolbarVisible

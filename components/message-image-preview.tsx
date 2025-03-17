@@ -37,7 +37,7 @@ export const MessageImagePrewiew = memo(function MessageImagePrewiew({
           />
         </Zoom>
         {role === 'assistant' ? (
-          <div className="invisible absolute right-2 top-2 z-10 flex gap-1 group-hover/image:visible">
+          <div className="invisible absolute top-2 right-2 z-10 flex gap-1 group-hover/image:visible">
             <a
               className="flex size-7 items-center justify-center rounded text-white/70 hover:bg-white/10 active:bg-white/30 active:text-white"
               download={name}

@@ -216,7 +216,7 @@ function PureMultimodalInput({
 
       <input
         type="file"
-        className="pointer-events-none fixed -left-4 -top-4 size-0.5 opacity-0"
+        className="pointer-events-none fixed -top-4 -left-4 size-0.5 opacity-0"
         ref={fileInputRef}
         multiple
         accept={ALLOWED_IMAGE_MIME_TYPES.join(',')}
@@ -250,7 +250,7 @@ function PureMultimodalInput({
         value={input}
         onChange={handleInput}
         className={cx(
-          'max-h-[75vh] min-h-[24px] resize-none overflow-y-auto rounded-xl bg-muted !text-base',
+          'max-h-[75vh] min-h-[24px] resize-none overflow-y-auto rounded-xl bg-muted text-base!',
           className,
         )}
         rows={3}
@@ -294,7 +294,7 @@ function PureAttachmentsButton({
 }) {
   return (
     <Button
-      className="absolute bottom-2 right-11 m-0.5 h-fit rounded-full p-1.5 dark:border-zinc-700"
+      className="absolute right-11 bottom-2 m-0.5 h-fit rounded-full p-1.5 dark:border-zinc-700"
       onClick={(event) => {
         event.preventDefault();
         fileInputRef.current?.click();
@@ -318,7 +318,7 @@ function PureStopButton({
 }) {
   return (
     <Button
-      className="absolute bottom-2 right-2 m-0.5 h-fit rounded-full border p-1.5 dark:border-zinc-600"
+      className="absolute right-2 bottom-2 m-0.5 h-fit rounded-full border p-1.5 dark:border-zinc-600"
       onClick={(event) => {
         event.preventDefault();
         stop();
@@ -344,7 +344,7 @@ function PureSendButton({
   const isDisabled = input.length === 0 || uploadQueue.length > 0;
   return (
     <Button
-      className="absolute bottom-2 right-2 m-0.5 h-fit rounded-full border p-1.5 dark:border-zinc-600"
+      className="absolute right-2 bottom-2 m-0.5 h-fit rounded-full border p-1.5 dark:border-zinc-600"
       onClick={(event) => {
         event.preventDefault();
         submitForm();
