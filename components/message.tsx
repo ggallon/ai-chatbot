@@ -118,7 +118,7 @@ const PurePreviewMessage = ({
               )}
 
             {message.role === 'assistant' &&
-              message.parts?.map((part) => {
+              message.parts.map((part) => {
                 if (part.type === 'tool-invocation') {
                   const toolName = part.toolInvocation.toolName;
 
