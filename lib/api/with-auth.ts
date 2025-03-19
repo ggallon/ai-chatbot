@@ -25,7 +25,7 @@ type ApiAuthHandler<C = DefaultContext> = (
 export function withAuth<C>(handler: ApiAuthHandler<C>): ApiAuthHandler<C> {
   return async (request, context) => {
     const session = await auth();
-    if (!session?.user?.email || !session?.user?.id) {
+    if (!session?.user?.email || !session.user.id) {
       return new Response('Unauthorized', { status: 401 });
     }
 

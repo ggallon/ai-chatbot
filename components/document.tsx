@@ -25,7 +25,7 @@ const actionTextMap: Record<DocumentTools, { present: string; past: string }> =
   };
 
 const getActionText = (type: DocumentTools, tense: 'present' | 'past') =>
-  actionTextMap[type]?.[tense] ?? null;
+  actionTextMap[type][tense];
 
 interface DocumentToolResultProps {
   type: DocumentTools;
@@ -72,9 +72,7 @@ function PureDocumentToolResult({
         });
       }}
     >
-      <div className="mt-1 text-muted-foreground">
-        {actionIconMap[type] ?? null}
-      </div>
+      <div className="mt-1 text-muted-foreground">{actionIconMap[type]}</div>
       <div className="text-left">
         {`${getActionText(type, 'past')} "${result.title}"`}
       </div>
@@ -126,7 +124,7 @@ function PureDocumentToolCall({
       }}
     >
       <div className="flex flex-row items-start gap-3">
-        <div className="mt-1 text-zinc-500">{actionIconMap[type] ?? null}</div>
+        <div className="mt-1 text-zinc-500">{actionIconMap[type]}</div>
 
         <div className="text-left">
           {`${getActionText(type, 'present')} ${args.title ? `"${args.title}"` : ''}`}

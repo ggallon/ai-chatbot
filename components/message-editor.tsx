@@ -36,7 +36,7 @@ export function MessageEditor({
   const adjustHeight = () => {
     if (textareaRef.current) {
       textareaRef.current.style.height = 'auto';
-      textareaRef.current.style.height = `${textareaRef.current.scrollHeight + 2}px`;
+      textareaRef.current.style.height = `${String(textareaRef.current.scrollHeight + 2)}px`;
     }
   };
 

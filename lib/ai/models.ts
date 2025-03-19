@@ -17,4 +17,4 @@ export const models: Array<Model> = [
   },
 ] as const;
 
-export const DEFAULT_MODEL_NAME: string = 'openai:small-model';
+export const DEFAULT_MODEL_NAME = 'openai:small-model';

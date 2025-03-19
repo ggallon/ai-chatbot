@@ -107,10 +107,7 @@ function PureArtifact({
     fetcher,
   );
   const { data: suggestions } = useSWR<Array<Suggestion>>(
-    documents &&
-      artifact &&
-      artifact.kind !== 'image' &&
-      artifact.status === 'idle'
+    documents && artifact.kind !== 'image' && artifact.status === 'idle'
       ? `/api/suggestions?documentId=${artifact.documentId}`
       : null,
     fetcher,

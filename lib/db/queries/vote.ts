@@ -5,6 +5,9 @@ import { and, eq } from 'drizzle-orm';
 import { db } from '@/lib/db/neon';
 import { chat, vote, type Chat, type Vote, type User } from '@/lib/db/schema';
 
+export const voteTypesEnum = ['up', 'down'] as const;
+export type voteTypes = (typeof voteTypesEnum)[number];
+
 export type VoteMessage = Omit<Vote, 'isUpvoted'> & {
   type: 'up' | 'down';
 };
