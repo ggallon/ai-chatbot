@@ -24,7 +24,7 @@ export function convertToDBMessages({
           text: message.content,
         },
       ]),
-      ...(message.annotations && message.annotations?.length > 0
+      ...(message.annotations && message.annotations.length > 0
         ? [
             {
               type: 'annotation' as const,

@@ -47,7 +47,7 @@ export const updateDocument = ({
           });
           break;
         case 'text':
-          textDocumentHandler.onUpdateDocument({
+          await textDocumentHandler.onUpdateDocument({
             document,
             description,
             modelIdentifier,

@@ -2,7 +2,7 @@ import 'highlight.js/styles/github-dark.css';
 import 'katex/dist/katex.min.css';
 
 import Link from 'next/link';
-import React, { memo } from 'react';
+import { memo } from 'react';
 import ReactMarkdown, { type Components } from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeKatex from 'rehype-katex';
@@ -62,11 +62,11 @@ const components: Partial<Components> = {
 const preprocessLaTeX = (content: string) => {
   const blockProcessedContent = content.replace(
     /\\\[([\s\S]*?)\\\]/g,
-    (_, equation) => `$$${equation}$$`,
+    (_, equation: string) => `$$${equation}$$`,
   );
   const inlineProcessedContent = blockProcessedContent.replace(
     /\\\(([\s\S]*?)\\\)/g,
-    (_, equation) => `$${equation}$`,
+    (_, equation: string) => `$${equation}$`,
   );
   return inlineProcessedContent;
 };

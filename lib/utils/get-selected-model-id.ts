@@ -7,7 +7,7 @@ import { DEFAULT_MODEL_NAME, models } from '@/lib/ai/models';
 export async function getSelectedModelId() {
   const modelIdFromCookie = (await cookies()).get('model-id')?.value;
   const selectedModelId =
-    models.find((model) => model.id === modelIdFromCookie)?.id ||
+    models.find((model) => model.id === modelIdFromCookie)?.id ??
     DEFAULT_MODEL_NAME;
   return selectedModelId;
 }

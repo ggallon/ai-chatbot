@@ -2,6 +2,7 @@ import { withAuth } from '@/lib/api/with-auth';
 import {
   getVotesByChatIdAndUser,
   voteMessage,
+  voteTypesEnum,
   type VoteMessage,
 } from '@/lib/db/queries/vote';
 
@@ -22,7 +23,7 @@ export const GET = withAuth(async function GET(request) {
 
 export const PATCH = withAuth(async function PATCH(request) {
   const { chatId, messageId, type }: VoteMessage = await request.json();
-  if (!chatId || !messageId || !type) {
+  if (!chatId || !messageId || !voteTypesEnum.includes(type)) {
     return new Response('messageId and type are required', { status: 400 });
   }
 

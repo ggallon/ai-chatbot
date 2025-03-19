@@ -2,7 +2,6 @@
 
 import equal from 'fast-deep-equal';
 import { AnimatePresence, motion } from 'motion/react';
-import Image from 'next/image';
 import { memo, useCallback, useState } from 'react';
 
 import { isAllowedTool } from '@/lib/ai/tools';
@@ -59,7 +58,7 @@ const PurePreviewMessage = ({
       >
         <div
           className={cn(
-            'flex gap-4 group-data-[role=assistant]/message:w-full group-data-[role=user]/message:max-w-2xl',
+            'flex gap-4 group-data-[role=assistant]/message:w-full group-data-[role=user]/message:ml-auto group-data-[role=user]/message:max-w-2xl',
             {
               'group-data-[role=user]/message:w-full': mode === 'edit',
               'group-data-[role=user]/message:w-fit': mode === 'view',
@@ -67,7 +66,7 @@ const PurePreviewMessage = ({
           )}
         >
           {message.role === 'assistant' && (
-            <div className="ring-border flex size-7 shrink-0 items-center justify-center rounded-full ring-1">
+            <div className="flex size-7 shrink-0 items-center justify-center rounded-full ring-1 ring-border">
               <SparklesIcon size={12} />
             </div>
           )}
@@ -75,7 +74,7 @@ const PurePreviewMessage = ({
           <div className="flex w-full flex-col gap-2">
             {message.experimental_attachments &&
               message.experimental_attachments.length > 0 && (
-                <div className="flex flex-row justify-start gap-2">
+                <div className="flex flex-row justify-end gap-2">
                   {message.experimental_attachments.map(
                     (attachment, _, arr) => {
                       if (
@@ -175,9 +174,6 @@ const PurePreviewMessage = ({
 
             {message.content && mode === 'view' && (
               <div className="flex flex-row items-start gap-2">
-                <div className="prose flex flex-col dark:prose-invert prose-p:mb-2 prose-ol:my-0">
-                  <Markdown>{message.content}</Markdown>
-                </div>
                 {message.role === 'user' && !isReadonly && (
                   <Tooltip>
                     <TooltipTrigger asChild>
@@ -194,6 +190,20 @@ const PurePreviewMessage = ({
                     <TooltipContent>Edit message</TooltipContent>
                   </Tooltip>
                 )}
+
+                <div
+                  className={cn('flex flex-col', {
+                    'prose dark:prose-invert prose-p:mb-2 prose-ol:my-0':
+                      message.role === 'assistant',
+                    'rounded-xl bg-sidebar px-3 py-2': message.role === 'user',
+                  })}
+                >
+                  {message.role === 'user' ? (
+                    <p className="whitespace-pre-wrap">{message.content}</p>
+                  ) : (
+                    <Markdown>{message.content}</Markdown>
+                  )}
+                </div>
               </div>
             )}
 

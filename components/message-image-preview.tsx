@@ -29,7 +29,6 @@ export const MessageImagePrewiew = memo(function MessageImagePrewiew({
     >
       <div className="relative h-full">
         <Zoom>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             className="w-fit opacity-100 transition-opacity duration-300"
             src={url}
