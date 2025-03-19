@@ -15,12 +15,11 @@ export const GET = withAuth(async function GET(request) {
   }
 
   const documents = await getDocumentsById({ id });
-  const [document] = documents;
-  if (!document) {
+  if (documents.length === 0) {
     return new Response('Not Found', { status: 404 });
   }
 
-  if (document.userId !== request.auth.user.id) {
+  if (documents[0].userId !== request.auth.user.id) {
     return new Response('Unauthorized', { status: 401 });
   }
 
@@ -59,8 +58,7 @@ export const PATCH = withAuth(async function PATCH(request) {
   const { timestamp }: { timestamp: string } = await request.json();
 
   const documents = await getDocumentsById({ id });
-  const [document] = documents;
-  if (document.userId !== request.auth.user.id) {
+  if (documents[0].userId !== request.auth.user.id) {
     return new Response('Unauthorized', { status: 401 });
   }
 

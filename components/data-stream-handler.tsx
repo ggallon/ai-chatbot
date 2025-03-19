@@ -39,9 +39,8 @@ export function DataStreamHandler({ id }: { id: Chat['id'] }) {
   const { mutate } = useSWRConfig();
 
   useEffect(() => {
-    if (optimisticSuggestions && optimisticSuggestions.length > 0) {
-      const [optimisticSuggestion] = optimisticSuggestions;
-      const url = `/api/suggestions?documentId=${optimisticSuggestion.documentId}`;
+    if (optimisticSuggestions.length > 0) {
+      const url = `/api/suggestions?documentId=${optimisticSuggestions[0].documentId}`;
       mutate(url, optimisticSuggestions, false);
     }
   }, [optimisticSuggestions, mutate]);

@@ -16,7 +16,7 @@ export const documentSchema = new Schema({
 
 export function headingRule(level: number) {
   return textblockTypeInputRule(
-    new RegExp(`^(#{1,${level}})\\s$`),
+    new RegExp(`^(#{1,${String(level)}})\\s$`),
     documentSchema.nodes.heading,
     () => ({ level }),
   );
@@ -31,7 +31,7 @@ export const handleTransaction = ({
   editorRef: RefObject<EditorView | null>;
   onSaveContent: (updatedContent: string, debounce: boolean) => void;
 }) => {
-  if (!editorRef || !editorRef.current) return;
+  if (!editorRef.current) return;
 
   const newState = editorRef.current.state.apply(transaction);
   editorRef.current.updateState(newState);

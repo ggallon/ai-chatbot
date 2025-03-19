@@ -2,7 +2,6 @@
 
 import { ChevronUp } from 'lucide-react';
 import Image from 'next/image';
-import type { User } from 'next-auth';
 import { signOut } from 'next-auth/react';
 import { useTheme } from 'next-themes';
 
@@ -18,6 +17,8 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@/components/ui/sidebar';
+
+import type { User } from 'next-auth';
 
 export function SidebarUserNav({ user }: { user: User }) {
   const { setTheme, theme } = useTheme();
@@ -35,7 +36,7 @@ export function SidebarUserNav({ user }: { user: User }) {
                 height={24}
                 className="rounded-full"
               />
-              <span className="truncate">{user?.email}</span>
+              <span className="truncate">{user.email}</span>
               <ChevronUp className="ml-auto" />
             </SidebarMenuButton>
           </DropdownMenuTrigger>
@@ -45,7 +46,9 @@ export function SidebarUserNav({ user }: { user: User }) {
           >
             <DropdownMenuItem
               className="cursor-pointer"
-              onSelect={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+              onSelect={() => {
+                setTheme(theme === 'dark' ? 'light' : 'dark');
+              }}
             >
               {`Toggle ${theme === 'light' ? 'dark' : 'light'} mode`}
             </DropdownMenuItem>
