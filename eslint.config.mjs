@@ -1,6 +1,7 @@
 import eslint from '@eslint/js';
-import pluginJsxA11y from 'eslint-plugin-jsx-a11y';
 import configPrettier from 'eslint-config-prettier';
+import { createTypeScriptImportResolver } from 'eslint-import-resolver-typescript';
+import pluginJsxA11y from 'eslint-plugin-jsx-a11y';
 import pluginImportX from 'eslint-plugin-import-x';
 import pluginReact from 'eslint-plugin-react';
 import pluginReactHooks from 'eslint-plugin-react-hooks';
@@ -37,6 +38,7 @@ export default tseslint.config(
       parserOptions: {
         projectService: true,
         tsconfigRootDir: import.meta.dirname,
+        sourceType: 'module',
         ecmaFeatures: {
           jsx: true,
         },
@@ -71,6 +73,11 @@ export default tseslint.config(
       '@typescript-eslint/no-unused-vars': 'warn',
     },
     settings: {
+      'import-x/resolver-next': [
+        createTypeScriptImportResolver({
+          alwaysTryTypes: true,
+        }),
+      ],
       react: {
         version: 'detect',
       },
