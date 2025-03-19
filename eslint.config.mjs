@@ -53,6 +53,7 @@ export default tseslint.config(
     rules: {
       ...pluginReactHooks.configs.recommended.rules,
       'import-x/no-deprecated': 'warn',
+      'jsx-a11y/no-autofocus': 'warn',
       'react/jsx-no-target-blank': 'off',
       'react/no-unknown-property': 'off',
       'react/prop-types': 'off',
