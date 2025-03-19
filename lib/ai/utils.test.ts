@@ -99,7 +99,7 @@ describe('convertToDBMessages', () => {
           content: [
             { type: 'text', text: 'user message' },
             {
-              type: 'image',
+              type: 'attachment',
               data: {
                 name: 'Image 1',
                 contentType: 'image/png',
@@ -107,7 +107,7 @@ describe('convertToDBMessages', () => {
               },
             },
             {
-              type: 'file',
+              type: 'attachment',
               data: {
                 name: 'File a',
                 contentType: 'application/pdf',
@@ -191,7 +191,7 @@ describe('convertToUIMessages', () => {
           content: [
             { type: 'text', text: 'user message' },
             {
-              type: 'image',
+              type: 'attachment',
               data: {
                 name: 'Image 1',
                 contentType: 'image/png',
@@ -199,7 +199,7 @@ describe('convertToUIMessages', () => {
               },
             },
             {
-              type: 'file',
+              type: 'attachment',
               data: {
                 name: 'File a',
                 contentType: 'application/pdf',

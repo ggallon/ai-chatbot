@@ -22,6 +22,7 @@ import {
 
 import type {
   Attachment,
+  FileUIPart,
   JSONValue,
   Message as AIMessage,
   ReasoningUIPart,
@@ -75,7 +76,7 @@ type AnnotationBDPart = {
 };
 
 type AttachmentBDPart = {
-  type: 'file' | 'image';
+  type: 'attachment';
 
   /**
    * The data attachment.
@@ -84,6 +85,7 @@ type AttachmentBDPart = {
 };
 
 export type MessageContent = Array<
+  | FileUIPart
   | TextUIPart
   | ReasoningUIPart
   | SourceUIPart

@@ -33,11 +33,7 @@ export function convertToDBMessages({
           ]
         : []),
       ...(message.experimental_attachments?.map((attachment) => {
-        if (attachment.contentType?.startsWith('image/')) {
-          return { type: 'image' as const, data: attachment };
-        } else {
-          return { type: 'file' as const, data: attachment };
-        }
+        return { type: 'attachment' as const, data: attachment };
       }) ?? []),
     ],
     createdAt: message.createdAt ? new Date(message.createdAt) : new Date(),
@@ -71,14 +67,14 @@ export function convertToUIMessages(
           case 'annotation':
             annotations.push(...content.data);
             break;
-          case 'file':
-          case 'image':
+          case 'attachment':
             experimental_attachments.push(content.data);
             break;
           case 'tool-invocation':
             toolInvocations.push(content.toolInvocation);
             parts.push(content);
             break;
+          case 'file':
           case 'reasoning':
           case 'source':
             parts.push(content);
