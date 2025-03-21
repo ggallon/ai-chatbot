@@ -15,7 +15,6 @@ import {
 import { toast } from 'sonner';
 import { useLocalStorage, useWindowSize } from 'usehooks-ts';
 
-import { sanitizeUIMessages } from '@/lib/ai/utils';
 import { ALLOWED_IMAGE_MIME_TYPES } from '@/lib/db/validations/file';
 
 import { ArrowUpIcon, PaperclipIcon, StopIcon } from './icons';
@@ -321,7 +320,7 @@ function PureStopButton({
       onClick={(event) => {
         event.preventDefault();
         stop();
-        setMessages((messages) => sanitizeUIMessages(messages));
+        setMessages((messages) => messages);
       }}
     >
       <StopIcon size={14} />
