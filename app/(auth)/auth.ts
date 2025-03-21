@@ -45,18 +45,10 @@ export const {
   ],
   callbacks: {
     jwt({ token, user }) {
-      if (user.id) {
-        token.id = user.id;
-      }
-
-      return token;
+      return { ...token, id: token.id ?? user.id };
     },
     session({ session, token }) {
-      if (session.user && token.id) {
-        session.user.id = token.id;
-      }
-
-      return session;
+      return { ...session, user: { ...session.user, id: token.id } };
     },
   },
 });
