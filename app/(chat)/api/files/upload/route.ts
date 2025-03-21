@@ -39,10 +39,10 @@ export const POST = withAuth(async function POST(request) {
       );
 
       return NextResponse.json({ ...data, name: file.name });
-    } catch (error) {
+    } catch (_error_) {
       return NextResponse.json({ error: 'Upload failed' }, { status: 500 });
     }
-  } catch (error) {
+  } catch (_error_) {
     return NextResponse.json(
       { error: 'Failed to process request' },
       { status: 500 },

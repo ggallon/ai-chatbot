@@ -14,7 +14,7 @@ export const DELETE = withAuth<{ params: Promise<{ id: string }> }>(
         userId: request.auth.user.id,
       });
       return new Response('Chat deleted', { status: 200 });
-    } catch (error) {
+    } catch (_error_) {
       return new Response('An error occurred while processing your request', {
         status: 500,
       });
