@@ -43,21 +43,17 @@ export function convertToDBMessages({
 export function convertToUIMessages(
   messages: Array<DBMessage>,
 ): Array<UIMessage> {
-  return messages.reduce((chatMessages: Array<UIMessage>, message) => {
+  return messages.reduce<Array<UIMessage>>((chatMessages, message) => {
     let textContent = '';
     const annotations: UIMessage['annotations'] = [];
     const experimental_attachments: UIMessage['experimental_attachments'] = [];
-    // TODO remove deprecated toolInvocations usage
-    const toolInvocations: UIMessage['toolInvocations'] = [];
     const parts: UIMessage['parts'] = [];
 
     if (typeof message.content === 'string') {
       textContent = message.content;
-      parts.push({
-        type: 'text' as const,
-        text: message.content,
-      });
-    } else if (Array.isArray(message.content)) {
+    }
+
+    if (Array.isArray(message.content)) {
       for (const content of message.content) {
         switch (content.type) {
           case 'text':
@@ -70,13 +66,11 @@ export function convertToUIMessages(
           case 'attachment':
             experimental_attachments.push(content.data);
             break;
-          case 'tool-invocation':
-            toolInvocations.push(content.toolInvocation);
-            parts.push(content);
-            break;
-          case 'file':
-          case 'reasoning':
-          case 'source':
+          default:
+            //case 'file':
+            //case 'reasoning':
+            //case 'source':
+            //case 'tool-invocation':
             parts.push(content);
             break;
         }
@@ -91,7 +85,6 @@ export function convertToUIMessages(
       parts,
       ...(annotations.length > 0 && { annotations }),
       ...(experimental_attachments.length > 0 && { experimental_attachments }),
-      ...(toolInvocations.length > 0 && { toolInvocations }),
     });
 
     return chatMessages;
