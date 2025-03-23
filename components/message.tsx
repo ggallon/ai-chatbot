@@ -59,32 +59,23 @@ const PurePreviewMessage = ({
       >
         <div
           className={cn(
-            'flex w-full gap-4 group-data-[role=user]/message:max-w-2xl',
+            'flex gap-4 group-data-[role=assistant]/message:w-full group-data-[role=user]/message:ml-auto group-data-[role=user]/message:max-w-2xl',
             {
-              'w-full': mode === 'edit',
-              'group-data-[role=user]/message:w-fit': mode !== 'edit',
+              'group-data-[role=user]/message:w-full': mode === 'edit',
+              'group-data-[role=user]/message:w-fit': mode === 'view',
             },
           )}
         >
-          <div className="flex size-7 shrink-0 items-center justify-center rounded-full ring-1 ring-border">
-            {message.role === 'user' ? (
-              <Image
-                src="https://avatar.vercel.sh/user_email"
-                alt="user_email"
-                width={20}
-                height={20}
-                className="rounded-full"
-                unoptimized={true}
-              />
-            ) : (
+          {message.role === 'assistant' && (
+            <div className="flex size-7 shrink-0 items-center justify-center rounded-full ring-1 ring-border">
               <SparklesIcon size={12} />
-            )}
-          </div>
+            </div>
+          )}
 
           <div className="flex w-full flex-col gap-2">
             {message.experimental_attachments &&
               message.experimental_attachments.length > 0 && (
-                <div className="flex flex-row justify-start gap-2">
+                <div className="flex flex-row justify-end gap-2">
                   {message.experimental_attachments.map(
                     (attachment, _, arr) => {
                       if (
@@ -117,94 +108,100 @@ const PurePreviewMessage = ({
                 </div>
               )}
 
-            {message.role === 'assistant' &&
-              message.parts.map((part) => {
-                if (part.type === 'tool-invocation') {
-                  const toolName = part.toolInvocation.toolName;
+            {message.parts.map((part, index) => {
+              if (part.type === 'tool-invocation') {
+                const toolName = part.toolInvocation.toolName;
 
-                  if (isAllowedTool(toolName)) {
-                    if (part.toolInvocation.state === 'result') {
-                      return (
-                        <div
-                          key={part.toolInvocation.toolCallId}
-                          className="flex flex-col gap-4"
-                        >
-                          {toolName === 'getWeather' ? (
-                            <Weather
-                              weatherAtLocation={part.toolInvocation.result}
-                            />
-                          ) : toolName === 'generateImage' ? (
-                            <MessageImagePrewiew
-                              role={message.role}
-                              url={part.toolInvocation.result.url}
-                              name={part.toolInvocation.result.name}
-                              contentType={
-                                part.toolInvocation.result.contentType
-                              }
-                            />
-                          ) : (
-                            <DocumentToolResult
-                              type={toolName}
-                              result={part.toolInvocation.result}
-                              isReadonly={isReadonly}
-                            />
-                          )}
-                        </div>
-                      );
-                    } else {
-                      return (
-                        <div
-                          key={part.toolInvocation.toolCallId}
-                          className="flex flex-col gap-4"
-                        >
-                          {toolName === 'getWeather' ? (
-                            <div className="skeleton">
-                              <Weather />
+                if (isAllowedTool(toolName)) {
+                  if (part.toolInvocation.state === 'result') {
+                    return (
+                      <div
+                        key={part.toolInvocation.toolCallId}
+                        className="flex flex-col gap-4"
+                      >
+                        {toolName === 'getWeather' ? (
+                          <Weather
+                            weatherAtLocation={part.toolInvocation.result}
+                          />
+                        ) : toolName === 'generateImage' ? (
+                          <MessageImagePrewiew
+                            role={message.role}
+                            url={part.toolInvocation.result.url}
+                            name={part.toolInvocation.result.name}
+                            contentType={part.toolInvocation.result.contentType}
+                          />
+                        ) : (
+                          <DocumentToolResult
+                            type={toolName}
+                            result={part.toolInvocation.result}
+                            isReadonly={isReadonly}
+                          />
+                        )}
+                      </div>
+                    );
+                  } else {
+                    return (
+                      <div
+                        key={part.toolInvocation.toolCallId}
+                        className="flex flex-col gap-4"
+                      >
+                        {toolName === 'getWeather' ? (
+                          <div className="skeleton">
+                            <Weather />
+                          </div>
+                        ) : toolName === 'generateImage' ? (
+                          <div className="skeleton relative aspect-square max-w-[400px] overflow-hidden rounded-2xl">
+                            <div className="relative h-full">
+                              <div className="size-[400px] animate-pulse rounded-lg bg-muted-foreground/20" />
                             </div>
-                          ) : toolName === 'generateImage' ? (
-                            <div className="skeleton relative aspect-square max-w-[400px] overflow-hidden rounded-2xl">
-                              <div className="relative h-full">
-                                <div className="size-[400px] animate-pulse rounded-lg bg-muted-foreground/20" />
-                              </div>
-                            </div>
-                          ) : (
-                            <DocumentToolCall
-                              type={toolName}
-                              args={part.toolInvocation.args}
-                              isReadonly={isReadonly}
-                            />
-                          )}
-                        </div>
-                      );
-                    }
+                          </div>
+                        ) : (
+                          <DocumentToolCall
+                            type={toolName}
+                            args={part.toolInvocation.args}
+                            isReadonly={isReadonly}
+                          />
+                        )}
+                      </div>
+                    );
                   }
                 }
-                return null;
-              })}
-
-            {message.content && mode === 'view' && (
-              <div className="flex flex-row items-start gap-2">
-                <div className="prose flex flex-col dark:prose-invert prose-p:mb-2 prose-ol:my-0">
-                  <Markdown>{message.content}</Markdown>
-                </div>
-                {message.role === 'user' && !isReadonly && (
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Button
-                        variant="ghost"
-                        className="h-fit rounded-full px-2 text-muted-foreground opacity-0 group-hover/message:opacity-100"
-                        onClick={() => {
-                          toggleEditMode();
-                        }}
-                      >
-                        <PencilEditIcon />
-                      </Button>
-                    </TooltipTrigger>
-                    <TooltipContent>Edit message</TooltipContent>
-                  </Tooltip>
-                )}
-              </div>
-            )}
+              } else if (part.type === 'text' && mode === 'view') {
+                return (
+                  <div
+                    className="flex flex-row items-start gap-2"
+                    key={`${message.id}-${message.role}-${index}`}
+                  >
+                    {message.role === 'user' && !isReadonly && (
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <Button
+                            variant="ghost"
+                            className="h-fit rounded-full px-2 text-muted-foreground opacity-0 group-hover/message:opacity-100"
+                            onClick={() => {
+                              toggleEditMode();
+                            }}
+                          >
+                            <PencilEditIcon />
+                          </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>Edit message</TooltipContent>
+                      </Tooltip>
+                    )}
+                    {message.role === 'assistant' ? (
+                      <div className="prose flex flex-col dark:prose-invert prose-p:mb-2 prose-ol:my-0">
+                        <Markdown>{part.text}</Markdown>
+                      </div>
+                    ) : (
+                      <div className="flex flex-col rounded-xl bg-muted px-3 py-2">
+                        <div className="whitespace-pre-wrap">{part.text}</div>
+                      </div>
+                    )}
+                  </div>
+                );
+              }
+              return null;
+            })}
 
             {!isReadonly && message.role === 'user' && mode === 'edit' && (
               <div className="flex flex-row items-start gap-2">

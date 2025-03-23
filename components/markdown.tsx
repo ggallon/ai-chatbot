@@ -18,7 +18,7 @@ import type { Element } from 'hast';
  * @example
  * const isInline = node && isInlineCode(node: Element)
  */
-export const isInlineCode = (node: Element): boolean => {
+const isInlineCode = (node: Element): boolean => {
   const textContent = (node.children || [])
     .filter((child) => child.type === 'text')
     .map((child) => child.value)
@@ -80,11 +80,7 @@ export const Markdown = memo(function Markdown({
   const containsLaTeX = /\\\[([\s\S]*?)\\\]|\\\(([\s\S]*?)\\\)/.test(children);
   if (containsLaTeX) {
     return (
-      <ReactMarkdown
-        rehypePlugins={[rehypeKatex]}
-        remarkPlugins={[remarkGfm, remarkMath]}
-        components={components}
-      >
+      <ReactMarkdown rehypePlugins={[rehypeKatex]} remarkPlugins={[remarkMath]}>
         {preprocessLaTeX(children)}
       </ReactMarkdown>
     );
