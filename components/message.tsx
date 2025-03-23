@@ -2,7 +2,6 @@
 
 import equal from 'fast-deep-equal';
 import { AnimatePresence, motion } from 'motion/react';
-import Image from 'next/image';
 import { memo, useCallback, useState } from 'react';
 
 import { isAllowedTool } from '@/lib/ai/tools';
