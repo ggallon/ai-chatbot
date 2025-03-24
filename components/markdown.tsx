@@ -1,4 +1,3 @@
-import 'highlight.js/styles/github-dark.css';
 import 'katex/dist/katex.min.css';
 
 import Link from 'next/link';
@@ -40,7 +39,6 @@ const components: Partial<Components> = {
       </Link>
     );
   },
-  //pre: ({ children }) => <>{children}</>,
   code: ({ children, className, node, ...props }) => {
     // const match = className?.match(/language-(\w+)/);
     const isInline = node ? isInlineCode(node) : false;
