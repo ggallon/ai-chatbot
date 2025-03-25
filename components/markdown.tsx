@@ -40,17 +40,24 @@ const components: Partial<Components> = {
     );
   },
   code: ({ children, className, node, ...props }) => {
-    // const match = className?.match(/language-(\w+)/);
+    const match = className?.match(/language-(\w+)/);
+    const language = match ? match[1] : '';
     const isInline = node ? isInlineCode(node) : false;
-
     return isInline ? (
-      <code className="not-prose rounded-md bg-gray-100 px-1 py-[0.15rem] font-mono text-xs font-normal text-foreground dark:bg-zinc-800">
+      <code className="not-prose rounded-md bg-gray-100 font-mono text-xs font-normal text-foreground dark:bg-zinc-800">
         {children}
       </code>
     ) : (
-      <code className={`not-prose ${className}`} {...props}>
-        {children}
-      </code>
+      <>
+        <div className="flex h-10 flex-row items-center rounded-t-xl bg-muted p-4">
+          <span className="font-mono text-xs text-foreground">{language}</span>
+        </div>
+        <div className="block overflow-x-auto p-4">
+          <code className={`not-prose ${className}`} {...props}>
+            {children}
+          </code>
+        </div>
+      </>
     );
   },
 };
