@@ -126,6 +126,7 @@ export type Vote = InferSelectModel<typeof vote>;
 
 export const documentkindEnum = pgEnum('documentkind', [
   'text',
+  'sheet',
   'image',
   'code',
 ]);
