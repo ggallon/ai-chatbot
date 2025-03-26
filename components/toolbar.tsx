@@ -28,7 +28,7 @@ import {
 import {
   ArrowUpIcon,
   CodeIcon,
-  LineChartIcon,
+  //LineChartIcon,
   LogsIcon,
   MessageIcon,
   PenIcon,
@@ -311,12 +311,13 @@ const toolsByArtifactKind: Record<
   }>
 > = {
   sheet: [
+    /* REVIEW conflic with kind: sheet and code
     {
       type: 'analyze-visualize',
       description: 'Analyze and visualize data',
       icon: <LineChartIcon />,
-    },
-    {
+      },
+    */ {
       type: 'format-clean',
       description: 'Format and clean data',
       icon: <SparklesIcon />,
