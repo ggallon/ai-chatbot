@@ -2,6 +2,7 @@ import { tool, type DataStreamWriter } from 'ai';
 import { z } from 'zod';
 
 import { imageDocumentHandler } from '@/artifacts/image/server';
+import { sheetDocumentHandler } from '@/artifacts/sheet/server';
 import { textDocumentHandler } from '@/artifacts/text/server';
 import { documentkindEnum } from '@/lib/db/schema';
 import { generateUUID } from '@/lib/utils/uuid';
@@ -40,6 +41,15 @@ export const createDocument = ({
             id,
             title,
             modelIdentifier: 'openai:large-model',
+            dataStream,
+            userId,
+          });
+          break;
+        case 'sheet':
+          await sheetDocumentHandler.onCreateDocument({
+            id,
+            title,
+            modelIdentifier,
             dataStream,
             userId,
           });

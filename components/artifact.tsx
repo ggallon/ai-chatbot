@@ -31,6 +31,9 @@ const Editor = dynamic(() => import('./editor').then((mod) => mod.Editor));
 const ImageEditor = dynamic(() =>
   import('./image-editor').then((mod) => mod.ImageEditor),
 );
+const SpreadsheetEditor = dynamic(() =>
+  import('./sheet-editor').then((mod) => mod.SpreadsheetEditor),
+);
 const Toolbar = dynamic(() => import('./toolbar').then((mod) => mod.Toolbar), {
   ssr: false,
 });
@@ -480,6 +483,18 @@ function PureArtifact({
                       newContent={getDocumentContentById(currentVersionIndex)}
                     />
                   )
+                ) : artifact.kind === 'sheet' ? (
+                  <SpreadsheetEditor
+                    content={
+                      isCurrentVersion
+                        ? artifact.content
+                        : getDocumentContentById(currentVersionIndex)
+                    }
+                    currentVersionIndex={currentVersionIndex}
+                    isCurrentVersion={isCurrentVersion}
+                    saveContent={saveContent}
+                    status={artifact.status}
+                  />
                 ) : artifact.kind === 'image' ? (
                   <ImageEditor
                     title={artifact.title}

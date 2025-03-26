@@ -1,0 +1,1 @@
+ALTER TYPE "public"."documentkind" ADD VALUE 'sheet' BEFORE 'image';
