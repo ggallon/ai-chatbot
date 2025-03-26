@@ -2,6 +2,7 @@ import { tool, type DataStreamWriter } from 'ai';
 import { z } from 'zod';
 
 import { imageDocumentHandler } from '@/artifacts/image/server';
+import { sheetDocumentHandler } from '@/artifacts/sheet/server';
 import { textDocumentHandler } from '@/artifacts/text/server';
 import { getDocumentById } from '@/lib/db/queries/document';
 
@@ -42,6 +43,15 @@ export const updateDocument = ({
             document,
             description,
             modelIdentifier: 'openai:large-model',
+            dataStream,
+            userId,
+          });
+          break;
+        case 'sheet':
+          await sheetDocumentHandler.onUpdateDocument({
+            document,
+            description,
+            modelIdentifier,
             dataStream,
             userId,
           });

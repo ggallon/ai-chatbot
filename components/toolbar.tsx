@@ -28,9 +28,11 @@ import {
 import {
   ArrowUpIcon,
   CodeIcon,
+  LineChartIcon,
   LogsIcon,
   MessageIcon,
   PenIcon,
+  SparklesIcon,
   StopIcon,
   SummarizeIcon,
 } from './icons';
@@ -39,14 +41,18 @@ import type { UseChatHelpers } from '@ai-sdk/react';
 import type { ChatRequestOptions, CreateMessage, Message } from 'ai';
 import type { DocumentKind } from '@/lib/db/schema';
 
+type ArtifactToolTypes =
+  | 'analyze-visualize'
+  | 'final-polish'
+  | 'format-clean'
+  | 'request-suggestions'
+  | 'adjust-reading-level'
+  | 'code-review'
+  | 'add-comments'
+  | 'add-logs';
+
 type ToolProps = {
-  type:
-    | 'final-polish'
-    | 'request-suggestions'
-    | 'adjust-reading-level'
-    | 'code-review'
-    | 'add-comments'
-    | 'add-logs';
+  type: ArtifactToolTypes;
   description: string;
   icon: React.JSX.Element;
   selectedTool: string | null;
@@ -91,11 +97,26 @@ const Tool = ({
     if (selectedTool !== type) {
       setSelectedTool(type);
     } else {
-      if (type === 'final-polish') {
+      if (type === 'analyze-visualize') {
+        append({
+          role: 'user',
+          content:
+            'Can you please analyze and visualize the data by creating a new code artifact in python?',
+        });
+
+        setSelectedTool(null);
+      } else if (type === 'final-polish') {
         append({
           role: 'user',
           content:
             'Please add final polish and check for grammar, add section titles for better structure, and ensure everything reads smoothly.',
+        });
+
+        setSelectedTool(null);
+      } else if (type === 'format-clean') {
+        append({
+          role: 'user',
+          content: 'Can you please format and clean the data?',
         });
 
         setSelectedTool(null);
@@ -284,17 +305,23 @@ const ReadingLevelSelector = ({
 const toolsByArtifactKind: Record<
   DocumentKind,
   Array<{
-    type:
-      | 'final-polish'
-      | 'request-suggestions'
-      | 'adjust-reading-level'
-      | 'code-review'
-      | 'add-comments'
-      | 'add-logs';
+    type: ArtifactToolTypes;
     description: string;
     icon: React.JSX.Element;
   }>
 > = {
+  sheet: [
+    {
+      type: 'analyze-visualize',
+      description: 'Analyze and visualize data',
+      icon: <LineChartIcon />,
+    },
+    {
+      type: 'format-clean',
+      description: 'Format and clean data',
+      icon: <SparklesIcon />,
+    },
+  ],
   text: [
     {
       type: 'final-polish',

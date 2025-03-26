@@ -15,6 +15,7 @@ type DataStreamDelta =
         | 'title'
         | 'code-delta'
         | 'image-delta'
+        | 'sheet-delta'
         | 'text-delta'
         | 'clear'
         | 'finish';
@@ -80,6 +81,19 @@ export function DataStreamHandler({ id }: { id: Chat['id'] }) {
             };
 
           case 'text-delta':
+            return {
+              ...draftArtifact,
+              content: draftArtifact.content + delta.content,
+              isVisible:
+                draftArtifact.status === 'streaming' &&
+                draftArtifact.content.length > 400 &&
+                draftArtifact.content.length < 450
+                  ? true
+                  : draftArtifact.isVisible,
+              status: 'streaming',
+            };
+
+          case 'sheet-delta':
             return {
               ...draftArtifact,
               content: draftArtifact.content + delta.content,
