@@ -96,7 +96,7 @@ export function DataStreamHandler({ id }: { id: Chat['id'] }) {
           case 'sheet-delta':
             return {
               ...draftArtifact,
-              content: draftArtifact.content + delta.content,
+              content: delta.content,
               isVisible:
                 draftArtifact.status === 'streaming' &&
                 draftArtifact.content.length > 400 &&
