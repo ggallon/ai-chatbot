@@ -26,6 +26,7 @@ import type {
   JSONValue,
   Message as AIMessage,
   ReasoningUIPart,
+  StepStartUIPart,
   SourceUIPart,
   TextUIPart,
   ToolInvocationUIPart,
@@ -88,6 +89,7 @@ export type MessageContent = Array<
   | FileUIPart
   | TextUIPart
   | ReasoningUIPart
+  | StepStartUIPart
   | SourceUIPart
   | ToolInvocationUIPart
   | AnnotationBDPart

@@ -6,11 +6,11 @@ import { generateUUID } from '@/lib/utils/uuid';
 import { getDocumentById } from '@/lib/db/queries/document';
 import { saveSuggestions } from '@/lib/db/queries/suggestion';
 
-import type { Model } from '@/lib/ai/models';
+import { type CustomOpenAIProvider } from '@/lib/ai/setup-registry';
 import type { Suggestion } from '@/lib/db/schema';
 
-export interface ExtendedOptions {
-  modelIdentifier: Model['id'];
+interface ExtendedOptions {
+  modelIdentifier: CustomOpenAIProvider;
   dataStream: DataStreamWriter;
   userId: string;
 }

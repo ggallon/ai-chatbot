@@ -1,13 +1,14 @@
 import { saveDocument } from '@/lib/db/queries/document';
 
 import type { DataStreamWriter } from 'ai';
-import type { Model } from '@/lib/ai/models';
 import type { Document, DocumentKind } from '@/lib/db/schema';
+
+import { type CustomOpenAIProvider } from '@/lib/ai/setup-registry';
 
 interface CreateDocumentCallbackProps {
   id: string;
   title: string;
-  modelIdentifier: Model['id'];
+  modelIdentifier: CustomOpenAIProvider;
   dataStream: DataStreamWriter;
   userId: string;
 }
@@ -15,7 +16,7 @@ interface CreateDocumentCallbackProps {
 interface UpdateDocumentCallbackProps {
   document: Document;
   description: string;
-  modelIdentifier: Model['id'];
+  modelIdentifier: CustomOpenAIProvider;
   dataStream: DataStreamWriter;
   userId: string;
 }

@@ -1,5 +1,7 @@
-export interface Model {
-  id: string;
+import { type CustomOpenAIProvider } from './setup-registry';
+
+interface Model {
+  id: CustomOpenAIProvider;
   label: string;
   description: string;
 }

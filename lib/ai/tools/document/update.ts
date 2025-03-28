@@ -6,10 +6,10 @@ import { sheetDocumentHandler } from '@/artifacts/sheet/server';
 import { textDocumentHandler } from '@/artifacts/text/server';
 import { getDocumentById } from '@/lib/db/queries/document';
 
-import type { Model } from '@/lib/ai/models';
+import { type CustomOpenAIProvider } from '@/lib/ai/setup-registry';
 
-export interface ExtendedOptions {
-  modelIdentifier: Model['id'];
+interface ExtendedOptions {
+  modelIdentifier: CustomOpenAIProvider;
   dataStream: DataStreamWriter;
   userId: string;
 }

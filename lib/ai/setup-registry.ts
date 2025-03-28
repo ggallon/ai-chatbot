@@ -27,3 +27,5 @@ const customOpenAI = customProvider({
 export const registry = createProviderRegistry({
   openai: customOpenAI,
 });
+
+export type CustomOpenAIProvider = `openai:${string}`;
