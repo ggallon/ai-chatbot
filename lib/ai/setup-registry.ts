@@ -1,8 +1,5 @@
 import { createOpenAI } from '@ai-sdk/openai';
-import {
-  experimental_createProviderRegistry as createProviderRegistry,
-  customProvider,
-} from 'ai';
+import { createProviderRegistry, customProvider } from 'ai';
 
 import { env } from '@/env/server';
 
