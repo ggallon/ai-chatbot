@@ -12,7 +12,6 @@ import {
 } from '@/lib/db/validations/file';
 import { DocumentToolCall, DocumentToolResult } from './document';
 import { PencilEditIcon, SparklesIcon } from './icons';
-import { Markdown } from './markdown';
 import { MessageActions } from './message-actions';
 import { MessageEditor } from './message-editor';
 import {
@@ -20,6 +19,7 @@ import {
   type MessageImagePrewiewProps,
 } from './message-image-preview';
 import { PreviewAttachment } from './preview-attachment';
+import { Markdown } from './render-markdown/markdown';
 import { Weather } from './weather';
 import { Button } from './ui/button';
 import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip';
