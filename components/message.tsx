@@ -168,7 +168,7 @@ const PurePreviewMessage = ({
               } else if (part.type === 'text' && mode === 'view') {
                 return (
                   <div
-                    className="flex flex-row items-start gap-2"
+                    className="flex gap-2 group-data-[role=user]/message:justify-end"
                     key={`${message.id}-${message.role}-${index}`}
                   >
                     {message.role === 'user' && !isReadonly && (
