@@ -22,10 +22,13 @@ export const MessageImagePrewiew = memo(function MessageImagePrewiew({
 }: MessageImagePrewiewProps) {
   return (
     <div
-      className={cn('group/image relative overflow-hidden rounded-2xl', {
-        'aspect-square max-w-[400px]': role === 'assistant',
-        'max-w-[256px] border': role === 'user',
-      })}
+      className={cn(
+        'group/image relative overflow-hidden rounded-2xl bg-white',
+        {
+          'aspect-square max-w-[400px]': role === 'assistant',
+          'max-w-[256px] border': role === 'user',
+        },
+      )}
     >
       <div className="relative h-full">
         <Zoom>
