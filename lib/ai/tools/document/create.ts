@@ -7,10 +7,10 @@ import { textDocumentHandler } from '@/artifacts/text/server';
 import { documentkindEnum } from '@/lib/db/schema';
 import { generateUUID } from '@/lib/utils/uuid';
 
-import { type CustomOpenAIProvider } from '@/lib/ai/setup-registry';
+import { type CustomModelIdProvider } from '@/lib/ai/setup-registry';
 
 interface ExtendedOptions {
-  modelIdentifier: CustomOpenAIProvider;
+  modelIdentifier: CustomModelIdProvider;
   dataStream: DataStreamWriter;
   userId: string;
 }

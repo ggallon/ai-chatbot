@@ -2,12 +2,12 @@ import { put } from '@vercel/blob';
 import { experimental_generateImage, tool, type UIMessage } from 'ai';
 import { z } from 'zod';
 
-import { registry, type CustomOpenAIProvider } from '@/lib/ai/setup-registry';
+import { registry, type CustomModelIdProvider } from '@/lib/ai/setup-registry';
 import { detectImageMimeType } from '@/lib/utils/detect-image-mime-type';
 
 interface ExtendedOptions {
   messageId: UIMessage['id'];
-  modelIdentifier: CustomOpenAIProvider;
+  modelIdentifier: CustomModelIdProvider;
   userId: string;
 }
 

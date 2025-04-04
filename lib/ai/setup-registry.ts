@@ -28,4 +28,6 @@ export const registry = createProviderRegistry({
   openai: customOpenAI,
 });
 
-export type CustomOpenAIProvider = `openai:${string}`;
+export type CustomModelIdProvider = Parameters<
+  (typeof registry)['languageModel']
+>['0'];

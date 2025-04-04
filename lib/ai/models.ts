@@ -1,7 +1,7 @@
-import { type CustomOpenAIProvider } from './setup-registry';
+import { type CustomModelIdProvider } from './setup-registry';
 
 interface Model {
-  id: CustomOpenAIProvider;
+  id: CustomModelIdProvider;
   label: string;
   description: string;
 }
