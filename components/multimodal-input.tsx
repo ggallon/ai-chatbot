@@ -292,12 +292,13 @@ function PureAttachmentsButton({
 }) {
   return (
     <Button
-      className="absolute right-11 bottom-2 m-0.5 h-fit rounded-full p-1.5 dark:border-zinc-700"
+      className="absolute right-11 bottom-2 size-7 rounded-full"
+      variant="outline"
+      size="icon"
       onClick={(event) => {
         event.preventDefault();
         fileInputRef.current?.click();
       }}
-      variant="outline"
       disabled={isLoading}
     >
       <PaperclipIcon size={14} />
@@ -316,7 +317,9 @@ function PureStopButton({
 }) {
   return (
     <Button
-      className="absolute right-2 bottom-2 m-0.5 h-fit rounded-full border p-1.5 dark:border-zinc-600"
+      className="absolute right-2 bottom-2 size-7 rounded-full"
+      variant="default"
+      size="icon"
       onClick={(event) => {
         event.preventDefault();
         stop();
@@ -342,14 +345,16 @@ function PureSendButton({
   const isDisabled = input.length === 0 || uploadQueue.length > 0;
   return (
     <Button
-      className="absolute right-2 bottom-2 m-0.5 h-fit rounded-full border p-1.5 dark:border-zinc-600"
+      className="absolute right-2 bottom-2 size-7 rounded-full"
+      variant="default"
+      size="icon"
       onClick={(event) => {
         event.preventDefault();
         submitForm();
       }}
       disabled={isDisabled}
     >
-      <ArrowUpIcon size={14} />
+      <ArrowUpIcon size={10} />
     </Button>
   );
 }

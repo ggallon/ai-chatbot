@@ -33,12 +33,10 @@ function PureArtifactActions({
         <TooltipTrigger asChild>
           <Button
             variant="outline"
-            className={cn(
-              'pointer-events-auto! h-fit p-2 dark:hover:bg-zinc-700',
-              {
-                'bg-muted': mode === 'diff',
-              },
-            )}
+            size="icon"
+            className={cn({
+              'bg-muted': mode === 'diff',
+            })}
             onClick={() => {
               handleVersionChange('toggle');
             }}
@@ -55,7 +53,7 @@ function PureArtifactActions({
         <TooltipTrigger asChild>
           <Button
             variant="outline"
-            className="pointer-events-auto! h-fit p-2 dark:hover:bg-zinc-700"
+            size="icon"
             onClick={() => {
               handleVersionChange('prev');
             }}
@@ -72,7 +70,7 @@ function PureArtifactActions({
         <TooltipTrigger asChild>
           <Button
             variant="outline"
-            className="pointer-events-auto! h-fit p-2 dark:hover:bg-zinc-700"
+            size="icon"
             onClick={() => {
               handleVersionChange('next');
             }}
@@ -87,7 +85,7 @@ function PureArtifactActions({
         <TooltipTrigger asChild>
           <Button
             variant="outline"
-            className="h-fit p-2 dark:hover:bg-zinc-700"
+            size="icon"
             onClick={() => {
               if (artifact.kind === 'image') {
                 copyImageToClipboard(artifact.content);

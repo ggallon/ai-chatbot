@@ -70,12 +70,13 @@ function PureMessageActions({
 
   return (
     <TooltipProvider delayDuration={0}>
-      <div className="flex flex-row gap-2">
+      <div className="flex flex-row gap-1">
         <Tooltip>
           <TooltipTrigger asChild>
             <Button
-              className="h-fit px-2 py-1 text-muted-foreground"
-              variant="outline"
+              className="h-8 text-muted-foreground"
+              variant="ghost"
+              size="icon"
               onClick={async () => {
                 await copyToClipboard(messageContent);
                 toast.success('Copied to clipboard!');
@@ -90,9 +91,10 @@ function PureMessageActions({
         <Tooltip>
           <TooltipTrigger asChild>
             <Button
-              className="pointer-events-auto! h-fit px-2 py-1 text-muted-foreground"
+              className="h-8 text-muted-foreground"
+              variant="ghost"
+              size="icon"
               disabled={vote?.isUpvoted}
-              variant="outline"
               onClick={async () => {
                 toast.promise(setVote('up'), {
                   loading: 'Upvoting Response...',
@@ -104,7 +106,7 @@ function PureMessageActions({
                 });
               }}
             >
-              <ThumbUpIcon />
+              <ThumbUpIcon size={16} />
             </Button>
           </TooltipTrigger>
           <TooltipContent>Upvote Response</TooltipContent>
@@ -113,8 +115,9 @@ function PureMessageActions({
         <Tooltip>
           <TooltipTrigger asChild>
             <Button
-              className="pointer-events-auto! h-fit px-2 py-1 text-muted-foreground"
-              variant="outline"
+              className="h-8 text-muted-foreground"
+              variant="ghost"
+              size="icon"
               disabled={vote && !vote.isUpvoted}
               onClick={async () => {
                 toast.promise(setVote('down'), {
@@ -127,7 +130,7 @@ function PureMessageActions({
                 });
               }}
             >
-              <ThumbDownIcon />
+              <ThumbDownIcon size={16} />
             </Button>
           </TooltipTrigger>
           <TooltipContent>Downvote Response</TooltipContent>
