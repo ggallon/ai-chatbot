@@ -18,9 +18,9 @@ import { fetcher } from '@/lib/utils/fetcher';
 
 import { DocumentToolCall, DocumentToolResult } from './document';
 import { InlineDocumentSkeleton } from './document-skeleton';
-import { Editor } from './editor';
 import { FileIcon, FullscreenIcon, ImageIcon, LoaderIcon } from './icons';
 import { ImageEditor } from './image-editor';
+import { Editor } from './text-editor';
 
 import type { Document, DocumentKind } from '@/lib/db/schema';
 import type { UIArtifact } from './artifact';
