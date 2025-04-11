@@ -3,7 +3,7 @@
 .vercel
 components/ui
 coverage
-hooks/use-mobile.tsx
+hooks/use-mobile.ts
 lib/db/migrations
 lib/editor/react-renderer.tsx
 public
