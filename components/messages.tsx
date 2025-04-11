@@ -3,7 +3,7 @@ import { memo } from 'react';
 
 import { PreviewMessage } from './message';
 import { ThinkingMessage } from './message-thinking';
-import { Overview } from './overview';
+import { Greeting } from './greeting';
 import { useScrollToBottom } from './use-scroll-to-bottom';
 
 import type { UseChatHelpers } from '@ai-sdk/react';
@@ -38,7 +38,7 @@ function PureMessages({
       ref={messagesContainerRef}
       className="flex min-w-0 flex-1 flex-col gap-6 overflow-y-scroll pt-4"
     >
-      {messages.length === 0 && <Overview />}
+      {messages.length === 0 && <Greeting />}
 
       {messages.map((message, index) => (
         <PreviewMessage
