@@ -1,8 +1,8 @@
 import { memo } from 'react';
 import equal from 'fast-deep-equal';
 
+import { useScrollToBottom } from '@/hooks/use-scroll-to-bottom';
 import { PreviewMessage } from './message';
-import { useScrollToBottom } from './use-scroll-to-bottom';
 
 import type { UseChatHelpers } from '@ai-sdk/react';
 import type { UIMessage } from 'ai';

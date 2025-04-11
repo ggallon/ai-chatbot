@@ -1,10 +1,10 @@
 import equal from 'fast-deep-equal';
 import { memo } from 'react';
 
+import { useScrollToBottom } from '@/hooks/use-scroll-to-bottom';
 import { PreviewMessage } from './message';
 import { ThinkingMessage } from './message-thinking';
 import { Greeting } from './greeting';
-import { useScrollToBottom } from './use-scroll-to-bottom';
 
 import type { UseChatHelpers } from '@ai-sdk/react';
 import type { UIMessage } from 'ai';
