@@ -35,6 +35,7 @@ export const POST = withAuth(async function POST(request) {
         file,
         {
           access: 'public',
+          addRandomSuffix: true,
         },
       );
 
