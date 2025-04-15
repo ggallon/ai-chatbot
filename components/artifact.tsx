@@ -27,7 +27,7 @@ import { MultimodalInput } from './multimodal-input';
 const DiffView = dynamic(() =>
   import('./diffview').then((mod) => mod.DiffView),
 );
-const Editor = dynamic(() => import('./editor').then((mod) => mod.Editor));
+const Editor = dynamic(() => import('./text-editor').then((mod) => mod.Editor));
 const ImageEditor = dynamic(() =>
   import('./image-editor').then((mod) => mod.ImageEditor),
 );
