@@ -17,11 +17,11 @@ export async function generateDraftText({
   const draftTextArray: string[] = [];
 
   for await (const delta of fullStream) {
-    if (delta.type === 'text-delta') {
-      draftTextArray.push(delta.textDelta);
+    if (delta.type === 'text') {
+      draftTextArray.push(delta.text);
       dataStream.writeData({
         type: 'text-delta',
-        content: delta.textDelta,
+        content: delta.text,
       });
     }
   }

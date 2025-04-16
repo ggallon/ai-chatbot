@@ -30,7 +30,7 @@ import type {
   SourceUIPart,
   TextUIPart,
   ToolInvocationUIPart,
-} from '@ai-sdk/ui-utils';
+} from 'ai';
 
 // custom lower function
 export function lower(email: AnyPgColumn): SQL {
