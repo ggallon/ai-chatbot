@@ -16,7 +16,7 @@ const customOpenAI = customProvider({
     // alias model with custom settings:
     'small-model': openai('gpt-4o-mini-2024-07-18'),
     'large-model': openai('gpt-4o-2024-08-06'),
-    'title-model': openai('gpt-4o-mini-2024-07-18'),
+    'title-model': openai('gpt-4.1-nano-2025-04-14'),
   },
   imageModels: {
     'small-model': openai.image('dall-e-2'),
