@@ -14,14 +14,14 @@ importers:
   .:
     dependencies:
       '@ai-sdk/openai':
-        specifier: 2.0.0-canary.7
-        version: 2.0.0-canary.7(zod@3.24.3)
-      '@ai-sdk/provider':
-        specifier: 2.0.0-canary.6
-        version: 2.0.0-canary.6
+        specifier: 1.3.12
+        version: 1.3.12(zod@3.24.3)
       '@ai-sdk/react':
-        specifier: 2.0.0-canary.7
-        version: 2.0.0-canary.7(react@19.2.0-canary-b04254fd-20250415)(zod@3.24.3)
+        specifier: 1.2.9
+        version: 1.2.9(react@19.2.0-canary-b04254fd-20250415)(zod@3.24.3)
+      '@ai-sdk/ui-utils':
+        specifier: 1.2.8
+        version: 1.2.8(zod@3.24.3)
       '@radix-ui/react-alert-dialog':
         specifier: 1.1.7
         version: 1.1.7(@types/react-dom@19.1.2(@types/react@19.1.2))(@types/react@19.1.2)(react-dom@19.2.0-canary-b04254fd-20250415(react@19.2.0-canary-b04254fd-20250415))(react@19.2.0-canary-b04254fd-20250415)
@@ -59,8 +59,8 @@ importers:
         specifier: 0.10.0
         version: 0.10.0
       ai:
-        specifier: 5.0.0-canary.8
-        version: 5.0.0-canary.8(zod@3.24.3)
+        specifier: 4.3.7
+        version: 4.3.7(react@19.2.0-canary-b04254fd-20250415)(zod@3.24.3)
       bcrypt-ts:
         specifier: 5.0.3
         version: 5.0.3
@@ -323,24 +323,24 @@ packages:
   '@adobe/css-tools@4.4.2':
     resolution: {integrity: sha512-baYZExFpsdkBNuvGKTKWCwKH57HRZLVtycZS05WTQNVOiXVSeAki3nU35zlRbToeMW8aHlJfyS+1C4BOv27q0A==}
 
-  '@ai-sdk/openai@2.0.0-canary.7':
-    resolution: {integrity: sha512-IKonvkvBO10SZu4vRpo5yKiLDLnGwCbY+mW4CTxGQCDnku6mFA1AsrX5yPGYVOBzplMUWZCkfjSLCyxLo1SGRQ==}
+  '@ai-sdk/openai@1.3.12':
+    resolution: {integrity: sha512-ueAP69p8a/ZR2ns+pmlr9h/nyV2/DAwzfnPUGZiLpXbxWnLXd2g3a7l38CuEhBydH/nOfDb/byMgpS8+bnJHTg==}
     engines: {node: '>=18'}
     peerDependencies:
       zod: ^3.0.0
 
-  '@ai-sdk/provider-utils@3.0.0-canary.7':
-    resolution: {integrity: sha512-eVsCJx9CJZ8ZMzgBHn02dYbKjUl54ji9yV5+mTIL7h9+iVpqRNX4/570cFc+dPuy/WuTf6Mqnw3esbK1WgWhSw==}
+  '@ai-sdk/provider-utils@2.2.7':
+    resolution: {integrity: sha512-kM0xS3GWg3aMChh9zfeM+80vEZfXzR3JEUBdycZLtbRZ2TRT8xOj3WodGHPb06sUK5yD7pAXC/P7ctsi2fvUGQ==}
     engines: {node: '>=18'}
     peerDependencies:
       zod: ^3.23.8
 
-  '@ai-sdk/provider@2.0.0-canary.6':
-    resolution: {integrity: sha512-cvl91VElPdC8oBzNyjcpH/3Vc73/JpJkH2sNejyAN5dAlMt8zNsYkYxLb2TBdnqmFEiBkU2lEDIOCq1QLaZbSw==}
+  '@ai-sdk/provider@1.1.3':
+    resolution: {integrity: sha512-qZMxYJ0qqX/RfnuIaab+zp8UAeJn/ygXXAffR5I4N0n1IrvA6qBsjc8hXLmBiMV2zoXlifkacF7sEFnYnjBcqg==}
     engines: {node: '>=18'}
 
-  '@ai-sdk/react@2.0.0-canary.7':
-    resolution: {integrity: sha512-bDeW7CwbrKZBNX8sFsdcJ4xZnV9dfiFBqyjjsihrIIqNUwiIFx8JaIstzdgah0tz9PRxhZJIP3sgEnCLeg+R3g==}
+  '@ai-sdk/react@1.2.9':
+    resolution: {integrity: sha512-/VYm8xifyngaqFDLXACk/1czDRCefNCdALUyp+kIX6DUIYUWTM93ISoZ+qJ8+3E+FiJAKBQz61o8lIIl+vYtzg==}
     engines: {node: '>=18'}
     peerDependencies:
       react: ^18 || ^19 || ^19.0.0-rc
@@ -348,6 +348,12 @@ packages:
     peerDependenciesMeta:
       zod:
         optional: true
+
+  '@ai-sdk/ui-utils@1.2.8':
+    resolution: {integrity: sha512-nls/IJCY+ks3Uj6G/agNhXqQeLVqhNfoJbuNgCny+nX2veY5ADB91EcZUqVeQ/ionul2SeUswPY6Q/DxteY29Q==}
+    engines: {node: '>=18'}
+    peerDependencies:
+      zod: ^3.23.8
 
   '@alloc/quick-lru@5.2.0':
     resolution: {integrity: sha512-UrcABB+4bUrFABwbluTIBErXwvbsU/V7TZWfmbgJfbkwiBuziS9gxdODUyuiecfdGQ85jglMW6juS3+z5TsKLw==}
@@ -1721,6 +1727,9 @@ packages:
   '@types/debug@4.1.12':
     resolution: {integrity: sha512-vIChWdVG3LG1SMxEvI/AK+FWJthlrqlTu7fbrlywTkkaONwk/UAGaULXRlf8vkzFBLVm0zkMdCquhL5aOjhXPQ==}
 
+  '@types/diff-match-patch@1.0.36':
+    resolution: {integrity: sha512-xFdR6tkm0MWvBfO8xXCSsinYxHcqkQUlcHeSpMC2ukzOb6lwQAfDmW+Qt0AvlGd8HpsS28qKsB+oPeJn9I39jg==}
+
   '@types/doctrine@0.0.9':
     resolution: {integrity: sha512-eOIHzCUSH7SMfonMG1LsC2f8vxBFtho6NGBznK41R84YzPuvSBzrhEps33IsQiOW9+VL6NQ9DbjQJznk/S4uRA==}
 
@@ -1989,11 +1998,15 @@ packages:
     resolution: {integrity: sha512-jRR5wdylq8CkOe6hei19GGZnxM6rBGwFl3Bg0YItGDimvjGtAvdZk4Pu6Cl4u4Igsws4a1fd1Vq3ezrhn4KmFw==}
     engines: {node: '>= 14'}
 
-  ai@5.0.0-canary.8:
-    resolution: {integrity: sha512-kVxtNIIpcFOYC94C3JEdfHGpvuQUQ7+DoOpts7u2PBC1UwA7Mjwo3PF14pAnLuspN1QhDEFsG36MyWRF+HJWvg==}
+  ai@4.3.7:
+    resolution: {integrity: sha512-lUwpDjv4neo/OBe092LYOZtFMoMtrBDf3/bKUuM8Tc+2MCpLNgD21NDT9+Zo6Z0g1vRzz2VIurNwH/FumVFG9g==}
     engines: {node: '>=18'}
     peerDependencies:
+      react: ^18 || ^19 || ^19.0.0-rc
       zod: ^3.23.8
+    peerDependenciesMeta:
+      react:
+        optional: true
 
   ajv@6.12.6:
     resolution: {integrity: sha512-j3fVLgvTo527anyYyJOGTYJbG+vnnQYvE0m5mmkc1TK+nxAppkCLMIL0aZ4dblVCNoGShhm+kzE4ZUykBoMg4g==}
@@ -2159,6 +2172,10 @@ packages:
   chalk@4.1.2:
     resolution: {integrity: sha512-oKnbhFyRIXpUuez8iBMmyEa4nbj4IOQyuhc/wy9kY7/WVPcwIO9VA668Pu8RkO7+0G76SLROeyw9CpQ061i4mA==}
     engines: {node: '>=10'}
+
+  chalk@5.4.1:
+    resolution: {integrity: sha512-zgVZuo2WcZgfUEmsn6eO3kINexW8RAE4maiQ8QNs8CtpPCSyMiYsULR3HQYkm3w8FIA3SberyMJMSldGsW+U3w==}
+    engines: {node: ^12.17.0 || ^14.13 || >=16.0.0}
 
   character-entities-html4@2.1.0:
     resolution: {integrity: sha512-1v7fgQRj6hnSwFpq1Eu0ynr/CDEw0rXo2B61qXrLNdHZmPKgb7fqS1a2JwF0rISo9q77jDI8VMEHoApn8qDoZA==}
@@ -3117,6 +3134,11 @@ packages:
     engines: {node: '>=6'}
     hasBin: true
 
+  jsondiffpatch@0.6.0:
+    resolution: {integrity: sha512-3QItJOXp2AP1uv7waBkao5nCvhEv+QmJAd38Ybq7wNI74Q+BBmnLn4EDKz6yI9xGAIQoUF87qHt+kc1IVxB4zQ==}
+    engines: {node: ^18.0.0 || >=20.0.0}
+    hasBin: true
+
   jsx-ast-utils@3.3.5:
     resolution: {integrity: sha512-ZZow9HBI5O6EPgSJLUb8n2NKgmVWTwCvHGwFuJlMjvLFqlGG6pjirPhtdsseaLZjSibD8eegzmYpUZwoIlj2cQ==}
     engines: {node: '>=4.0'}
@@ -4003,6 +4025,9 @@ packages:
   scheduler@0.27.0-canary-b04254fd-20250415:
     resolution: {integrity: sha512-PHwcYn4dnzhcCs4lSSGt59BcozikElyEM6LxXRyj3KA1tnIczZpjn3+NEpNGP9IDz6n2lpXQ7LbHX1rMGfVesg==}
 
+  secure-json-parse@2.7.0:
+    resolution: {integrity: sha512-6aU+Rwsezw7VR8/nyvKTx8QpWH9FrcYiXXlqC4z5d5XQBDRqtbfsRjnwGyqbi3gddNtWHuEk9OANUotL26qKUw==}
+
   semver@6.3.1:
     resolution: {integrity: sha512-BR7VvDCVHO+q2xBEWskxS6DJE1qRnb7DxzUrogb71CWoSficBxYsiAGd+Kl0mmq/MprG9yArRkyrQxTO6XjMzA==}
     hasBin: true
@@ -4642,30 +4667,39 @@ snapshots:
 
   '@adobe/css-tools@4.4.2': {}
 
-  '@ai-sdk/openai@2.0.0-canary.7(zod@3.24.3)':
+  '@ai-sdk/openai@1.3.12(zod@3.24.3)':
     dependencies:
-      '@ai-sdk/provider': 2.0.0-canary.6
-      '@ai-sdk/provider-utils': 3.0.0-canary.7(zod@3.24.3)
+      '@ai-sdk/provider': 1.1.3
+      '@ai-sdk/provider-utils': 2.2.7(zod@3.24.3)
       zod: 3.24.3
 
-  '@ai-sdk/provider-utils@3.0.0-canary.7(zod@3.24.3)':
+  '@ai-sdk/provider-utils@2.2.7(zod@3.24.3)':
     dependencies:
-      '@ai-sdk/provider': 2.0.0-canary.6
+      '@ai-sdk/provider': 1.1.3
+      nanoid: 3.3.11
+      secure-json-parse: 2.7.0
       zod: 3.24.3
 
-  '@ai-sdk/provider@2.0.0-canary.6':
+  '@ai-sdk/provider@1.1.3':
     dependencies:
       json-schema: 0.4.0
 
-  '@ai-sdk/react@2.0.0-canary.7(react@19.2.0-canary-b04254fd-20250415)(zod@3.24.3)':
+  '@ai-sdk/react@1.2.9(react@19.2.0-canary-b04254fd-20250415)(zod@3.24.3)':
     dependencies:
-      '@ai-sdk/provider-utils': 3.0.0-canary.7(zod@3.24.3)
-      ai: 5.0.0-canary.8(zod@3.24.3)
+      '@ai-sdk/provider-utils': 2.2.7(zod@3.24.3)
+      '@ai-sdk/ui-utils': 1.2.8(zod@3.24.3)
       react: 19.2.0-canary-b04254fd-20250415
       swr: 2.3.3(react@19.2.0-canary-b04254fd-20250415)
       throttleit: 2.1.0
     optionalDependencies:
       zod: 3.24.3
+
+  '@ai-sdk/ui-utils@1.2.8(zod@3.24.3)':
+    dependencies:
+      '@ai-sdk/provider': 1.1.3
+      '@ai-sdk/provider-utils': 2.2.7(zod@3.24.3)
+      zod: 3.24.3
+      zod-to-json-schema: 3.24.5(zod@3.24.3)
 
   '@alloc/quick-lru@5.2.0': {}
 
@@ -5792,6 +5826,8 @@ snapshots:
     dependencies:
       '@types/ms': 2.1.0
 
+  '@types/diff-match-patch@1.0.36': {}
+
   '@types/doctrine@0.0.9': {}
 
   '@types/estree-jsx@1.0.5':
@@ -6088,13 +6124,17 @@ snapshots:
 
   agent-base@7.1.3: {}
 
-  ai@5.0.0-canary.8(zod@3.24.3):
+  ai@4.3.7(react@19.2.0-canary-b04254fd-20250415)(zod@3.24.3):
     dependencies:
-      '@ai-sdk/provider': 2.0.0-canary.6
-      '@ai-sdk/provider-utils': 3.0.0-canary.7(zod@3.24.3)
+      '@ai-sdk/provider': 1.1.3
+      '@ai-sdk/provider-utils': 2.2.7(zod@3.24.3)
+      '@ai-sdk/react': 1.2.9(react@19.2.0-canary-b04254fd-20250415)(zod@3.24.3)
+      '@ai-sdk/ui-utils': 1.2.8(zod@3.24.3)
       '@opentelemetry/api': 1.9.0
+      jsondiffpatch: 0.6.0
       zod: 3.24.3
-      zod-to-json-schema: 3.24.5(zod@3.24.3)
+    optionalDependencies:
+      react: 19.2.0-canary-b04254fd-20250415
 
   ajv@6.12.6:
     dependencies:
@@ -6278,6 +6318,8 @@ snapshots:
     dependencies:
       ansi-styles: 4.3.0
       supports-color: 7.2.0
+
+  chalk@5.4.1: {}
 
   character-entities-html4@2.1.0: {}
 
@@ -7364,6 +7406,12 @@ snapshots:
   json-stable-stringify-without-jsonify@1.0.1: {}
 
   json5@2.2.3: {}
+
+  jsondiffpatch@0.6.0:
+    dependencies:
+      '@types/diff-match-patch': 1.0.36
+      chalk: 5.4.1
+      diff-match-patch: 1.0.5
 
   jsx-ast-utils@3.3.5:
     dependencies:
@@ -8492,6 +8540,8 @@ snapshots:
       xmlchars: 2.2.0
 
   scheduler@0.27.0-canary-b04254fd-20250415: {}
+
+  secure-json-parse@2.7.0: {}
 
   semver@6.3.1: {}
 

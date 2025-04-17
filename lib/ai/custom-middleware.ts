@@ -1,3 +1,3 @@
-import type { LanguageModelV2Middleware } from '@ai-sdk/provider';
+import type { LanguageModelV1Middleware } from 'ai';
 
-export const customMiddleware: LanguageModelV2Middleware = {};
+export const customMiddleware: LanguageModelV1Middleware = {};
