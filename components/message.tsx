@@ -236,7 +236,7 @@ export const PreviewMessage = memo(
   PurePreviewMessage,
   (prevProps, nextProps) => {
     if (prevProps.isLoading !== nextProps.isLoading) return false;
-    if (prevProps.message.content !== nextProps.message.content) return false;
+    if (prevProps.message.id !== nextProps.message.id) return false;
     if (!equal(prevProps.message.parts, nextProps.message.parts)) return false;
     if (!equal(prevProps.vote, nextProps.vote)) return false;
 

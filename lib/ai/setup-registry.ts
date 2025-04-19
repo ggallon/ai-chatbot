@@ -1,5 +1,10 @@
 import { createOpenAI } from '@ai-sdk/openai';
-import { createProviderRegistry, customProvider } from 'ai';
+import {
+  createProviderRegistry,
+  customProvider,
+  extractReasoningMiddleware,
+  wrapLanguageModel,
+} from 'ai';
 
 import { env } from '@/env/server';
 
@@ -16,6 +21,10 @@ const customOpenAI = customProvider({
     // alias model with custom settings:
     'small-model': openai('gpt-4o-mini-2024-07-18'),
     'large-model': openai('gpt-4o-2024-08-06'),
+    'reasoning-model': wrapLanguageModel({
+      model: openai.responses('o4-mini-2025-04-16'),
+      middleware: extractReasoningMiddleware({ tagName: 'think' }),
+    }),
     'title-model': openai('gpt-4.1-nano-2025-04-14'),
   },
   imageModels: {

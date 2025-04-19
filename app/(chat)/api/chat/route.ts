@@ -8,10 +8,10 @@ import {
   type UIMessage,
 } from 'ai';
 
-import { customModel } from '@/lib/ai';
+import { registry } from '@/lib/ai/setup-registry';
 import { withAuth } from '@/lib/api/with-auth';
-import { models } from '@/lib/ai/models';
-import { systemPrompt } from '@/lib/ai/prompts';
+import { isReasoningModel, models } from '@/lib/ai/models';
+import { simplePrompt, systemPrompt } from '@/lib/ai/prompts';
 import { allowedTools } from '@/lib/ai/tools';
 import { generateImage } from '@/lib/ai/tools/generate-image';
 import { generateTitleFromUserMessage } from '@/lib/ai/tools/generate-title-chat';
@@ -77,14 +77,16 @@ export const POST = withAuth(async function POST(request) {
     });
   }
 
+  const isReasoning = isReasoningModel(model);
   return createDataStreamResponse({
     execute: (dataStream) => {
       const result = streamText({
-        model: customModel(model.id),
-        system: systemPrompt,
+        model: registry.languageModel(model.id),
+        system: isReasoning ? simplePrompt : systemPrompt,
         messages,
         maxSteps: 5,
-        experimental_activeTools: allowedTools,
+        temperature: isReasoning ? 1 : undefined,
+        experimental_activeTools: isReasoning ? [] : allowedTools,
         experimental_generateMessageId: generateUUID,
         tools: {
           generateImage: generateImage({
@@ -135,7 +137,10 @@ export const POST = withAuth(async function POST(request) {
         },
       });
 
-      result.mergeIntoDataStream(dataStream);
+      result.mergeIntoDataStream(dataStream, {
+        sendReasoning: isReasoning,
+        sendUsage: true,
+      });
     },
     onError: (error) => {
       // Error messages are masked by default for security reasons.

@@ -28,7 +28,7 @@ const ArtifactPrompt = `
   Do not update document right after creating it. Wait for user feedback or request to update it.
   `;
 
-const simplePrompt =
+export const simplePrompt =
   'You are a friendly assistant! Keep your responses concise and helpful.';
 
 export const systemPrompt = `${simplePrompt}\n\n${ArtifactPrompt}`;
