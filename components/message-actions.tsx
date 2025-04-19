@@ -19,12 +19,12 @@ import type { Vote } from '@/lib/db/schema';
 function PureMessageActions({
   chatId,
   messageId,
-  messageContent,
+  messageParts,
   vote,
 }: {
   chatId: string;
   messageId: UIMessage['id'];
-  messageContent: UIMessage['content'];
+  messageParts?: UIMessage['parts'];
   vote: Vote | undefined;
 }) {
   const [_, copyToClipboard] = useCopyToClipboard();
@@ -78,7 +78,18 @@ function PureMessageActions({
               variant="ghost"
               size="icon"
               onClick={async () => {
-                await copyToClipboard(messageContent);
+                const textFromParts = messageParts
+                  ?.filter((part) => part.type === 'text')
+                  .map((part) => part.text)
+                  .join('\n')
+                  .trim();
+
+                if (!textFromParts) {
+                  toast.error("There's no text to copy!");
+                  return;
+                }
+
+                await copyToClipboard(textFromParts);
                 toast.success('Copied to clipboard!');
               }}
             >
@@ -143,7 +154,6 @@ function PureMessageActions({
 export const MessageActions = memo(
   PureMessageActions,
   (prevProps, nextProps) => {
-    if (prevProps.messageContent !== nextProps.messageContent) return false;
     if (!equal(prevProps.vote, nextProps.vote)) return false;
 
     return true;
