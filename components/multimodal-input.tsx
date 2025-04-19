@@ -39,7 +39,7 @@ function PureMultimodalInput({
   chatId,
   input,
   setInput,
-  isLoading,
+  status,
   stop,
   attachments,
   setAttachments,
@@ -52,7 +52,7 @@ function PureMultimodalInput({
   chatId: string;
   input: UseChatHelpers['input'];
   setInput: UseChatHelpers['setInput'];
-  isLoading: boolean;
+  status: UseChatHelpers['status'];
   stop: UseChatHelpers['stop'];
   attachments: Array<Attachment>;
   setAttachments: Dispatch<SetStateAction<Array<Attachment>>>;
@@ -195,14 +195,14 @@ function PureMultimodalInput({
       if (isEnterPress && isNotComposing) {
         event.preventDefault();
 
-        if (isLoading) {
+        if (status !== 'ready') {
           toast.error('Please wait for the model to finish its response!');
         } else {
           submitForm();
         }
       }
     },
-    [isLoading, submitForm],
+    [status, submitForm],
   );
 
   return (
@@ -256,7 +256,7 @@ function PureMultimodalInput({
         onKeyDown={handleSendMessage}
       />
 
-      {isLoading ? (
+      {['submitted', 'streaming'].includes(status) ? (
         <StopButton stop={stop} setMessages={setMessages} />
       ) : (
         <SendButton
@@ -266,7 +266,7 @@ function PureMultimodalInput({
         />
       )}
 
-      <AttachmentsButton fileInputRef={fileInputRef} isLoading={isLoading} />
+      <AttachmentsButton fileInputRef={fileInputRef} status={status} />
     </div>
   );
 }
@@ -275,7 +275,7 @@ export const MultimodalInput = memo(
   PureMultimodalInput,
   (prevProps, nextProps) => {
     if (prevProps.input !== nextProps.input) return false;
-    if (prevProps.isLoading !== nextProps.isLoading) return false;
+    if (prevProps.status !== nextProps.status) return false;
     if (!equal(prevProps.attachments, nextProps.attachments)) return false;
     if (prevProps.messages.length !== nextProps.messages.length) return false;
 
@@ -285,10 +285,10 @@ export const MultimodalInput = memo(
 
 function PureAttachmentsButton({
   fileInputRef,
-  isLoading,
+  status,
 }: {
   fileInputRef: React.RefObject<HTMLInputElement | null>;
-  isLoading: boolean;
+  status: UseChatHelpers['status'];
 }) {
   return (
     <Button
@@ -299,7 +299,7 @@ function PureAttachmentsButton({
         event.preventDefault();
         fileInputRef.current?.click();
       }}
-      disabled={isLoading}
+      disabled={status !== 'ready'}
     >
       <PaperclipIcon size={14} />
     </Button>

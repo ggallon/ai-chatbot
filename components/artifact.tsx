@@ -68,7 +68,7 @@ function PureArtifact({
   input,
   setInput,
   handleSubmit,
-  isLoading,
+  status,
   stop,
   attachments,
   setAttachments,
@@ -82,7 +82,7 @@ function PureArtifact({
   chatId: string;
   input: UseChatHelpers['input'];
   setInput: UseChatHelpers['setInput'];
-  isLoading: boolean;
+  status: UseChatHelpers['status'];
   stop: UseChatHelpers['stop'];
   attachments: Array<Attachment>;
   setAttachments: Dispatch<SetStateAction<Array<Attachment>>>;
@@ -312,7 +312,7 @@ function PureArtifact({
               <div className="flex h-full flex-col items-center justify-between gap-4">
                 <ArtifactMessages
                   chatId={chatId}
-                  isLoading={isLoading}
+                  status={status}
                   votes={votes}
                   messages={messages}
                   setMessages={setMessages}
@@ -327,7 +327,7 @@ function PureArtifact({
                     input={input}
                     setInput={setInput}
                     handleSubmit={handleSubmit}
-                    isLoading={isLoading}
+                    status={status}
                     stop={stop}
                     attachments={attachments}
                     setAttachments={setAttachments}
@@ -520,7 +520,7 @@ function PureArtifact({
                       isToolbarVisible={isToolbarVisible}
                       setIsToolbarVisible={setIsToolbarVisible}
                       append={append}
-                      isLoading={isLoading}
+                      status={status}
                       stop={stop}
                       setMessages={setMessages}
                       artifactKind={artifact.kind}
@@ -547,7 +547,7 @@ function PureArtifact({
 }
 
 export const Artifact = memo(PureArtifact, (prevProps, nextProps) => {
-  if (prevProps.isLoading !== nextProps.isLoading) return false;
+  if (prevProps.status !== nextProps.status) return false;
   if (prevProps.input !== nextProps.input) return false;
   if (!equal(prevProps.votes, nextProps.votes)) return false;
   if (prevProps.messages.length !== nextProps.messages.length) return false;
