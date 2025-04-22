@@ -39,17 +39,15 @@ import {
 
 import type { UseChatHelpers } from '@ai-sdk/react';
 import type { ChatRequestOptions, CreateMessage, Message } from 'ai';
+import type { ArtifactCodeToolsTypes } from '@/artifacts/code/tools';
+import type { ArtifactSheetToolsTypes } from '@/artifacts/sheet/tools';
+import type { ArtifactTextToolsTypes } from '@/artifacts/text/tools';
 import type { DocumentKind } from '@/lib/db/schema';
 
 type ArtifactToolTypes =
-  | 'analyze-visualize'
-  | 'final-polish'
-  | 'format-clean'
-  | 'request-suggestions'
-  | 'adjust-reading-level'
-  | 'code-review'
-  | 'add-comments'
-  | 'add-logs';
+  | ArtifactCodeToolsTypes
+  | ArtifactSheetToolsTypes
+  | ArtifactTextToolsTypes;
 
 type ToolProps = {
   type: ArtifactToolTypes;
