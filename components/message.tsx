@@ -198,7 +198,7 @@ const PurePreviewMessage = ({
                       </Tooltip>
                     )}
                     {message.role === 'assistant' ? (
-                      <div className="prose flex max-w-none flex-col dark:prose-invert prose-p:my-2 prose-pre:my-1 prose-pre:bg-(--color-sidebar) prose-pre:p-0 prose-ol:my-0 prose-ul:my-0">
+                      <div className="prose flex max-w-none flex-col dark:prose-invert prose-p:mt-0 prose-p:mb-2 prose-pre:my-2 prose-pre:bg-(--color-sidebar) prose-pre:p-0 prose-ol:my-0 prose-ul:my-0">
                         <Markdown>{part.text}</Markdown>
                       </div>
                     ) : (
