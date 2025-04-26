@@ -18,6 +18,7 @@ import {
   MessageImagePrewiew,
   type MessageImagePrewiewProps,
 } from './message-image-preview';
+import { MessageReasoning } from './message-reasoning';
 import { PreviewAttachment } from './preview-attachment';
 import { Markdown } from './render-markdown/markdown';
 import { Weather } from './weather';
@@ -108,7 +109,15 @@ const PurePreviewMessage = ({
               )}
 
             {message.parts.map((part, index) => {
-              if (part.type === 'tool-invocation') {
+              if (part.type === 'reasoning') {
+                return (
+                  <MessageReasoning
+                    key={`${message.id}-${message.role}-${index}`}
+                    isLoading={isLoading}
+                    reasoning={part.reasoning}
+                  />
+                );
+              } else if (part.type === 'tool-invocation') {
                 const toolName = part.toolInvocation.toolName;
 
                 if (isAllowedTool(toolName)) {
