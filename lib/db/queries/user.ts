@@ -1,10 +1,10 @@
 import 'server-only';
 
-import { genSaltSync, hashSync } from 'bcrypt-ts';
 import { eq } from 'drizzle-orm';
 
 import { db } from '@/lib/db/neon';
 import { lower, user, type InsertUser } from '@/lib/db/schema';
+import { getHashPassword } from '@/lib/utils/get-hash-password';
 
 export async function getUserByEmail(email: string) {
   try {
@@ -18,10 +18,8 @@ export async function getUserByEmail(email: string) {
 }
 
 export async function createUser({ email, image, password }: InsertUser) {
-  const salt = genSaltSync(10);
-  const hash = hashSync(password, salt);
-
   try {
+    const hash = getHashPassword(password);
     return await db
       .insert(user)
       .values({ email: email.toLowerCase(), image, password: hash })

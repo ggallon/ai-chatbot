@@ -5,6 +5,7 @@ import { ZodError } from 'zod';
 
 import { getUserByEmail } from '@/lib/db/queries/user';
 import { authFormSchema } from '@/lib/db/validations/auth';
+import { getFakeHashPassword } from '@/lib/utils/get-hash-password';
 import { authConfig } from './auth.config';
 
 export const {
@@ -31,6 +32,7 @@ export const {
               throw new Error('Invalid credentials.');
             }
           } else {
+            await compare(password, getFakeHashPassword());
             throw new Error('Invalid credentials.');
           }
         } catch (error) {
