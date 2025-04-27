@@ -10,15 +10,21 @@ import { getChatById } from '@/lib/db/queries/chat';
 import { getMessagesByChatId } from '@/lib/db/queries/message';
 import { getFormatedChatTitle } from '@/lib/utils/get-formated-chat-title';
 
+import type { Metadata } from 'next';
+
+interface PageProps {
+  params: Promise<{ id: string }>;
+}
+
 const getCacheChatById = cache(async (id: string) => {
   return await getChatById({ id });
 });
 
-export async function generateMetadata(props: {
-  params: Promise<{ id: string }>;
-}) {
-  const params = await props.params;
-  const chat = await getCacheChatById(params.id);
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
+  const chatId = (await params).id;
+  const chat = await getCacheChatById(chatId);
   if (!chat) {
     notFound();
   }
@@ -30,7 +36,7 @@ export async function generateMetadata(props: {
   };
 }
 
-export default async function Page(props: { params: Promise<{ id: string }> }) {
+export default async function Page(props: PageProps) {
   const [session, selectedModelId, params] = await Promise.all([
     auth(),
     getSelectedModelId(),

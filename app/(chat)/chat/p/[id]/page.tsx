@@ -7,15 +7,21 @@ import { convertToUIMessages } from '@/lib/ai/utils';
 import { getChatByIdWithMessages } from '@/lib/db/queries/chat';
 import { getFormatedChatTitle } from '@/lib/utils/get-formated-chat-title';
 
+import type { Metadata } from 'next';
+
+interface PageProps {
+  params: Promise<{ id: string }>;
+}
+
 const getPublicChatByIdWithMessages = cache(async ({ id }: { id: string }) => {
   return await getChatByIdWithMessages({ id, visibility: 'public' });
 });
 
-export async function generateMetadata(props: {
-  params: Promise<{ id: string }>;
-}) {
-  const params = await props.params;
-  const chat = await getPublicChatByIdWithMessages({ id: params.id });
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
+  const id = (await params).id;
+  const chat = await getPublicChatByIdWithMessages({ id });
   if (!chat) {
     notFound();
   }
@@ -27,9 +33,9 @@ export async function generateMetadata(props: {
   };
 }
 
-export default async function Page(props: { params: Promise<{ id: string }> }) {
-  const params = await props.params;
-  const chat = await getPublicChatByIdWithMessages({ id: params.id });
+export default async function Page({ params }: PageProps) {
+  const id = (await params).id;
+  const chat = await getPublicChatByIdWithMessages({ id });
   if (!chat) {
     notFound();
   }
