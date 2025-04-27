@@ -6,8 +6,10 @@ import { Chat } from '@/components/chat';
 import { DataStreamHandler } from '@/components/data-stream-handler';
 import { convertToUIMessages } from '@/lib/ai/utils';
 import { getSelectedModelId } from '@/lib/utils/get-selected-model-id';
-import { getChatById } from '@/lib/db/queries/chat';
-import { getMessagesByChatId } from '@/lib/db/queries/message';
+import {
+  getChatById,
+  getChatByIdWithMessagesAndVotes,
+} from '@/lib/db/queries/chat';
 import { getFormatedChatTitle } from '@/lib/utils/get-formated-chat-title';
 
 import type { Metadata } from 'next';
@@ -47,26 +49,22 @@ export default async function Page(props: PageProps) {
     redirect('/login');
   }
 
-  const chat = await getCacheChatById(params.id);
+  const chat = await getChatByIdWithMessagesAndVotes({
+    id: params.id,
+    sessionUserId: session.user.id,
+  });
   if (!chat) {
     notFound();
   }
-
-  const isChatOwner = chat.userId === session.user.id;
-  if (chat.visibility === 'private' && !isChatOwner) {
-    notFound();
-  }
-
-  const messagesFromDb = await getMessagesByChatId({ id: chat.id });
 
   return (
     <>
       <Chat
         id={chat.id}
-        initialMessages={convertToUIMessages(messagesFromDb)}
+        initialMessages={convertToUIMessages(chat.messages)}
         selectedModelId={selectedModelId}
         selectedVisibilityType={chat.visibility}
-        isReadonly={!isChatOwner}
+        isReadonly={chat.userId !== session.user.id}
       />
       <DataStreamHandler id={chat.id} />
     </>

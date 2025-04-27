@@ -1,6 +1,6 @@
 import 'server-only';
 
-import { and, desc, eq } from 'drizzle-orm';
+import { and, desc, eq, ne, or, sql } from 'drizzle-orm';
 
 import { db } from '@/lib/db/neon';
 import {
@@ -8,6 +8,7 @@ import {
   type Chat,
   type ChatVisibility,
   type ChatWithMessages,
+  type ChatWithMessagesAndVote,
   type InsertChat,
 } from '@/lib/db/schema';
 
@@ -66,6 +67,51 @@ export async function getChatByIdWithMessages({
     });
   } catch (error) {
     console.error('Failed to get chat by id from database');
+    throw error;
+  }
+}
+
+const preparedChatByIdWithMessagesAndVotes = db.query.chat
+  .findFirst({
+    where: and(
+      eq(chat.id, sql.placeholder('id')),
+      or(
+        eq(chat.userId, sql.placeholder('sessionUserId')),
+        and(
+          ne(chat.userId, sql.placeholder('sessionUserId')),
+          eq(chat.visibility, 'public'),
+        ),
+      ),
+    ),
+    with: {
+      messages: {
+        orderBy: (message, { asc }) => [asc(message.createdAt)],
+        with: {
+          vote: {
+            columns: {
+              isUpvoted: true,
+            },
+          },
+        },
+      },
+    },
+  })
+  .prepare('query_chats');
+
+export async function getChatByIdWithMessagesAndVotes({
+  id,
+  sessionUserId,
+}: {
+  id: Chat['id'];
+  sessionUserId: Chat['userId'];
+}): Promise<ChatWithMessagesAndVote | undefined> {
+  try {
+    return await preparedChatByIdWithMessagesAndVotes.execute({
+      id,
+      sessionUserId,
+    });
+  } catch (error) {
+    console.error('Failed to get from database');
     throw error;
   }
 }

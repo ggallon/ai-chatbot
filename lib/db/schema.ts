@@ -207,8 +207,18 @@ export const messageRelations = relations(message, ({ one }) => ({
     fields: [message.chatId],
     references: [chat.id],
   }),
+  vote: one(vote, {
+    fields: [message.chatId, message.id],
+    references: [vote.chatId, vote.messageId],
+  }),
 }));
 
-export type MessageWithChat = Message & {
-  chat: Chat;
+export type MessageWithVote = Message & {
+  vote: {
+    isUpvoted: Vote['isUpvoted'];
+  } | null;
+};
+
+export type ChatWithMessagesAndVote = Chat & {
+  messages: Array<MessageWithVote>;
 };
