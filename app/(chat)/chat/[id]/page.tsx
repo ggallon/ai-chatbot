@@ -10,6 +10,7 @@ import {
   getChatById,
   getChatByIdWithMessagesAndVotes,
 } from '@/lib/db/queries/chat';
+import { extractVotes } from '@/lib/db/utils';
 import { getFormatedChatTitle } from '@/lib/utils/get-formated-chat-title';
 
 import type { Metadata } from 'next';
@@ -62,6 +63,7 @@ export default async function Page(props: PageProps) {
       <Chat
         id={chat.id}
         initialMessages={convertToUIMessages(chat.messages)}
+        initialVotes={extractVotes(chat.messages)}
         selectedModelId={selectedModelId}
         selectedVisibilityType={chat.visibility}
         isReadonly={chat.userId !== session.user.id}

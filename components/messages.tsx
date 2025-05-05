@@ -13,7 +13,7 @@ import type { Vote } from '@/lib/db/schema';
 interface MessagesProps {
   chatId: string;
   status: UseChatHelpers['status'];
-  votes: Array<Vote> | undefined;
+  votes?: Array<Vote>;
   messages: Array<UIMessage>;
   setMessages: UseChatHelpers['setMessages'];
   reload: UseChatHelpers['reload'];

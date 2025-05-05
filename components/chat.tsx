@@ -20,12 +20,14 @@ import type { ChatVisibility, Vote } from '@/lib/db/schema';
 export function Chat({
   id,
   initialMessages,
+  initialVotes,
   selectedModelId,
   selectedVisibilityType,
   isReadonly,
 }: {
   id: string;
   initialMessages: Array<UIMessage>;
+  initialVotes?: Array<Vote>;
   selectedModelId: string;
   selectedVisibilityType: ChatVisibility;
   isReadonly: boolean;
@@ -71,6 +73,9 @@ export function Chat({
   const { data: votes } = useSWR<Array<Vote>>(
     isLoadVotes ? `/api/vote?chatId=${id}` : null,
     fetcher,
+    {
+      fallbackData: initialVotes ?? []
+    }
   );
 
   return (
