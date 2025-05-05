@@ -1,63 +1,22 @@
 'use client';
 
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-
-import { PlusIcon } from '@/components/icons';
-import { SidebarHistory } from '@/components/sidebar-history';
-import { SidebarUserNav } from '@/components/sidebar-user-nav';
-import { Button } from '@/components/ui/button';
+import { SidebarHistory } from './sidebar-history';
+import { SideBarNavMain } from './sidebar-main-nav';
+import { SidebarUserNav } from './sidebar-user-nav';
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarHeader,
-  SidebarMenu,
-  useSidebar,
-} from '@/components/ui/sidebar';
-import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip';
+} from './ui/sidebar';
 
 import type { User } from 'next-auth';
 
 export function AppSidebar({ user }: { user?: User }) {
-  const router = useRouter();
-  const { setOpenMobile } = useSidebar();
-
   return (
     <Sidebar className="group-data-[side=left]:border-r-0">
       <SidebarHeader>
-        <SidebarMenu>
-          <div className="flex flex-row items-center justify-between">
-            <Link
-              href="/"
-              onClick={() => {
-                setOpenMobile(false);
-              }}
-              className="flex flex-row items-center gap-3"
-            >
-              <span className="cursor-pointer rounded-md px-2 text-lg font-semibold hover:bg-muted">
-                Chatbot
-              </span>
-            </Link>
-            <Tooltip delayDuration={900}>
-              <TooltipTrigger asChild>
-                <Button
-                  variant="ghost"
-                  type="button"
-                  size="icon"
-                  onClick={() => {
-                    setOpenMobile(false);
-                    router.push('/');
-                    router.refresh();
-                  }}
-                >
-                  <PlusIcon />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent align="end">New Chat</TooltipContent>
-            </Tooltip>
-          </div>
-        </SidebarMenu>
+        <SideBarNavMain />
       </SidebarHeader>
       <SidebarContent>
         <SidebarHistory user={user} />
