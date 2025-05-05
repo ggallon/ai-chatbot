@@ -2,7 +2,7 @@
 
 import { Images } from 'lucide-react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 
 import { PlusIcon } from '@/components/icons';
 import { Button } from '@/components/ui/button';
@@ -16,6 +16,7 @@ import {
 import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip';
 
 export function SideBarNavMain() {
+  const pathname = usePathname();
   const router = useRouter();
   const { setOpenMobile } = useSidebar();
 
@@ -51,6 +52,14 @@ export function SideBarNavMain() {
           <TooltipContent align="end">New Chat</TooltipContent>
         </Tooltip>
       </div>
+      <SidebarMenuItem key="library">
+        <SidebarMenuButton asChild isActive={pathname === '/library'}>
+          <Link href="/library">
+            <Images size={14} />
+            <span>Library</span>
+          </Link>
+        </SidebarMenuButton>
+      </SidebarMenuItem>
     </SidebarMenu>
   );
 }
