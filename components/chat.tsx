@@ -74,8 +74,8 @@ export function Chat({
     isLoadVotes ? `/api/vote?chatId=${id}` : null,
     fetcher,
     {
-      fallbackData: initialVotes ?? []
-    }
+      fallbackData: initialVotes ?? [],
+    },
   );
 
   return (
