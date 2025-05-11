@@ -20,7 +20,6 @@ export default async function Page() {
   return (
     <>
       <Chat
-        key={id}
         id={id}
         initialMessages={[]}
         selectedModelId={selectedModelId}
